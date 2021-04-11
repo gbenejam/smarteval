@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 const questionSchema = require('./schemas/questionSchema')
 
 const Exam = mongoose.model('exam', {
@@ -11,7 +10,7 @@ const Exam = mongoose.model('exam', {
         type: String,
         required: true
     },
-    descriptioin: {
+    description: {
         type: String,
         required: true
     },
