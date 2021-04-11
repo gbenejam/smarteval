@@ -21,8 +21,8 @@ const Exam = mongoose.model('exam', {
     endDate: {
         type: Date,
         required: true
-    },
-    questions: [questionSchema]
+    }
+    //questions: [questionSchema]
 })
 
 module.exports = Exam

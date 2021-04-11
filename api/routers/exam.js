@@ -2,6 +2,15 @@ const express = require('express')
 const Exam = require('../models/exam')
 const router = new express.Router()
 
+router.post('/admin/exams', async (req,res) => {
+    try { 
+        const exams = await Exam.create(req.body)
+        res.send(exams)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
 router.get('/admin/exams', async (req,res) => {
     try { 
         const exams = await Exam.find({})
@@ -13,3 +22,5 @@ router.get('/admin/exams', async (req,res) => {
         res.status(500).send(e)
     }
 })
+
+module.exports = router
