@@ -1,17 +1,11 @@
-import React from "react";
+import './App.css';
 
-import Navbars from "./components/navbars";
-import Stage from "./components/carousel";
-
-import "./App.css";
-
-const App = () => (
-  <div className="App">
-    <Navbars />
-    <div>
-      <Stage />
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello, I'm a react app</h1>
     </div>
-  </div>
-);
+  );
+}
 
 export default App;
