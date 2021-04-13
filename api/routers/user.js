@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('../models/user')
 const router = new express.Router()
 
-
+//Create user
 router.post('/users', async (req,res) => {
     const user = new User(req.body)
     try{
@@ -13,6 +13,8 @@ router.post('/users', async (req,res) => {
     }
 })
 
+
+//Get users
 router.get('/users', async (req,res) => {
     try {
         const users = await User.find({})
@@ -22,6 +24,8 @@ router.get('/users', async (req,res) => {
     }
 })
 
+
+//Get a specific user
 router.get('/users/:id', async (req,res) => {
     const _id = req.params.id
     try {

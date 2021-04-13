@@ -8,7 +8,19 @@ const Question = mongoose.model("question", {
     questionType: {
         type: String,
         required: true
-    }
+    },
+    topic: {
+        type: String,
+        required: true
+    },
+    answers: [{
+        text: {
+            type: String
+        },
+        isValid: {
+            type: Boolean
+        }
+    }]
 });
 
 module.exports = Question;

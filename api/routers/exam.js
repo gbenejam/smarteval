@@ -2,6 +2,7 @@ const express = require('express')
 const Exam = require('../models/exam')
 const router = new express.Router()
 
+//Create exam
 router.post('/admin/exams', async (req,res) => {
     try { 
         const exams = await Exam.create(req.body)
@@ -11,6 +12,7 @@ router.post('/admin/exams', async (req,res) => {
     }
 })
 
+//Get all exams
 router.get('/admin/exams', async (req,res) => {
     try { 
         const exams = await Exam.find({})
@@ -18,6 +20,48 @@ router.get('/admin/exams', async (req,res) => {
             return res.status(404).send('Exams not found for this user.')
         }
         res.send(exams)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+//Get a specific exam
+router.get('/admin/exams/:id', async (req,res) => {
+    const _id = req.params.id
+    try { 
+        const exam = await Exam.findById(_id)
+        if(!exam) {
+            return res.status(404).send('Exam {} not found.', _id)
+        }
+        res.send(exam)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+//Updating an exam
+router.patch('/admin/exams/:id', async (req,res) => {
+    const _id = req.params.id
+    try {
+        const exam = await Exam.findByIdAndUpdate(_id, req.body, {new: true, runValidators: true})
+        if(!exam) {
+            return res.status(404).send("Exam {} couldn't be updated", _id)
+        }
+        res.send(exam)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+//Deleting an exam
+router.delete('/admin/exams/:id', async (req,res) => {
+    const _id = req.params.id
+    try{ 
+        const exam = await Exam.findByIdAndDelete(_id)
+        if(!exam) {
+            return res.status(404).send("Exam {} couldn't be deleted", _id)
+        }
+        res.send(exam)
     } catch (e) {
         res.status(500).send(e)
     }
