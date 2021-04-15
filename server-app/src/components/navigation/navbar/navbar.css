@@ -1,0 +1,10 @@
+.bg-primary {
+    background-color: #213B52 !important;
+}
+
+.login__button {
+    background-color: transparent !important;
+    border-color: #FDC134 !important;
+    color: #D6F4FF !important;
+    font-weight: bold !important;
+}
