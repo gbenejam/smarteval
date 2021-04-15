@@ -1,9 +1,11 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Mainpage from './templates/mainpage/mainpage'
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello, I'm a react app</h1>
+      <Mainpage/>
     </div>
   );
 }
