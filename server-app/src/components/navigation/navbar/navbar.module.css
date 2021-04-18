@@ -1,8 +1,8 @@
-.bg-primary {
+.bgPrimary {
     background-color: #213B52 !important;
 }
 
-.login__button {
+.loginButton {
     background-color: transparent !important;
     border-color: #FDC134 !important;
     color: #D6F4FF !important;

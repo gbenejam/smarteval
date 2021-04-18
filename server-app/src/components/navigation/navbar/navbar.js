@@ -3,12 +3,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import './navbar.css';
+import classes from './navbar.module.css';
 
 const navbar = () => {
   return (
     <div>
-      <Navbar sticky="top" className="bg-primary" variant="dark">
+      <Navbar sticky="top" className={classes.bgPrimary} variant="dark">
         <Navbar.Brand href="#home">
           <img
             alt=""
@@ -23,7 +23,7 @@ const navbar = () => {
           <Nav.Link href="#features">Features</Nav.Link>
         </Nav>
         <Form inline>
-          <Button className="login__button">Log in</Button>
+          <Button className={classes.loginButton}>Log in</Button>
         </Form>
       </Navbar>
     </div>
