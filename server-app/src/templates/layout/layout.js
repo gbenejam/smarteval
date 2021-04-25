@@ -8,7 +8,7 @@ import NewUser from '../newuser/NewUser';
 
 //import classes from './mainpage.module.css'
 
-class MainPage extends Component {
+class Layout extends Component {
   render() {
     return (
       <div>
@@ -22,4 +22,4 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+export default Layout;
