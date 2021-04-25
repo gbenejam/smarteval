@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 //import classes from './dashboard.module.css'
 
-class AdminDashboard extends Component {
+class AdminExams extends Component {
     render() {
         return (
-            <div>Admin dashboard</div>
+            <div>AdminExams</div>
         );
     }
 }
 
-export default AdminDashboard;
+export default AdminExams;

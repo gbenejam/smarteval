@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 //import classes from './dashboard.module.css'
 
-class AdminDashboard extends Component {
+class NewGroup extends Component {
     render() {
         return (
-            <div>Admin dashboard</div>
+            <div>Admin groups</div>
         );
     }
 }
 
-export default AdminDashboard;
+export default NewGroup;
