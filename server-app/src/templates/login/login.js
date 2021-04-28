@@ -4,12 +4,21 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import axios from 'axios';
 
 class Login extends Component {
   state = {
-    username: "",
+    email: "",
     password: "",
   };
+
+  loginHandler = ( event ) => {
+    event.preventDefault();
+    console.log(this.state)
+    axios.post('http://localhost:3030/users/login', this.state, { crossDomain: true })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
 
   render() {
     return (
@@ -17,15 +26,15 @@ class Login extends Component {
         <Row>
           <Col xs={6} md={4}></Col>
           <Col xs={6} md={4}>
-            <Form>
-              <Form.Group controlId="formGroupUsername">
-                <Form.Label>Username</Form.Label>
+            <Form onSubmit={this.loginHandler}>
+              <Form.Group controlId="formGroupEmail">
+                <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter username"
-                  value={this.state.username}
+                  placeholder="Enter your email"
+                  value={this.state.email}
                   onChange={(event) =>
-                    this.setState({ username: event.target.value })
+                    this.setState({ email: event.target.value })
                   }
                 />
               </Form.Group>

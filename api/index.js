@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('./db/mongoose')
+var cors = require('cors');
+
 const User = require('./models/user')
 const Exam = require('./models/exam')
 const Question = require('./models/question')
@@ -9,6 +11,8 @@ const questionRouter = require('./routers/question')
 
 const app = express()
 const port = process.env.PORT || 3030
+
+app.use(cors());
 
 app.use(express.json())
 app.use(userRouter)
