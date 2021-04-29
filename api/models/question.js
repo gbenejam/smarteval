@@ -1,26 +1,32 @@
 const mongoose = require("mongoose");
 
 const Question = mongoose.model("question", {
-    title: {
+  creator: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  questionType: {
+    type: String,
+    required: true,
+  },
+  topic: {
+    type: String,
+    required: true,
+  },
+  answers: [
+    {
+      text: {
         type: String,
-        required: true
+      },
+      isValid: {
+        type: Boolean,
+      },
     },
-    questionType: {
-        type: String,
-        required: true
-    },
-    topic: {
-        type: String,
-        required: true
-    },
-    answers: [{
-        text: {
-            type: String
-        },
-        isValid: {
-            type: Boolean
-        }
-    }]
+  ],
 });
 
 module.exports = Question;

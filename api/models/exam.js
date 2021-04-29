@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Exam = mongoose.model("exam", {
-  userId: {
+  creator: {
     type: mongoose.Types.ObjectId,
     required: true
   },
@@ -26,7 +26,10 @@ const Exam = mongoose.model("exam", {
     required: true,
   },
   questions: [{
-      objectId: mongoose.Types.ObjectId
+      type: mongoose.Types.ObjectId
+  }],
+  groups: [{
+    type: mongoose.Types.ObjectId
   }]
 });
 

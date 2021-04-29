@@ -7,7 +7,10 @@ const router = new express.Router();
 //Create exam
 router.post("/admin/exams", auth, async (req, res) => {
   try {
-    const exams = await Exam.create(req.body);
+    const exams = await Exam.create({
+        ...req.body,
+        creator: req.user._id
+    });
     res.send(exams);
   } catch (e) {
     res.status(500).send(e);
