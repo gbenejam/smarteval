@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const Exam = mongoose.model("exam", {
+  userId: {
+    type: mongoose.Types.ObjectId,
+    required: true
+  },
   code: {
     type: String,
     required: true,

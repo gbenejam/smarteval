@@ -11,6 +11,7 @@ const auth = async (req, res, next) => {
     });
 
     if (!user) {
+      console.log("No user found")
       throw new Error();
     }
 

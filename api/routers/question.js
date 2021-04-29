@@ -1,10 +1,12 @@
 const express = require('express')
 const Question = require('../models/question')
+const auth = require("../middleware/auth");
+
 const router = new express.Router()
 
 
 //Create question
-router.post('/questions', async (req,res) => {
+router.post('/questions', auth, async (req,res) => {
     try {
         const question = await Question.create(req.body)
         res.send(question)
@@ -14,7 +16,7 @@ router.post('/questions', async (req,res) => {
 })
 
 //Gets all questions for a topic
-router.get('/questions/:topic', async (req,res) => {
+router.get('/questions/:topic', auth, async (req,res) => {
     const topic = req.params.topic
     try {
         const questions = await Question.find({topic: topic})
@@ -28,7 +30,7 @@ router.get('/questions/:topic', async (req,res) => {
 })
 
 //Gets a specific question
-router.get('/questions/:id', async (req,res) => {
+router.get('/questions/:id', auth, async (req,res) => {
     const _id = req.params.id
     try {
         const question = await Question.findById(_id)

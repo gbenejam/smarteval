@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import axios from 'axios';
+import axios from "axios";
 
 class Login extends Component {
   state = {
@@ -12,13 +12,19 @@ class Login extends Component {
     password: "",
   };
 
-  loginHandler = ( event ) => {
+  loginHandler = (event) => {
     event.preventDefault();
-    console.log(this.state)
-    axios.post('http://localhost:3030/users/login', this.state, { crossDomain: true })
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-  }
+    console.log(this.state);
+    axios
+      .post("http://localhost:3030/users/login", this.state, {
+        crossDomain: true,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.user._id);
+      })
+      .catch((err) => console.log(err));
+  };
 
   render() {
     return (
