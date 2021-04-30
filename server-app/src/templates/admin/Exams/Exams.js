@@ -54,7 +54,7 @@ class AdminExams extends Component {
             {this.state.isAuth && (
               <div>
                 <h1>Exams</h1>
-                <Button variant="primary">Add exam</Button>
+                <Button variant="primary">Create exam</Button>
                 <Table striped bordered hover variant="dark">
                   <thead>
                     <tr>
