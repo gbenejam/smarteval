@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
+import { NavLink } from 'react-router-dom';
+
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 //import classes from './dashboard.module.css'
 
 class AdminExams extends Component {
@@ -54,7 +56,7 @@ class AdminExams extends Component {
             {this.state.isAuth && (
               <div>
                 <h1>Exams</h1>
-                <Button variant="primary">Create exam</Button>
+                <Button variant="success"><NavLink to="/admin/exams/new-exam">Create exam</NavLink></Button>
                 <Table striped bordered hover variant="dark">
                   <thead>
                     <tr>

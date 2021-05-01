@@ -15,6 +15,16 @@ router.post('/questions', auth, async (req,res) => {
     }
 })
 
+//Get questions from a certain user
+router.get('/questions', auth, async (req,res) => {
+    try {
+        const question = await Question.find({})
+        res.send(question)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+})
+
 //Gets all questions for a topic
 router.get('/questions/:topic', auth, async (req,res) => {
     const topic = req.params.topic
