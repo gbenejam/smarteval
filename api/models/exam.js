@@ -8,6 +8,7 @@ const Exam = mongoose.model("exam", {
   code: {
     type: String,
     required: true,
+    unique: true
   },
   title: {
     type: String,
@@ -32,5 +33,8 @@ const Exam = mongoose.model("exam", {
     type: mongoose.Types.ObjectId
   }]
 });
+
+Exam.createIndexes();
+
 
 module.exports = Exam;

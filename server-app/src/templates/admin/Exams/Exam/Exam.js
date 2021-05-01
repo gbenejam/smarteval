@@ -5,7 +5,8 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
-import Select from 'react-select'
+import Select from "react-select";
+import CreatableSelect from 'react-select/creatable';
 
 //import classes from './dashboard.module.css'
 
@@ -25,18 +26,29 @@ class NewExam extends Component {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          this.setState({ questions: res.data });
+          //this.setState({ questions: res.data });
         })
         .catch((err) => console.log(err));
     }
+    const questions = [
+      { value: "chocolate", label: "Matrix substraction" },
+      { value: "strawberry", label: "Inverse Matrix" },
+      { value: "vanilla", label: "Adjoint matrix" },
+    ];
+
+    const groups = [
+      { value: "chocolate", label: "Algebra Aula 1" },
+      { value: "strawberry", label: "Algebra Aula 2" },
+      { value: "vanilla", label: "Algebra Aula 3" },
+      { value: "chocolate2", label: "Algebra Aula 4" },
+      { value: "strawberry2", label: "Algebra Aula 5" },
+      { value: "vanilla2", label: "Algebra Aula 6" },
+    ];
+    this.setState({ questions });
+    this.setState({ groups });
   }
-  
+
   render() {
-    const options = [
-        { value: 'chocolate', label: 'Matrix substraction' },
-        { value: 'strawberry', label: 'Inverse Matrix' },
-        { value: 'vanilla', label: 'Adjoint matrix' }
-      ]
     return (
       <Container>
         <Row>
@@ -55,6 +67,10 @@ class NewExam extends Component {
                   <Form.Control type="number" placeholder="Enter code" />
                 </Form.Group>
               </Form.Row>
+                <Form.Group>
+                  <Form.Label>Topic</Form.Label>
+                  <CreatableSelect isMulti="true" />
+                </Form.Group>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridDescription">
                   <Form.Label>Description</Form.Label>
@@ -77,8 +93,12 @@ class NewExam extends Component {
                 </Form.Group>
               </Form.Row>
               <Form.Group>
-                  <Form.Label>Questions</Form.Label>
-                  <Select isMulti="true" options={options} />
+                <Form.Label>Questions</Form.Label>
+                <Select isMulti="true" options={this.state.questions} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Groups</Form.Label>
+                <Select isMulti="true" options={this.state.groups} />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Submit
