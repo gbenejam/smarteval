@@ -145,7 +145,6 @@ class NewExam extends Component {
                 <Select
                   isMulti="true"
                   options={this.state.questions}
-                  value={this.state.questions}
                   onChange={(event) => {
                     this.setState({ topic: event }, () =>
                       console.log(this.state.topic)
@@ -158,7 +157,6 @@ class NewExam extends Component {
                 <Select
                   isMulti="true"
                   options={this.state.groups}
-                  value={this.state.groups}
                   onChange={(event) => {
                     this.setState({ topic: event }, () =>
                       console.log(this.state.topic)
