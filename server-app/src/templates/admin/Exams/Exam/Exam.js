@@ -56,7 +56,29 @@ class NewExam extends Component {
 
   examHandler = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    var topic = this.state.topic.map((item) => {
+      return { _id: item.value };
+    });
+
+    var question = this.state.questions.map((item) => {
+        return { _id: item.value };
+      });
+
+      var group = this.state.groups.map((item) => {
+        return { _id: item.value };
+      });
+
+    const exam = {
+      title: this.state.title,
+      code: this.state.code,
+      topic: topic,
+      description: this.state.description,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      groups: group,
+      questions: question
+    };
+    console.log(exam)
   };
 
   render() {
