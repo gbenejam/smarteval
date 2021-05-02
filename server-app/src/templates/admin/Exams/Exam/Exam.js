@@ -146,8 +146,8 @@ class NewExam extends Component {
                   isMulti="true"
                   options={this.state.questions}
                   onChange={(event) => {
-                    this.setState({ topic: event }, () =>
-                      console.log(this.state.topic)
+                    this.setState({ questions: event }, () =>
+                      console.log(this.state.questions)
                     );
                   }}
                 />
@@ -158,8 +158,8 @@ class NewExam extends Component {
                   isMulti="true"
                   options={this.state.groups}
                   onChange={(event) => {
-                    this.setState({ topic: event }, () =>
-                      console.log(this.state.topic)
+                    this.setState({ groups: event }, () =>
+                      console.log(this.state.groups)
                     );
                   }}
                 />
