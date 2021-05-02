@@ -8,26 +8,13 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import { FaEdit,FaRegWindowClose } from 'react-icons/fa';
+
 //import classes from './dashboard.module.css'
 
 class AdminExams extends Component {
   state = {
-    exams: [
-      {
-        code: "0001",
-        title: "Algebra I",
-        description: "La calculadora no esta permesa",
-        startDate: "20 Dec 2021",
-        endDate: "21 Dec 2021",
-      },
-      {
-        code: "0002",
-        title: "Angles II",
-        description: "Diccionari permes",
-        startDate: "23 Dec 2021",
-        endDate: "24 Dec 2021",
-      },
-    ],
+    exams: [],
     isAuth: false,
   };
 
@@ -62,9 +49,11 @@ class AdminExams extends Component {
                     <tr>
                       <th>Code</th>
                       <th>Title</th>
+                      <th>Topic</th>
                       <th>Description</th>
                       <th>Start date</th>
                       <th>End date</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -73,9 +62,11 @@ class AdminExams extends Component {
                         <tr key={idx}>
                           <td>{d.code}</td>
                           <td>{d.title}</td>
+                          <td>{d.topic}</td>
                           <td>{d.description}</td>
                           <td>{d.startDate}</td>
                           <td>{d.endDate}</td>
+                          <td><FaEdit/> <FaRegWindowClose/></td>
                         </tr>
                       );
                     })}

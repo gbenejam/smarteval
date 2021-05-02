@@ -37,9 +37,9 @@ class NewExam extends Component {
         .catch((err) => console.log(err));
     }
     const questions = [
-      { value: "chocolate", label: "Matrix substraction" },
-      { value: "strawberry", label: "Inverse Matrix" },
-      { value: "vanilla", label: "Adjoint matrix" },
+      { value: "6089e7b0df7d4cdafa3c510e", label: "Matrix substraction" },
+      { value: "6089e7b0df7d4cdafa3c510e", label: "Inverse Matrix" },
+      { value: "6089e7b0df7d4cdafa3c510e", label: "Adjoint matrix" },
     ];
 
     const groups = [
