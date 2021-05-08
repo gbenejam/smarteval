@@ -8,3 +8,21 @@
     color: #D6F4FF !important;
     font-weight: bold !important;
 }
+
+.logoutButton {
+    background-color: #FDC134 !important;
+    border-color: #FDC134 !important;
+    color: #213B52 !important;
+    font-weight: bold !important;
+}
+
+.navigationLinks {
+    color: #D6F4FF !important;
+    text-decoration: none !important;
+}
+
+.navigationLinks:hover {
+    color: white !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+}

@@ -22,6 +22,7 @@ class Login extends Component {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userId", res.data.user._id);
+        localStorage.setItem("isAdmin", res.data.user.isAdmin);
       })
       .catch((err) => console.log(err));
   };
