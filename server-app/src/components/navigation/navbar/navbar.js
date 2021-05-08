@@ -25,12 +25,11 @@ class navbar extends Component {
           { label: "Dashboard", path: "/admin/dashboard" },
           { label: "Exams", path: "/admin/exams" },
           { label: "Questions", path: "/questions" },
-          { name: "Groups", path: "/groups" },
-          { name: "Users", path: "/users" },
-          { name: "Topics", path: "/topics" },
+          { label: "Groups", path: "/groups" },
+          { label: "Users", path: "/users" },
+          { label: "Topics", path: "/topics" },
         ],
       });
-      console.log(this.state.navElements)
     } else if (token) {
       this.setState({
         isAuth: true,
@@ -40,7 +39,7 @@ class navbar extends Component {
           { label: "Download", path: "/download" },
         ],
       });
-      console.log(this.state.navElements)
+      console.log(this.state.navElements);
     } else {
       this.setState({
         navElements: [
@@ -83,11 +82,13 @@ class navbar extends Component {
           <Nav className="mr-auto">
             {this.state.navElements.map(function (d, idx) {
               return (
-                <Nav.Link>
-                  <NavLink key={d.label} className={classes.navigationLinks} to={d.path}>
-                    {d.label}
-                  </NavLink>
-                </Nav.Link>
+                <NavLink
+                  key={idx}
+                  className={classes.navigationLinks}
+                  to={d.path}
+                >
+                  {d.label}
+                </NavLink>
               );
             })}
           </Nav>

@@ -19,6 +19,8 @@
 .navigationLinks {
     color: #D6F4FF !important;
     text-decoration: none !important;
+    padding-right: .5rem;
+    padding-left: .5rem;    
 }
 
 .navigationLinks:hover {
