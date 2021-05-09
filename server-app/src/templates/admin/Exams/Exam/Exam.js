@@ -66,8 +66,8 @@ class NewExam extends Component {
     }
     const questionSelect = [
       { value: "6089e7b0df7d4cdafa3c510e", label: "Matrix substraction" },
-      { value: "6089e7b0df7d4cdafa3c510e", label: "Inverse Matrix" },
-      { value: "6089e7b0df7d4cdafa3c510e", label: "Adjoint matrix" },
+      { value: "6089e7b0df7d4cdafa3c510a", label: "Inverse Matrix" },
+      { value: "6089e7b0df7d4cdafa3c510b", label: "Adjoint matrix" },
     ];
 
     const groupSelect = [
@@ -78,8 +78,7 @@ class NewExam extends Component {
       { value: "strawberry2", label: "Algebra Aula 5" },
       { value: "vanilla2", label: "Algebra Aula 6" },
     ];
-    this.setState({ questionSelect });
-    this.setState({ groupSelect });
+    this.setState({ groupSelect, questionSelect });
   }
 
   examHandler = (event) => {
@@ -201,7 +200,7 @@ class NewExam extends Component {
                   isMulti="true"
                   options={this.state.questionSelect}
                   onChange={(event) => {
-                    this.setState({ questionSelect: event }, () =>
+                    this.setState({ questions: event }, () =>
                       console.log(this.state.questionSelect)
                     );
                   }}
@@ -213,7 +212,7 @@ class NewExam extends Component {
                   isMulti="true"
                   options={this.state.groupSelect}
                   onChange={(event) => {
-                    this.setState({ groupSelect: event }, () =>
+                    this.setState({ groups: event }, () =>
                       console.log(this.state.groupSelect)
                     );
                   }}
