@@ -35,13 +35,13 @@ class Layout extends Component {
           />
           <Route path="/admin/exams" exact render={() => <AdminExams />} />
           <Route
-            path="/admin/exams/new-exam"
+            path="/admin/exams/exam"
             exact
             render={() => <AdminNewExam />}
           />
-          <Route path="/admin/groups" exact render={() => <AdminGroups />} />
+          <Route path="/groups" exact render={() => <AdminGroups />} />
           <Route
-            path="/admin/groups/new-group"
+            path="/groups/new-group"
             exact
             render={() => <AdminNewGroup />}
           />
@@ -51,7 +51,7 @@ class Layout extends Component {
             render={() => <UserDashboard />}
           />
           <Route path="/user/exams" exact render={() => <UserExams />} />
-          <Route path="/user/download" exact render={() => <UserDownload />} />
+          <Route path="/download" exact render={() => <UserDownload />} />
           <Route component={NotFound} />
         </Switch>
       </div>
