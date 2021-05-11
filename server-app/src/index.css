@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.carousel-control-prev, .carousel-control-next, .carousel-indicators {
+  z-index: 200 !important;
+  opacity: 0.8 !important;
+}

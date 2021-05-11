@@ -1,0 +1,20 @@
+.CarouselCaptionContainer {
+  position: absolute;
+  right: 15%;
+  left: 15%;
+  top: 0;
+  bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  z-index: 200;
+  /* This is the container div to align the content inside */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.CarouselCaptionWrapper {
+  max-width: 50%;
+}
