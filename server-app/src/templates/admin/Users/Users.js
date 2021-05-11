@@ -7,14 +7,13 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
 import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 
 //import classes from './dashboard.module.css'
 
-class AdminExams extends Component {
+class AdminUsers extends Component {
   state = {
-    exams: [],
+    users: [],
     isAuth: false,
   };
 
@@ -23,12 +22,12 @@ class AdminExams extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/admin/exams", {
+        .get("http://localhost:3030/users", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          this.setState({ exams: res.data });
+          this.setState({ users: res.data });
         })
         .catch((err) => console.log(err));
     }
@@ -47,24 +46,18 @@ class AdminExams extends Component {
           <Col>
             {this.state.isAuth && (
               <div>
-                <h1>Exams</h1>
-                <Button variant="success">
-                  <NavLink to="/admin/exams/exam">Create exam</NavLink>
-                </Button>
+                <h1>Users</h1>
                 <Table striped bordered hover variant="dark">
                   <thead>
                     <tr>
-                      <th>Code</th>
-                      <th>Title</th>
-                      <th>Topic</th>
-                      <th>Description</th>
-                      <th>Start date</th>
-                      <th>End date</th>
+                      <th>name</th>
+                      <th>Username</th>
+                      <th>Email</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.exams.map(function (d, idx) {
+                    {this.state.users.map(function (d, idx) {
                       const editPath = "/admin/exams/exam?id=" + d._id;
                       return (
                         <tr id={d._id} key={idx}>
@@ -96,11 +89,11 @@ class AdminExams extends Component {
               </Alert>
             )}
           </Col>
-          <Col />
+          <Col/>
         </Row>
       </Container>
     );
   }
 }
 
-export default AdminExams;
+export default AdminUsers;

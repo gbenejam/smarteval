@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -7,14 +6,14 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Button from 'react-bootstrap/Button'
 import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 
-//import classes from './dashboard.module.css'
-
-class AdminExams extends Component {
+class AdminTopics extends Component {
   state = {
-    exams: [],
+    topics: [],
+    topic: '',
     isAuth: false,
   };
 
@@ -23,62 +22,65 @@ class AdminExams extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/admin/exams", {
+        .get("http://localhost:3030/topics", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          this.setState({ exams: res.data });
+          console.log(res);
+          this.setState({ topics: res.data });
         })
         .catch((err) => console.log(err));
     }
   }
 
-  removeExam = () => {
-    console.log("Removing the exam");
-    window.location.reload();
-  };
+  topicHandler = (event) => {
+    event.preventDefault();
+    const topics = [
+        ...this.state.topics,
+        this.state.topic
+    ]
+    this.setState({topics})
+    console.log(this.state.topics)
+  }
 
   render() {
     return (
       <Container>
         <Row>
-          <Col/>
+          <h1>Topics</h1>
+        </Row>
+        <Row>
+          <Col>
+            <Form>
+              <Row>
+                <Col>
+                  <Form.Control type="text" placeholder="New topic..." value={this.state.topic} onChange={(event) => {
+                      this.setState({topic: event.target.value})
+                  }} />
+                </Col>
+                <Col>
+                <Button type="submit" onClick={this.topicHandler}>Submit</Button>
+                </Col>
+              </Row>
+            </Form>
+          </Col>
           <Col>
             {this.state.isAuth && (
               <div>
-                <h1>Exams</h1>
-                <Button variant="success">
-                  <NavLink to="/admin/exams/exam">Create exam</NavLink>
-                </Button>
                 <Table striped bordered hover variant="dark">
                   <thead>
                     <tr>
-                      <th>Code</th>
-                      <th>Title</th>
                       <th>Topic</th>
-                      <th>Description</th>
-                      <th>Start date</th>
-                      <th>End date</th>
-                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.exams.map(function (d, idx) {
-                      const editPath = "/admin/exams/exam?id=" + d._id;
+                    {this.state.topics.map(function (d, idx) {
                       return (
-                        <tr id={d._id} key={idx}>
-                          <td>{d.code}</td>
-                          <td>{d.title}</td>
-                          <td>{d.topic}</td>
-                          <td>{d.description}</td>
-                          <td>{d.startDate}</td>
-                          <td>{d.endDate}</td>
+                        <tr key={idx}>
                           <td>
-                            <NavLink to={editPath}>
-                              <FaEdit />
-                            </NavLink>
-                            <FaRegWindowClose />
+                            {d}
+                            <FaEdit /> <FaRegWindowClose />
                           </td>
                         </tr>
                       );
@@ -96,11 +98,10 @@ class AdminExams extends Component {
               </Alert>
             )}
           </Col>
-          <Col />
         </Row>
       </Container>
     );
   }
 }
 
-export default AdminExams;
+export default AdminTopics;
