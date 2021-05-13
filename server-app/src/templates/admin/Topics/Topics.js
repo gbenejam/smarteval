@@ -8,7 +8,7 @@ import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button'
-import { FaEdit, FaRegWindowClose } from "react-icons/fa";
+import { FaRegWindowClose } from "react-icons/fa";
 
 class AdminTopics extends Component {
   state = {
@@ -79,8 +79,8 @@ class AdminTopics extends Component {
                       return (
                         <tr key={idx}>
                           <td>
-                            {d}
-                            <FaEdit /> <FaRegWindowClose />
+                            {d.name}
+                            <FaRegWindowClose />
                           </td>
                         </tr>
                       );
