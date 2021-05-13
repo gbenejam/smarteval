@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
+
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -60,7 +62,7 @@ class Login extends Component {
                 Submit
               </Button>
             </Form>
-            <a href="#new-user">New user?</a>
+            <Link to="/new-user">New user?</Link>
           </Col>
           <Col xs={6} md={4}></Col>
         </Row>
