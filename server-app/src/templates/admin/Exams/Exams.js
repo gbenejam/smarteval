@@ -36,7 +36,6 @@ class AdminExams extends Component {
 
   removeExam = () => {
     console.log("Removing the exam");
-    window.location.reload();
   };
 
   render() {

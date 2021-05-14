@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -7,13 +8,13 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
-import Button from 'react-bootstrap/Button'
+import Button from "react-bootstrap/Button";
 import { FaRegWindowClose } from "react-icons/fa";
 
 class AdminTopics extends Component {
   state = {
     topics: [],
-    topic: '',
+    topic: "",
     isAuth: false,
   };
 
@@ -36,12 +37,56 @@ class AdminTopics extends Component {
 
   topicHandler = (event) => {
     event.preventDefault();
-    const topics = [
-        ...this.state.topics,
-        this.state.topic
-    ]
-    this.setState({topics})
-    console.log(this.state.topics)
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    const body = {
+      name: this.state.topic,
+      creator: userId,
+    };
+
+    axios
+      .post("http://localhost:3030/topics", body, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({ topics: res.data });
+      })
+      .catch((err) => console.log(err));
+    console.log(this.state.topics);
+  };
+
+  removeTopic = (idx) => {
+    const token = localStorage.getItem("token");
+    axios.delete("http://localhost:3030/topics/" + idx, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((res) => {
+      console.log(res);
+      this.setState({ topics: res.data });
+    })
+    .catch((err) => console.log(err));
+  };
+
+  listTopics() {
+    let that = this;
+    console.log("this topics: " + this.state.topics)
+    const topics = this.state.topics.map(function (d, idx) {
+      return (
+        <tr key={idx}>
+          <td>
+            {d.name}
+            <Link onClick={() => that.removeTopic(d._id)}>
+              <FaRegWindowClose />
+            </Link>
+          </td>
+        </tr>
+      );
+    });
+    return topics;
   }
 
   render() {
@@ -55,12 +100,19 @@ class AdminTopics extends Component {
             <Form>
               <Row>
                 <Col>
-                  <Form.Control type="text" placeholder="New topic..." value={this.state.topic} onChange={(event) => {
-                      this.setState({topic: event.target.value})
-                  }} />
+                  <Form.Control
+                    type="text"
+                    placeholder="New topic..."
+                    value={this.state.topic}
+                    onChange={(event) => {
+                      this.setState({ topic: event.target.value });
+                    }}
+                  />
                 </Col>
                 <Col>
-                <Button type="submit" onClick={this.topicHandler}>Submit</Button>
+                  <Button type="submit" onClick={this.topicHandler}>
+                    Submit
+                  </Button>
                 </Col>
               </Row>
             </Form>
@@ -74,18 +126,7 @@ class AdminTopics extends Component {
                       <th>Topic</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {this.state.topics.map(function (d, idx) {
-                      return (
-                        <tr key={idx}>
-                          <td>
-                            {d.name}
-                            <FaRegWindowClose />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                  <tbody>{this.listTopics()}</tbody>
                 </Table>
               </div>
             )}

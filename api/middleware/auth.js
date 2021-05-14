@@ -4,14 +4,11 @@ const User = require("../models/user");
 const auth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
-    console.log("token:" + token);
     const decoded = jwt.verify(token, "tfgprimavera2021");
     const user = await User.findOne({
       _id: decoded._id,
       "tokens.token": token,
     });
-
-    console.log(user);
 
     if (!user) {
       console.log("No user found");
