@@ -8,7 +8,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { FaEdit, FaRegWindowClose } from "react-icons/fa";
+import { FaRegWindowClose } from "react-icons/fa";
 
 class Questions extends Component {
   state = {

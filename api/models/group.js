@@ -12,7 +12,14 @@ const Group = mongoose.model("group", {
   },
   users: [
     {
-      type: mongoose.Types.ObjectId,
+      name: {
+        type: String,
+        required: true,
+      },
+      _id: {
+        type: mongoose.Types.ObjectId,
+        required: true
+      },
     },
   ],
 });

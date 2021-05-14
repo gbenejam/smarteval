@@ -46,7 +46,7 @@ router.post("/users/logout", auth, async (req, res) => {
 //Get users
 router.get("/users", auth, async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({isAdmin: "false"});
     res.status(200).send(users);
   } catch (e) {
     res.status(500).send(e);

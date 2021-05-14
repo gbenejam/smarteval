@@ -10,7 +10,6 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 
-//import classes from './dashboard.module.css'
 
 class AdminExams extends Component {
   state = {
@@ -55,7 +54,7 @@ class AdminExams extends Component {
                     <tr>
                       <th>Code</th>
                       <th>Title</th>
-                      <th>Topic</th>
+                      <th>Topics</th>
                       <th>Description</th>
                       <th>Start date</th>
                       <th>End date</th>
