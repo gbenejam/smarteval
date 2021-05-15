@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+    smarteval:
+        build: api/
+        stdin_open: true
+        tty: true
+        working_dir: /smarteval
+        ports:
+            - 3030:3030
+        volumes:
+            - type: bind
+              source: /home/kspr/Code/smarteval-main/api/db
+              target: /smarteval/db
+            - type: bind
+              source: /home/kspr/Code/smarteval-main/api/middleware
+              target: /smarteval/middleware
+            - type: bind
+              source: /home/kspr/Code/smarteval-main/api/models
+              target: /smarteval/models
+            - type: bind
+              source: /home/kspr/Code/smarteval-main/api/routers
+              target: /smarteval/routers
+        command: npm run dev
+    
+    smarteval-frontend:
+        build: server-app/
+        stdin_open: true
+        tty: true
+        working_dir: /smarteval
+        ports:
+            - 3000:3000
+        volumes:
+            - type: bind
+              source: /home/kspr/Code/smarteval-main/server-app/public
+              target: /smarteval/public
+            - type: bind
+              source: /home/kspr/Code/smarteval-main/server-app/src
+              target: /smarteval/src
+        command: npm run start
+
+    mongo-db:
+        image: mongo:4.2.14
+        ports:
+            - 27017:27017
+        volumes:
+            - db-data:/var/lib/mongo-db-smarteval
+
+volumes:
+    db-data:
