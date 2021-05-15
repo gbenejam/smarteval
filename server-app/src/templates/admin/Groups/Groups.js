@@ -60,15 +60,14 @@ class AdminGroups extends Component {
     return (
       <Container>
         <Row>
-          <Col xs={6} md={1} />
-          <Col xs={6} md={10}>
+          <Col>
             {this.state.isAuth && (
               <div>
                 <h1>Groups</h1>
                 <Button variant="success">
                   <NavLink to="/groups/new-group">Create new group</NavLink>
                 </Button>
-                <Table striped bordered hover variant="dark">
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -89,7 +88,6 @@ class AdminGroups extends Component {
               </Alert>
             )}
           </Col>
-          <Col xs={6} md={1} />
         </Row>
       </Container>
     );

@@ -12,6 +12,7 @@ import AdminNewExam from "../admin/Exams/Exam/Exam";
 import AdminGroups from "../admin/Groups/Groups";
 import AdminTopics from "../admin/Topics/Topics";
 import Questions from "../admin/Questions/Questions";
+import NewQuestion from "../admin/Questions/Question/Question";
 import AdminUsers from "../admin/Users/Users";
 import AdminNewGroup from "../admin/Groups/Group/Group";
 import UserDashboard from "../user/dashboard/dashboard";
@@ -41,6 +42,11 @@ class Layout extends Component {
             path="/admin/exams/exam"
             exact
             render={() => <AdminNewExam />}
+          />
+          <Route
+            path="/questions/question"
+            exact
+            render={() => <NewQuestion />}
           />
           <Route path="/groups" exact render={() => <AdminGroups />} />
           <Route path="/topics" exact render={() => <AdminTopics />} />

@@ -41,7 +41,6 @@ class AdminExams extends Component {
     return (
       <Container>
         <Row>
-          <Col/>
           <Col>
             {this.state.isAuth && (
               <div>
@@ -49,7 +48,7 @@ class AdminExams extends Component {
                 <Button variant="success">
                   <NavLink to="/admin/exams/exam">Create exam</NavLink>
                 </Button>
-                <Table striped bordered hover variant="dark">
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>Code</th>
@@ -94,7 +93,6 @@ class AdminExams extends Component {
               </Alert>
             )}
           </Col>
-          <Col />
         </Row>
       </Container>
     );

@@ -46,7 +46,7 @@ class AdminUsers extends Component {
             {this.state.isAuth && (
               <div>
                 <h1>Users</h1>
-                <Table striped bordered hover variant="dark">
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>name</th>

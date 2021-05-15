@@ -60,7 +60,6 @@ class Questions extends Component {
     return (
       <Container>
         <Row>
-          <Col />
           <Col>
             {this.state.isAuth && (
               <div>
@@ -68,7 +67,7 @@ class Questions extends Component {
                 <Button variant="success">
                   <NavLink to="/questions/question">Create question</NavLink>
                 </Button>
-                <Table striped bordered hover variant="dark">
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>Title</th>
@@ -90,7 +89,6 @@ class Questions extends Component {
               </Alert>
             )}
           </Col>
-          <Col />
         </Row>
       </Container>
     );

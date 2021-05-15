@@ -120,7 +120,7 @@ class AdminTopics extends Component {
           <Col>
             {this.state.isAuth && (
               <div>
-                <Table striped bordered hover variant="dark">
+                <Table striped bordered hover size="sm">
                   <thead>
                     <tr>
                       <th>Topic</th>
