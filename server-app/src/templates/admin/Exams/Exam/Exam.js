@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -112,7 +114,7 @@ class NewExam extends Component {
     return (
       <Container>
         <Row>
-          <Button>Back</Button>
+          <Link to="/admin/exams">Back</Link>
         </Row>
         <Row>
           <Col>
