@@ -7,6 +7,8 @@ import Row from "react-bootstrap/Row";
 import axios from "axios";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
+import { Link } from "react-router-dom";
+
 //import classes from './dashboard.module.css'
 
 class NewQuestion extends Component {
@@ -67,7 +69,7 @@ class NewQuestion extends Component {
     return (
       <Container>
         <Row>
-          <Button>Back</Button>
+          <Link to="/questions">Back</Link>
         </Row>
         <Row>
           <Col>

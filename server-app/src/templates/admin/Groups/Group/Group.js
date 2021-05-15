@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -60,8 +61,10 @@ class NewGroup extends Component {
     return (
       <Container>
         <Row>
-          <Col xs={6} md={1}></Col>
-          <Col xs={6} md={10}>
+          <Link to="/groups">Back</Link>
+        </Row>
+        <Row>
+          <Col>
             <Form>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGroupTitle">
@@ -93,7 +96,6 @@ class NewGroup extends Component {
               </Button>
             </Form>
           </Col>
-          <Col xs={6} md={1}></Col>
         </Row>
       </Container>
     );

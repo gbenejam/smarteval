@@ -13,6 +13,7 @@ const examRouter = require('./routers/exam')
 const questionRouter = require('./routers/question')
 const groupRouter = require('./routers/group')
 const topicRouter = require('./routers/topic')
+const dashboardRouter = require('./routers/dashboard')
 
 
 const app = express()
@@ -26,6 +27,7 @@ app.use(examRouter)
 app.use(questionRouter)
 app.use(groupRouter)
 app.use(topicRouter)
+app.use(dashboardRouter)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)

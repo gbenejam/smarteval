@@ -20,7 +20,6 @@ router.post("/admin/exams", auth, async (req, res) => {
 //Get all exams
 router.get("/admin/exams", auth, async (req, res) => {
   try {
-    console.log(auth.user);
     const exams = await Exam.find({ creator: req.user._id });
     if (!exams) {
       return res.status(404).send("Exams not found for this user.");
