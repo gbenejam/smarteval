@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -9,7 +9,6 @@ import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { FaEdit, FaRegWindowClose } from "react-icons/fa";
-
 
 class AdminExams extends Component {
   state = {
@@ -33,9 +32,48 @@ class AdminExams extends Component {
     }
   }
 
-  removeExam = () => {
-    console.log("Removing the exam");
+  removeExam = (idx) => {
+    const token = localStorage.getItem("token");
+    axios.delete("http://localhost:3030/admin/exams/exam/" + idx, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((res) => {
+      this.setState({ exams: res.data });
+    })
+    .catch((err) => console.log(err));
   };
+
+  listExams() {
+    const that = this
+    const exams = this.state.exams.map(function (d, idx) {
+      const editPath = "/admin/exams/exam?id=" + d._id;
+      return (
+        <tr id={d._id} key={idx}>
+          <td>{d.code}</td>
+          <td>{d.title}</td>
+          <td>
+            <ul>{d.topics && d.topics.map((item) => {
+              return (<li>{item.name}</li>)
+            })}</ul>
+          </td>
+          <td>{d.description}</td>
+          <td>{d.startDate}</td>
+          <td>{d.endDate}</td>
+          <td>{d.duration}</td>
+          <td>
+            <NavLink to={editPath}>
+              <FaEdit />
+            </NavLink>
+            <Link onClick={() => that.removeExam(d._id)}>
+              <FaRegWindowClose />
+            </Link>
+          </td>
+        </tr>
+      );
+    });
+    return exams;
+  }
 
   render() {
     return (
@@ -57,30 +95,11 @@ class AdminExams extends Component {
                       <th>Description</th>
                       <th>Start date</th>
                       <th>End date</th>
+                      <th>Duration</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {this.state.exams.map(function (d, idx) {
-                      const editPath = "/admin/exams/exam?id=" + d._id;
-                      return (
-                        <tr id={d._id} key={idx}>
-                          <td>{d.code}</td>
-                          <td>{d.title}</td>
-                          <td>{d.topic}</td>
-                          <td>{d.description}</td>
-                          <td>{d.startDate}</td>
-                          <td>{d.endDate}</td>
-                          <td>
-                            <NavLink to={editPath}>
-                              <FaEdit />
-                            </NavLink>
-                            <FaRegWindowClose />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                  <tbody>{this.listExams()}</tbody>
                 </Table>
               </div>
             )}

@@ -75,4 +75,17 @@ router.delete("/admin/exams/:id", auth, async (req, res) => {
   }
 });
 
+//Remove exam
+router.delete('/admin/exams/exam/:id', auth, async (req,res) => {
+  try {
+      const user = req.user
+      const exam = await Exam.findByIdAndDelete(req.params.id).then(async () => {
+          const exams = await Exam.find({ creator: user._id })
+          res.send(exams)
+      }).catch((e) => console.log(e))
+  } catch(e) {
+      res.status(500).send(e)
+  }
+})
+
 module.exports = router;

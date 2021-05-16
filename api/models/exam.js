@@ -3,12 +3,15 @@ const mongoose = require("mongoose");
 const Exam = mongoose.model("exam", {
   creator: {
     type: mongoose.Types.ObjectId,
-    required: true
+    required: true,
   },
   code: {
     type: String,
     required: true,
-    unique: true
+  },
+  duration: {
+    type: String,
+    required: true,
   },
   title: {
     type: String,
@@ -26,15 +29,36 @@ const Exam = mongoose.model("exam", {
     type: String,
     required: true,
   },
-  questions: [{
-      type: mongoose.Types.ObjectId
-  }],
-  groups: [{
-    type: mongoose.Types.ObjectId
-  }]
+  questions: [
+    {
+      _id: {
+        type: mongoose.Types.ObjectId,
+      },
+      name: {
+        type: String,
+      },
+    },
+  ],
+  groups: [
+    {
+      _id: {
+        type: mongoose.Types.ObjectId,
+      },
+      name: {
+        type: String,
+      },
+    },
+  ],
+  topics: [
+    {
+      _id: {
+        type: mongoose.Types.ObjectId,
+      },
+      name: {
+        type: String,
+      },
+    },
+  ],
 });
-
-Exam.createIndexes();
-
 
 module.exports = Exam;

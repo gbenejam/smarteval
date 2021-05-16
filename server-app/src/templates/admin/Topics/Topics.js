@@ -73,7 +73,6 @@ class AdminTopics extends Component {
 
   listTopics() {
     let that = this;
-    console.log("this topics: " + this.state.topics)
     const topics = this.state.topics.map(function (d, idx) {
       return (
         <tr key={idx}>

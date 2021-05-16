@@ -15,16 +15,17 @@ import "react-datetime/css/react-datetime.css";
 
 class NewExam extends Component {
   state = {
-    token: '',
+    token: "",
     isAuth: false,
     title: "",
     code: "",
     description: "",
-    topic: [],
     startDate: "",
     endDate: "",
+    duration: "",
     questions: [],
     groups: [],
+    topic: [],
     questionSelect: [],
     topicSelect: [],
     groupSelect: [],
@@ -111,28 +112,28 @@ class NewExam extends Component {
   examHandler = (event) => {
     event.preventDefault();
     var topic = this.state.topic.map((item) => {
-      return { _id: item.value };
+      return { _id: item.value, name: item.label };
     });
 
     var question = this.state.questions.map((item) => {
-      return { _id: item.value };
+      return { _id: item.value, name: item.label };
     });
 
     var group = this.state.groups.map((item) => {
-      return { _id: item.value };
+      return { _id: item.value, name: item.label };
     });
 
     const exam = {
       title: this.state.title,
       code: this.state.code,
-      topic: topic,
+      topics: topic,
       description: this.state.description,
       startDate: this.state.startDate,
       endDate: this.state.endDate,
       groups: group,
+      duration: this.state.duration,
       questions: question,
     };
-    console.log("Exam: " + exam)
     axios
       .post("http://localhost:3030/admin/exams", exam, {
         crossDomain: true,
@@ -160,6 +161,7 @@ class NewExam extends Component {
                       <Form.Label>Title</Form.Label>
                       <Form.Control
                         type="title"
+                        required
                         placeholder="Enter title"
                         value={this.state.title}
                         onChange={(event) =>
@@ -171,6 +173,7 @@ class NewExam extends Component {
                       <Form.Label>Code</Form.Label>
                       <Form.Control
                         type="number"
+                        required
                         placeholder="Enter code"
                         value={this.state.code}
                         onChange={(event) =>
@@ -183,6 +186,7 @@ class NewExam extends Component {
                     <Form.Label>Topic</Form.Label>
                     <Select
                       isMulti="true"
+                      required
                       options={this.state.topicSelect}
                       onChange={(event) => {
                         this.setState({ topic: event });
@@ -195,6 +199,7 @@ class NewExam extends Component {
                       <Form.Control
                         as="textarea"
                         rows={3}
+                        required
                         placeholder="Description"
                         value={this.state.description}
                         onChange={(event) =>
@@ -210,6 +215,7 @@ class NewExam extends Component {
                         value={this.state.startDate}
                         dateFormat="YYYY-MM-DD"
                         timeFormat="HH:mm"
+                        required
                         input="false"
                         onChange={(event) => {
                           this.setState({ startDate: event._d });
@@ -222,6 +228,7 @@ class NewExam extends Component {
                       <Datetime
                         value={this.state.endDate}
                         dateFormat="YYYY-MM-DD"
+                        required
                         timeFormat="HH:mm"
                         input="false"
                         onChange={(event) => {
@@ -230,12 +237,25 @@ class NewExam extends Component {
                       />
                     </Form.Group>
                   </Form.Row>
+                  <Form.Group controlId="formGridCode">
+                      <Form.Label>Duration</Form.Label>
+                      <Form.Control
+                        type="number"
+                        required
+                        placeholder="Enter duration in minutes"
+                        value={this.state.duration}
+                        onChange={(event) =>
+                          this.setState({ duration: event.target.value })
+                        }
+                      />
+                    </Form.Group>
                 </Col>
                 <Col>
                   <Form.Group>
                     <Form.Label>Groups</Form.Label>
                     <Select
                       isMulti="true"
+                      required
                       options={this.state.groupSelect}
                       onChange={(event) => {
                         this.setState({ groups: event });
@@ -246,6 +266,7 @@ class NewExam extends Component {
                     <Form.Label>Questions</Form.Label>
                     <Select
                       isMulti="true"
+                      required
                       options={this.state.questionSelect}
                       onChange={(event) => {
                         this.setState({ questions: event });
