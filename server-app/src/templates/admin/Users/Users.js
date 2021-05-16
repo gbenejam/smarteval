@@ -41,7 +41,6 @@ class AdminUsers extends Component {
     return (
       <Container>
         <Row>
-          <Col/>
           <Col>
             {this.state.isAuth && (
               <div>
@@ -81,7 +80,6 @@ class AdminUsers extends Component {
               </Alert>
             )}
           </Col>
-          <Col/>
         </Row>
       </Container>
     );

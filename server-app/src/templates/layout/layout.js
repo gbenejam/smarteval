@@ -25,7 +25,7 @@ import NotFound from "../notfound/NotFound";
 class Layout extends Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Navbar />
         <Switch>
           <Route path="/" exact render={() => <Main />} />
@@ -66,7 +66,7 @@ class Layout extends Component {
           <Route path="/download" exact render={() => <UserDownload />} />
           <Route component={NotFound} />
         </Switch>
-      </div>
+      </React.Fragment>
     );
   }
 }
