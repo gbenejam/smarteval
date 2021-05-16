@@ -34,7 +34,7 @@ class AdminExams extends Component {
 
   removeExam = (idx) => {
     const token = localStorage.getItem("token");
-    axios.delete("http://localhost:3030/admin/exams/exam/" + idx, {
+    axios.delete("http://localhost:3030/admin/exams/" + idx, {
       crossDomain: true,
       headers: { Authorization: "Bearer " + token },
     })

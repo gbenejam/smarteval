@@ -48,8 +48,8 @@ class AdminDashboard extends Component {
   }
 
   listLatestExams() {
-    if(this.state.dashboard.currentExams) {
-    const currentExams = this.state.dashboard.currentExams.map(function (d, idx) {
+    if(this.state.dashboard.latestExams) {
+    const currentExams = this.state.dashboard.latestExams.map(function (d, idx) {
         return (
           <tr key={idx}>
             <td>{d.title}</td>
@@ -122,7 +122,7 @@ class AdminDashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h1>Exams in progress</h1>
+            <h1>Current exams</h1>
 
             <Table striped bordered hover size="sm">
               <thead>
@@ -136,7 +136,7 @@ class AdminDashboard extends Component {
             </Table>
           </Col>
           <Col>
-            <h1>Latest exams</h1>
+            <h1>Past exams</h1>
 
             <Table striped bordered hover size="sm">
             <thead>

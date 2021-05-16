@@ -61,22 +61,8 @@ router.patch("/admin/exams/:id", auth, async (req, res) => {
   }
 });
 
-//Deleting an exam
-router.delete("/admin/exams/:id", auth, async (req, res) => {
-  const _id = req.params.id;
-  try {
-    const exam = await Exam.findByIdAndDelete(_id);
-    if (!exam) {
-      return res.status(404).send("Exam {} couldn't be deleted", _id);
-    }
-    res.send(exam);
-  } catch (e) {
-    res.status(500).send(e);
-  }
-});
-
 //Remove exam
-router.delete('/admin/exams/exam/:id', auth, async (req,res) => {
+router.delete('/admin/exams/:id', auth, async (req,res) => {
   try {
       const user = req.user
       const exam = await Exam.findByIdAndDelete(req.params.id).then(async () => {

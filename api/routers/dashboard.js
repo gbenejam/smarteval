@@ -11,12 +11,14 @@ const router = new express.Router();
 router.get("/admin/dashboard", auth, async (req, res) => {
   try {
     const user = req.user;
-    const currentExams = await Exam.find({ creator: req.user._id });
-    const latestExams = await Exam.find({ creator: req.user._id });
+
+    const currentExams = await Exam.find({endDate: {$gte: new Date()} });
+    const latestExams = await Exam.find({endDate: {$lte: new Date()} });
     const questions = await Question.find({ creator: req.user._id });
     const users = await User.find({})
     const groups = await Group.find({creator: req.user._id})
 
+    console.log(latestExams);
     const dashboard = {
       user: user._id,
       totalExams: currentExams.length,
