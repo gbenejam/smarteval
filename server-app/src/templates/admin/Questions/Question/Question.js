@@ -5,8 +5,6 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
-import Select from "react-select";
-import CreatableSelect from "react-select/creatable";
 import { Link } from "react-router-dom";
 
 //import classes from './dashboard.module.css'

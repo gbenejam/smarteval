@@ -8,7 +8,6 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
 import Select from "react-select";
-import CreatableSelect from "react-select/creatable";
 import Datetime from "react-datetime";
 
 import "react-datetime/css/react-datetime.css";
@@ -16,6 +15,8 @@ import "react-datetime/css/react-datetime.css";
 
 class NewExam extends Component {
   state = {
+    token: '',
+    isAuth: false,
     title: "",
     code: "",
     description: "",
@@ -25,23 +26,62 @@ class NewExam extends Component {
     questions: [],
     groups: [],
     questionSelect: [],
+    topicSelect: [],
     groupSelect: [],
   };
 
   componentDidMount() {
     const token = localStorage.getItem("token");
-    if (window.location.search) {
-      const id = window.location.search.replace("?id=", "");
-
-      if (token) {
-        this.setState({ isAuth: true });
+    if (token) {
+      this.setState({ isAuth: true, token: token });
+      //Getting questions to populate the select
+      axios
+        .get("http://localhost:3030/questions", {
+          crossDomain: true,
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          let tmp = res.data.map((item) => {
+            return { value: item._id, label: item.title };
+          });
+          this.setState({ questionSelect: tmp });
+        })
+        .catch((err) => console.log(err));
+      //Getting topics to populate the select
+      axios
+        .get("http://localhost:3030/topics", {
+          crossDomain: true,
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          let tmp = res.data.map((item) => {
+            return { value: item._id, label: item.name };
+          });
+          this.setState({ topicSelect: tmp });
+        })
+        .catch((err) => console.log(err));
+      //Getting the groups to populate the select
+      axios
+        .get("http://localhost:3030/groups", {
+          crossDomain: true,
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          let tmp = res.data.map((item) => {
+            return { value: item._id, label: item.name };
+          });
+          this.setState({ groupSelect: tmp });
+        })
+        .catch((err) => console.log(err));
+      //If there's an id param in the url, it populates the fields with the exam info from the DB
+      if (window.location.search) {
+        const id = window.location.search.replace("?id=", "");
         axios
           .get("http://localhost:3030/admin/exams/" + id, {
             crossDomain: true,
             headers: { Authorization: "Bearer " + token },
           })
           .then((res) => {
-            console.log(res.data);
             const title = res.data.title ? res.data.title : "";
             const code = res.data.code ? res.data.code : "";
             const description = res.data.description
@@ -66,21 +106,6 @@ class NewExam extends Component {
           .catch((err) => console.log(err));
       }
     }
-    const questionSelect = [
-      { value: "6089e7b0df7d4cdafa3c510e", label: "Matrix substraction" },
-      { value: "6089e7b0df7d4cdafa3c510a", label: "Inverse Matrix" },
-      { value: "6089e7b0df7d4cdafa3c510b", label: "Adjoint matrix" },
-    ];
-
-    const groupSelect = [
-      { value: "chocolate", label: "Algebra Aula 1" },
-      { value: "strawberry", label: "Algebra Aula 2" },
-      { value: "vanilla", label: "Algebra Aula 3" },
-      { value: "chocolate2", label: "Algebra Aula 4" },
-      { value: "strawberry2", label: "Algebra Aula 5" },
-      { value: "vanilla2", label: "Algebra Aula 6" },
-    ];
-    this.setState({ groupSelect, questionSelect });
   }
 
   examHandler = (event) => {
@@ -107,7 +132,16 @@ class NewExam extends Component {
       groups: group,
       questions: question,
     };
-    console.log(exam);
+    console.log("Exam: " + exam)
+    axios
+      .post("http://localhost:3030/admin/exams", exam, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + this.state.token },
+      })
+      .then((res) => {
+        alert("Exam added");
+      })
+      .catch((err) => console.log(err)); 
   };
 
   render() {
@@ -147,12 +181,11 @@ class NewExam extends Component {
                   </Form.Row>
                   <Form.Group>
                     <Form.Label>Topic</Form.Label>
-                    <CreatableSelect
+                    <Select
                       isMulti="true"
+                      options={this.state.topicSelect}
                       onChange={(event) => {
-                        this.setState({ topic: event }, () =>
-                          console.log(this.state.topic)
-                        );
+                        this.setState({ topic: event });
                       }}
                     />
                   </Form.Group>
@@ -177,10 +210,9 @@ class NewExam extends Component {
                         value={this.state.startDate}
                         dateFormat="YYYY-MM-DD"
                         timeFormat="HH:mm"
-                        input="true"
+                        input="false"
                         onChange={(event) => {
-                          console.log(event);
-                          //this.setState({ startDate: event._i });
+                          this.setState({ startDate: event._d });
                         }}
                       />
                     </Form.Group>
@@ -191,10 +223,9 @@ class NewExam extends Component {
                         value={this.state.endDate}
                         dateFormat="YYYY-MM-DD"
                         timeFormat="HH:mm"
-                        input="true"
+                        input="false"
                         onChange={(event) => {
-                          console.log(event);
-                          //this.setState({ startDate: event._i });
+                          this.setState({ endDate: event._d });
                         }}
                       />
                     </Form.Group>
@@ -207,9 +238,7 @@ class NewExam extends Component {
                       isMulti="true"
                       options={this.state.groupSelect}
                       onChange={(event) => {
-                        this.setState({ groups: event }, () =>
-                          console.log(this.state.groupSelect)
-                        );
+                        this.setState({ groups: event });
                       }}
                     />
                   </Form.Group>
@@ -219,9 +248,7 @@ class NewExam extends Component {
                       isMulti="true"
                       options={this.state.questionSelect}
                       onChange={(event) => {
-                        this.setState({ questions: event }, () =>
-                          console.log(this.state.questionSelect)
-                        );
+                        this.setState({ questions: event });
                       }}
                     />
                   </Form.Group>

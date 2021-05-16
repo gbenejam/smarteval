@@ -7,10 +7,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import CardDeck from "react-bootstrap/CardDeck";
-import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-
-import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 
 
 //import classes from './dashboard.module.css'
@@ -38,7 +35,6 @@ class AdminDashboard extends Component {
   }
 
   listCurrentExams() {
-    const that = this
     if(this.state.dashboard.currentExams) {
     const currentExams = this.state.dashboard.currentExams.map(function (d, idx) {
         return (
@@ -52,7 +48,6 @@ class AdminDashboard extends Component {
   }
 
   listLatestExams() {
-    const that = this
     if(this.state.dashboard.currentExams) {
     const currentExams = this.state.dashboard.currentExams.map(function (d, idx) {
         return (
