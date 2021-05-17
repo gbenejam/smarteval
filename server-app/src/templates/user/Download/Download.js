@@ -1,25 +1,37 @@
 import React, { Component } from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 //import classes from './dashboard.module.css'
 
 class Download extends Component {
   render() {
     return (
-      <Jumbotron>
-        <h1>Hello, world!</h1>
-        <p>
-          This is a simple hero unit, a simple jumbotron-style component for
-          calling extra attention to featured content or information.
-        </p>
-        <div>
-          <p>
-            <Button variant="primary">Learn more</Button>
-            <Button variant="primary">Learn more</Button>
-            <Button variant="primary">Learn more</Button>
-          </p>
-        </div>
-      </Jumbotron>
+      <Container>
+        <Row>
+            <Col>
+          <Jumbotron>
+            <h1>Download the client here</h1>
+            <p>
+              Click here to download the client to be able to make your online
+              exams.
+            </p>
+            <div>
+              <p>
+                <Button variant="primary" style={{ marginRight: "20px" }}>
+                  Linux (.deb)
+                </Button>
+                <Button variant="primary" style={{ marginRight: "20px" }}>
+                  Mac (.dmg)
+                </Button>
+              </p>
+            </div>
+          </Jumbotron>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
