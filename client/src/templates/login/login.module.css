@@ -1,0 +1,35 @@
+.LoginContainer {
+  padding: 20px;
+}
+
+.LoginForm {
+  background-color: #213B52;
+  color: white;
+  border-radius: .5rem;
+}
+
+.LoginForm label {
+  font-weight: bold;
+}
+
+.CenteredHorizontally {
+  justify-content: center;
+}
+
+.FormGroup:last-of-type {
+  margin-bottom: 2rem;
+}
+
+.LoginForm .LoginButton {
+  background-color: #FDC134;
+  border-color: #FDC134;
+  color: #213B52;
+  transition: none;
+}
+
+.LoginForm .LoginButton:hover,
+.LoginForm .LoginButton:active {
+    background-color: #cb9500;
+    border-color: #cb9500;
+    color: #213B52;
+}
