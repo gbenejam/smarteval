@@ -53,7 +53,7 @@ class Layout extends Component {
           <Route path="/questions" exact render={() => <Questions />} />
           <Route path="/users" exact render={() => <AdminUsers />} />
           <Route
-            path="/groups/new-group"
+            path="/groups/group"
             exact
             render={() => <AdminNewGroup />}
           />

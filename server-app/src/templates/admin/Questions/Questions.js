@@ -8,7 +8,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { FaRegWindowClose } from "react-icons/fa";
+import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 
 class Questions extends Component {
   state = {
@@ -34,14 +34,15 @@ class Questions extends Component {
 
   listQuestions() {
     let that = this;
-    console.log("this questions: " + this.state.questions);
     const questions = this.state.questions.map(function (d, idx) {
+      const editPath = "/groups?id=" + d._id;
       return (
         <tr key={idx}>
             <td>{d.title}</td>
             <td>{d.type}</td>
             <td>{d.topic}</td>
             <td>
+            <Link to={editPath}><FaEdit /></Link>
             <Link onClick={() => that.removeQuestion(d._id)}>
               <FaRegWindowClose />
             </Link>
@@ -52,8 +53,16 @@ class Questions extends Component {
     return questions;
   }
 
-  removeQuestion = () => {
-    console.log("Removing the question");
+  removeQuestion = (idx) => {
+    const token = localStorage.getItem("token");
+    axios.delete("http://localhost:3030/questions/" + idx, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((res) => {
+      this.setState({ questions: res.data });
+    })
+    .catch((err) => console.log(err));
   };
 
   render() {

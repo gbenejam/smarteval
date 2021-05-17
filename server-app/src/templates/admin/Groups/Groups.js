@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -26,21 +26,33 @@ class AdminGroups extends Component {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          console.log(res);
           this.setState({ groups: res.data });
         })
         .catch((err) => console.log(err));
     }
   }
 
+  removeGroup(idx) {
+    const token = localStorage.getItem("token");
+    axios.delete("http://localhost:3030/groups/" + idx, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((res) => {
+      this.setState({ groups: res.data });
+    })
+    .catch((err) => console.log(err));
+  }
+
   listGroups() {
+    const that = this
     const groups = this.state.groups.map(function (d, idx) {
+      const editPath = "/groups?id=" + d._id;
       return (
         <tr key={idx}>
           <td>{d.name}</td>
           <td>
             <ul>{d.users.map((it, i) => {
-              console.log(it)
               return (
                 <li key={i}>{it.name}</li>
               )
@@ -48,7 +60,8 @@ class AdminGroups extends Component {
             </ul>
           </td>
           <td>
-            <FaEdit /> <FaRegWindowClose />
+            <Link to={editPath}><FaEdit /></Link>
+             <Link onClick={() => that.removeGroup(d._id)}><FaRegWindowClose /></Link>
           </td>
         </tr>
       );
@@ -65,7 +78,7 @@ class AdminGroups extends Component {
               <div>
                 <h1>Groups</h1>
                 <Button variant="success">
-                  <NavLink to="/groups/new-group">Create new group</NavLink>
+                  <NavLink to="/groups/group">Create new group</NavLink>
                 </Button>
                 <Table striped bordered hover>
                   <thead>

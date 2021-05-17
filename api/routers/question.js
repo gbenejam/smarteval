@@ -39,6 +39,19 @@ router.get('/questions/:topic', auth, async (req,res) => {
     }
 })
 
+//Remove question
+router.delete('/questions/:id', auth, async (req,res) => {
+    try {
+        const user = req.user
+        const question = await Question.findByIdAndDelete(req.params.id).then(async () => {
+            const questions = await Question.find({ creator: user._id })
+            res.send(questions)
+        }).catch((e) => console.log(e))
+    } catch(e) {
+        res.status(500).send(e)
+    }
+  })
+
 //Gets a specific question
 router.get('/questions/:id', auth, async (req,res) => {
     const _id = req.params.id

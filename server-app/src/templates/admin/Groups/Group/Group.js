@@ -25,13 +25,12 @@ class NewGroup extends Component {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          console.log(res);
           let tmmp = res.data.map((item) => {
-            return {value: item._id, label: item.name};
-          })
+            return { value: item._id, label: item.name };
+          });
           this.setState({
-              userSelect: tmmp
-          })
+            userSelect: tmmp,
+          });
         })
         .catch((err) => console.log(err));
 
@@ -49,13 +48,51 @@ class NewGroup extends Component {
             const users = res.data.users ? res.data.users : [];
             this.setState({
               name,
-              users,
+              users: users.map((item) => {
+                return { value: item._id, label: item.name };
+              }),
             });
           })
           .catch((err) => console.log(err));
       }
     }
   }
+
+  groupHandler = (event) => {
+    const token = localStorage.getItem("token");
+    event.preventDefault();
+    var users = this.state.users.map((item) => {
+      return { _id: item.value, name: item.label };
+    });
+
+    const group = {
+      name: this.state.name,
+      users: users,
+    };
+    console.log(group);
+    if (window.location.search) {
+      const id = window.location.search.replace("?id=", "");
+      axios
+        .patch("http://localhost:3030/groups/" + id, group, {
+          crossDomain: true,
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          alert("Group Updated");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      axios
+        .post("http://localhost:3030/groups", group, {
+          crossDomain: true,
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res) => {
+          alert("Group added");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   render() {
     return (
@@ -83,15 +120,20 @@ class NewGroup extends Component {
                 <Form.Label>Users</Form.Label>
                 <Select
                   isMulti="true"
+                  value={this.state.users}
                   options={this.state.userSelect}
                   onChange={(event) => {
-                    this.setState({ groups: event }, () =>
+                    this.setState({ users: event }, () =>
                       console.log(this.state.userSelect)
                     );
                   }}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.groupHandler}
+              >
                 Submit
               </Button>
             </Form>
