@@ -70,6 +70,8 @@ class navbar extends Component {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("isAdmin");
+        // redirect to home page after logout
+        window.location.assign('/');
       })
       .catch((err) => console.log(err));
   };
