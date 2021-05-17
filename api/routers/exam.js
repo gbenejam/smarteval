@@ -1,5 +1,7 @@
 const express = require("express");
 const Exam = require("../models/exam");
+const Group = require("../models/group");
+
 const auth = require("../middleware/auth");
 
 const router = new express.Router();
@@ -8,8 +10,8 @@ const router = new express.Router();
 router.post("/admin/exams", auth, async (req, res) => {
   try {
     const exams = await Exam.create({
-        ...req.body,
-        creator: req.user._id
+      ...req.body,
+      creator: req.user._id,
     });
     res.send(exams);
   } catch (e) {
@@ -26,6 +28,18 @@ router.get("/admin/exams", auth, async (req, res) => {
     }
     res.send(exams);
   } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+//Get all exams
+router.get("/user/exams", auth, async (req, res) => {
+  try {
+    const groups = await Group.find({ users: req.user }).then(async (groups) => {
+      return await Exam.find({groups: {$in : groups}})
+    }).then((result) => res.send(result));
+  } catch (e) {
+    console.log(e);
     res.status(500).send(e);
   }
 });
@@ -62,16 +76,18 @@ router.patch("/admin/exams/:id", auth, async (req, res) => {
 });
 
 //Remove exam
-router.delete('/admin/exams/:id', auth, async (req,res) => {
+router.delete("/admin/exams/:id", auth, async (req, res) => {
   try {
-      const user = req.user
-      const exam = await Exam.findByIdAndDelete(req.params.id).then(async () => {
-          const exams = await Exam.find({ creator: user._id })
-          res.send(exams)
-      }).catch((e) => console.log(e))
-  } catch(e) {
-      res.status(500).send(e)
+    const user = req.user;
+    const exam = await Exam.findByIdAndDelete(req.params.id)
+      .then(async () => {
+        const exams = await Exam.find({ creator: user._id });
+        res.send(exams);
+      })
+      .catch((e) => console.log(e));
+  } catch (e) {
+    res.status(500).send(e);
   }
-})
+});
 
 module.exports = router;

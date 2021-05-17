@@ -39,7 +39,7 @@ class navbar extends Component {
       this.setState({
         isAuth: true,
         navElements: [
-          { label: "Dashboard", path: "/admin/dashboard" },
+          { label: "Dashboard", path: "/user/dashboard" },
           { label: "Exams", path: "/user/exams" },
           { label: "Download", path: "/download" },
         ],

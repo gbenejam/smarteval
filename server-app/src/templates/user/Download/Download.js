@@ -1,12 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import Button from "react-bootstrap/Button";
 //import classes from './dashboard.module.css'
 
 class Download extends Component {
-    render() {
-        return (
-            <div>Download page</div>
-        );
-    }
+  render() {
+    return (
+      <Jumbotron>
+        <h1>Hello, world!</h1>
+        <p>
+          This is a simple hero unit, a simple jumbotron-style component for
+          calling extra attention to featured content or information.
+        </p>
+        <div>
+          <p>
+            <Button variant="primary">Learn more</Button>
+            <Button variant="primary">Learn more</Button>
+            <Button variant="primary">Learn more</Button>
+          </p>
+        </div>
+      </Jumbotron>
+    );
+  }
 }
 
 export default Download;

@@ -122,7 +122,7 @@ class AdminDashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h1>Current exams</h1>
+            <h2>Current exams</h2>
 
             <Table striped bordered hover size="sm">
               <thead>
@@ -136,7 +136,7 @@ class AdminDashboard extends Component {
             </Table>
           </Col>
           <Col>
-            <h1>Past exams</h1>
+            <h2>Past exams</h2>
 
             <Table striped bordered hover size="sm">
             <thead>
