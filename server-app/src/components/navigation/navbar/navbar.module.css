@@ -7,6 +7,23 @@
     border-color: #FDC134 !important;
     color: #D6F4FF !important;
     font-weight: bold !important;
+    transition: none !important;
+}
+
+.loginButton:hover,
+.loginButton:active {
+    background-color: #FDC134 !important;
+}
+
+.loginButton a {
+    color: #D6F4FF;
+}
+
+.loginButton a:hover, .loginButton a:active {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #FDC134;
 }
 
 .logoutButton {

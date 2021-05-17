@@ -21,7 +21,9 @@ services:
             - type: bind
               source: ./api/routers
               target: /smarteval/routers
-        command: npm run dev
+        depends_on:
+            - "mongo-db"
+        command: ./wait-for-it.sh -t 0 mongo-db:27018 -- npm run dev
     
     smarteval-frontend:
         build: server-app/
@@ -40,11 +42,14 @@ services:
         command: npm run start
 
     mongo-db:
-        image: mongo:4.2.14
+        build: db
         ports:
-            - 27017:27017
+            - 27018:27018
         volumes:
-            - db-data:/var/lib/mongo-db-smarteval
+            - db-data:/data/db-smarteval
+
+    #mongo-db-restore:
+
 
 volumes:
     db-data:

@@ -1,4 +1,4 @@
-html, body, #root {
+html, body {
   height: 100%;
 }
 
@@ -10,6 +10,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #D6F4FF;
+}
+
+#root {
+  min-height: 100%;
 }
 
 code {

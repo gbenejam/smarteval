@@ -7,7 +7,7 @@
   padding-top: 20px;
   padding-bottom: 20px;
   color: #fff;
-  z-index: 200;
+  z-index: 150;
   /* This is the container div to align the content inside */
   height: 100%;
   display: flex;
