@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -53,8 +53,8 @@ class AdminExams extends Component {
           <td>{d.code}</td>
           <td>{d.title}</td>
           <td>
-            <ul>{d.topics && d.topics.map((item) => {
-              return (<li>{item.name}</li>)
+            <ul>{d.topics && d.topics.map(function (item, i) {
+              return (<li key={i}>{item.name}</li>)
             })}</ul>
           </td>
           <td>{d.description}</td>
@@ -62,9 +62,9 @@ class AdminExams extends Component {
           <td>{d.endDate}</td>
           <td>{d.duration}</td>
           <td>
-            <NavLink to={editPath}>
+            <Link to={editPath}>
               <FaEdit />
-            </NavLink>
+            </Link>
             <Link onClick={() => that.removeExam(d._id)}>
               <FaRegWindowClose />
             </Link>
@@ -84,7 +84,7 @@ class AdminExams extends Component {
               <div>
                 <h1>Exams</h1>
                 <Button variant="success">
-                  <NavLink to="/admin/exams/exam">Create exam</NavLink>
+                  <Link to="/admin/exams/exam">Create exam</Link>
                 </Button>
                 <Table striped bordered hover>
                   <thead>

@@ -13,18 +13,19 @@ const Question = mongoose.model("question", {
     type: String,
     required: true,
   },
-  topic: {
-    type: String,
-    required: true,
-  },
-  answers: [
+  topics: [
     {
-      text: {
+      _id: {
+        type: mongoose.Types.ObjectId,
+      },
+      name: {
         type: String,
       },
-      isValid: {
-        type: Boolean,
-      },
+    },
+  ],
+  options: [
+    {
+      type: String,
     },
   ],
 });

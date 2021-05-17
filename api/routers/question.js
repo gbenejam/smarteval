@@ -8,9 +8,13 @@ const router = new express.Router()
 //Create question
 router.post('/questions', auth, async (req,res) => {
     try {
-        const question = await Question.create(req.body)
+        const question = await Question.create({
+            ...req.body,
+            creator: req.user._id
+        })
         res.send(question)
     } catch(e) {
+        console.log(e)
         res.status(500).send(e)
     }
 })
