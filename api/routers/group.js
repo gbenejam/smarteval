@@ -18,7 +18,7 @@ router.post('/groups', auth, async (req,res) => {
     }
 })
 
-//Create group
+//Update group
 router.patch('/groups/:id', auth, async (req,res) => {
     const _id = req.params.id;
     try {

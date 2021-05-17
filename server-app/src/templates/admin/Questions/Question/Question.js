@@ -17,7 +17,8 @@ class NewQuestion extends Component {
     title: "",
     questionType: "",
     typeSelect: [
-      { label: "Multichoice", value: "multichoice" },
+      // TODO - Support multichoice
+      //{ label: "Multichoice", value: "multichoice" },
       { label: "Text", value: "text" },
     ],
     topic: [],
@@ -50,7 +51,21 @@ class NewQuestion extends Component {
             headers: { Authorization: "Bearer " + token },
           })
           .then((res) => {
-            console.log(res.data);
+            console.log(res.data)
+            const title = res.data.title ? res.data.title : "";
+            const questionType = res.data.questionType ? res.data.questionType : {};
+            const topics = res.data.topics ? res.data.topics : [];
+            const options = res.data.options ? res.data.options : [];
+            this.setState({
+              title,
+              topic: topics.map((item) => {
+                return { value: item._id, label: item.name };
+              }),
+              questionType,
+              options: options.map((item) => {
+                return { value: item._id, label: item.name };
+              })
+            });
           })
           .catch((err) => console.log(err));
       }
@@ -111,11 +126,11 @@ class NewQuestion extends Component {
 
     const question = {
       title: this.state.title,
-      questionType : this.state.questionType.value,
+      questionType : this.state.questionType,
       options: options,
       topics: topic
     };
-    console.log(question);
+    console.log("Adding question: " + question);
     if (window.location.search) {
       const id = window.location.search.replace("?id=", "");
       axios

@@ -10,8 +10,12 @@ const Question = mongoose.model("question", {
     required: true,
   },
   questionType: {
-    type: String,
-    required: true,
+    label: {
+      type: String,
+    },
+    value: {
+      type: String,
+    },
   },
   topics: [
     {

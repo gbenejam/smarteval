@@ -35,12 +35,17 @@ class Questions extends Component {
   listQuestions() {
     let that = this;
     const questions = this.state.questions.map(function (d, idx) {
-      const editPath = "/groups?id=" + d._id;
+      const editPath = "/questions/question?id=" + d._id;
       return (
         <tr key={idx}>
             <td>{d.title}</td>
-            <td>{d.type}</td>
-            <td>{d.topic}</td>
+            <td>{d.questionType.label}</td>
+            <ul>{d.topics.map((it, i) => {
+              return (
+                <li key={i}>{it.name}</li>
+              )
+            })}
+            </ul>
             <td>
             <Link to={editPath}><FaEdit /></Link>
             <Link onClick={() => that.removeQuestion(d._id)}>

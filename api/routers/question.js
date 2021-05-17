@@ -29,20 +29,6 @@ router.get('/questions', auth, async (req,res) => {
     }
 })
 
-//Gets all questions for a topic
-router.get('/questions/:topic', auth, async (req,res) => {
-    const topic = req.params.topic
-    try {
-        const questions = await Question.find({topic: topic})
-        if(!questions) {
-            return res.status(404).send("Couldn't find any questions for that topic.")
-        }
-        res.send(questions)
-    } catch (e) {
-        res.status(500).send(e)
-    }
-})
-
 //Remove question
 router.delete('/questions/:id', auth, async (req,res) => {
     try {
