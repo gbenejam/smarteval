@@ -18,7 +18,6 @@ router.get("/admin/dashboard", auth, async (req, res) => {
     const users = await User.find({})
     const groups = await Group.find({creator: req.user._id})
 
-    console.log(latestExams);
     const dashboard = {
       user: user._id,
       totalExams: currentExams.length,

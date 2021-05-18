@@ -18,33 +18,17 @@ class navbar extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token");
-    const isAdmin = localStorage.getItem("isAdmin");
+    
     if (token) {
       this.setState({ token });
     }
-    if (isAdmin === "true") {
-      this.setState({
-        isAuth: true,
-        isAdmin: true,
-        navElements: [
-          { label: "Dashboard", path: "/admin/dashboard" },
-          { label: "Exams", path: "/admin/exams" },
-          { label: "Topics", path: "/topics" },
-          { label: "Questions", path: "/questions" },
-          { label: "Groups", path: "/groups" },
-          { label: "Users", path: "/users" },
-        ],
-      });
-    } else if (token) {
+    if (token) {
       this.setState({
         isAuth: true,
         navElements: [
-          { label: "Dashboard", path: "/admin/dashboard" },
           { label: "Exams", path: "/user/exams" },
-          { label: "Download", path: "/download" },
         ],
       });
-      console.log(this.state.navElements);
     } else {
       this.setState({
         navElements: [

@@ -55,7 +55,6 @@ class AdminTopics extends Component {
         this.setState({ topics: res.data });
       })
       .catch((err) => console.log(err));
-    console.log(this.state.topics);
   };
 
   removeTopic = (idx) => {

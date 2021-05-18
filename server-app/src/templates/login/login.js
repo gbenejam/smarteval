@@ -20,7 +20,6 @@ class Login extends Component {
 
   loginHandler = (event) => {
     event.preventDefault();
-    console.log(this.state);
     axios
       .post("http://localhost:3030/users/login", this.state, {
         crossDomain: true,

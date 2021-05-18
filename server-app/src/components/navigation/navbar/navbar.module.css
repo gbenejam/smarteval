@@ -26,11 +26,29 @@
     background-color: #FDC134;
 }
 
-.logoutButton {
-    background-color: #FDC134 !important;
-    border-color: #FDC134 !important;
-    color: #213B52 !important;
-    font-weight: bold !important;
+button.logoutButton {
+    background-color: #FDC134;
+    border-color: #FDC134;
+    color: #213B52;
+    font-weight: bold;
+}
+
+button.logoutButton:hover,
+button.logoutButton:active {
+    background-color: transparent;
+    border-color: #FDC134;
+}
+
+button.logoutButton a {
+    color: #213B52;
+}
+
+button.logoutButton a:hover, 
+button.logoutButton a:active {
+    color: #D6F4FF;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: transparent;
 }
 
 .navigationLinks {

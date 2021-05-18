@@ -51,7 +51,6 @@ class NewQuestion extends Component {
             headers: { Authorization: "Bearer " + token },
           })
           .then((res) => {
-            console.log(res.data)
             const title = res.data.title ? res.data.title : "";
             const questionType = res.data.questionType ? res.data.questionType : {};
             const topics = res.data.topics ? res.data.topics : [];

@@ -64,56 +64,54 @@ class AdminDashboard extends Component {
     return (
       <Container>
         <Row>
-          <Col />
           <Col>
             <h1>Dashboard</h1>
           </Col>
-          <Col />
         </Row>
         <Row>
           <Col>
             <CardDeck>
               <Card>
                 <Card.Body>
-                  <Card.Title>Exams</Card.Title>
                   <Card.Text>
                     <h1>{this.state.dashboard.totalExams}</h1>
                   </Card.Text>
+                  <Card.Title>Exams</Card.Title>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className='yellowBack button' >
                   <Link to="/admin/exams">Go to exams</Link>
                 </Card.Footer>
               </Card>
               <Card>
                 <Card.Body>
-                  <Card.Title>Questions</Card.Title>
                   <Card.Text>
                     <h1>{this.state.dashboard.totalQuestions}</h1>
                   </Card.Text>
+                  <Card.Title>Questions</Card.Title>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className='yellowBack button' >
                   <Link to="/questions">Go to questions</Link>
                 </Card.Footer>
               </Card>
               <Card>
                 <Card.Body>
-                  <Card.Title>Users</Card.Title>
                   <Card.Text>
                     <h1>{this.state.dashboard.totalUsers}</h1>
                   </Card.Text>
+                  <Card.Title>Users</Card.Title>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className='yellowBack button' >
                   <Link to="/users">Go to users</Link>
                 </Card.Footer>
               </Card>
               <Card>
                 <Card.Body>
-                  <Card.Title>Groups</Card.Title>
                   <Card.Text>
                     <h1>{this.state.dashboard.totalGroups}</h1>
                   </Card.Text>
+                  <Card.Title>Groups</Card.Title>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className='yellowBack button' >
                   <Link to="/groups">Go to groups</Link>
                 </Card.Footer>
               </Card>
@@ -122,12 +120,10 @@ class AdminDashboard extends Component {
         </Row>
         <Row>
           <Col>
-            <h2>Current exams</h2>
-
             <Table striped bordered hover size="sm">
               <thead>
-                <tr>
-                  <th>Name</th>
+                <tr className='yellowBack'>
+                  <th style={{fontWeight: "500"}}>Current exams</th>
                 </tr>
               </thead>
               <tbody>
@@ -136,12 +132,10 @@ class AdminDashboard extends Component {
             </Table>
           </Col>
           <Col>
-            <h2>Past exams</h2>
-
             <Table striped bordered hover size="sm">
             <thead>
-                <tr>
-                  <th>Name</th>
+                <tr className='yellowBack'>
+                  <th style={{fontWeight: "500"}}>Past exams</th>
                 </tr>
               </thead>
               <tbody>

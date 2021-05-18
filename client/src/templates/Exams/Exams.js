@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -6,13 +7,12 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import { FaRegWindowClose } from "react-icons/fa";
+import Button from "react-bootstrap/Button";
+import { FaEye } from "react-icons/fa";
 
-//import classes from './dashboard.module.css'
-
-class AdminUsers extends Component {
+class AdminExams extends Component {
   state = {
-    users: [],
+    exams: [],
     isAuth: false,
   };
 
@@ -21,20 +21,44 @@ class AdminUsers extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/users", {
+        .get("http://localhost:3030/user/exams", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
-          this.setState({ users: res.data });
+          this.setState({ exams: res.data });
         })
         .catch((err) => console.log(err));
     }
   }
 
-  removeExam = () => {
-    
-  };
+  listExams() {
+    const that = this
+    const exams = this.state.exams.map(function (d, idx) {
+      const editPath = "/user/exams/preview?id=" + d._id;
+      return (
+        <tr id={d._id} key={idx}>
+          <td>{d.code}</td>
+          <td>{d.title}</td>
+          <td>
+            <ul>{d.topics && d.topics.map(function (item, i) {
+              return (<li key={i}>{item.name}</li>)
+            })}</ul>
+          </td>
+          <td>{d.description}</td>
+          <td>{d.startDate}</td>
+          <td>{d.endDate}</td>
+          <td>{d.duration}</td>
+          <td>
+            <Link to={editPath}>
+              <FaEye />
+            </Link>
+          </td>
+        </tr>
+      );
+    });
+    return exams;
+  }
 
   render() {
     return (
@@ -43,30 +67,21 @@ class AdminUsers extends Component {
           <Col>
             {this.state.isAuth && (
               <div>
-                <h1>Users</h1>
+                <h1>Exams</h1>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>name</th>
-                      <th>Username</th>
-                      <th>Email</th>
+                      <th>Code</th>
+                      <th>Title</th>
+                      <th>Topics</th>
+                      <th>Description</th>
+                      <th>Start date</th>
+                      <th>End date</th>
+                      <th>Duration</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {this.state.users.map(function (d, idx) {
-                      return (
-                        <tr id={d._id} key={idx}>
-                          <td>{d.name}</td>
-                          <td>{d.username}</td>
-                          <td>{d.email}</td>
-                          <td>
-                            <FaRegWindowClose />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                  <tbody>{this.listExams()}</tbody>
                 </Table>
               </div>
             )}
@@ -85,4 +100,4 @@ class AdminUsers extends Component {
   }
 }
 
-export default AdminUsers;
+export default AdminExams;

@@ -30,11 +30,7 @@ class Login extends Component {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userId", res.data.user._id);
         localStorage.setItem("isAdmin", res.data.user.isAdmin);
-        if (res.data.user.isAdmin) {
-          window.location.assign("/admin/dashboard");
-        } else {
-          window.location.assign("/user/dashboard");
-        }
+        window.location.assign("/user/exams");
       })
       .catch((err) => {
         this.setState({error: true})

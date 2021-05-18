@@ -79,7 +79,7 @@ class navbar extends Component {
   loginButton = () => {
     if (this.state.isAuth) {
       return (
-        <Button className={classes.logoutButton} onClick={this.logoutHandler}>
+        <Button className={`${classes.logoutButton} btn`} onClick={this.logoutHandler}>
           Log out
         </Button>
       );

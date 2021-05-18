@@ -134,7 +134,6 @@ class NewExam extends Component {
       duration: this.state.duration,
       questions: question,
     };
-    console.log(exam)
     axios
       .post("http://localhost:3030/admin/exams", exam, {
         crossDomain: true,

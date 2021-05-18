@@ -3,7 +3,9 @@ import Navbar from "../../components/navigation/navbar/navbar";
 import { Switch, Route } from "react-router-dom";
 
 import Login from "../login/login";
-
+import UserExams from "../Exams/Exams";
+import NotFound from "../notfound/NotFound"
+import ExamPreview from "../Exams/ExamPreview/ExamPreview";
 //import classes from './layout.module.css'
 
 class Layout extends Component {
@@ -12,7 +14,11 @@ class Layout extends Component {
       <React.Fragment>
         <Navbar />
         <Switch>
-          <Route path="/" exact render={() => <Login/>} />
+          <Route path="/" exact render={() => <Login />} />
+          <Route path="/user/exams" exact render={() => <UserExams />} />
+          <Route path="/user/exams/preview" exact render={() => <ExamPreview />} />
+          <Route component={NotFound} />
+
         </Switch>
       </React.Fragment>
     );

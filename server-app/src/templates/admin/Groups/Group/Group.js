@@ -69,7 +69,6 @@ class NewGroup extends Component {
       name: this.state.name,
       users: users,
     };
-    console.log(group);
     if (window.location.search) {
       const id = window.location.search.replace("?id=", "");
       axios

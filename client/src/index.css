@@ -21,7 +21,62 @@ code {
     monospace;
 }
 
+/* Carousel Bootstrap modifications */
+
 .carousel-control-prev, .carousel-control-next, .carousel-indicators {
   z-index: 200 !important;
   opacity: 0.8 !important;
+}
+
+/* Common page modifications */
+
+#root .container {
+  margin-top: 30px;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.container .row {
+  margin-bottom: 30px;
+}
+
+#root table {
+  background-color: #FFF;
+}
+
+#root table th {
+  font-weight: 500;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+#root table td {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.yellowBack {
+  background-color: #FDC134;
+  border-color: #FDC134;
+  color: #000;
+  transition: none;
+}
+
+.yellowBack.button:hover,
+.yellowBack.button:active {
+  background-color: #cb9500;
+}
+
+.yellowBack a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.yellowBack.button a:hover, .yellowBack.button a:active {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #cb9500;
 }
