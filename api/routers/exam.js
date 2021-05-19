@@ -39,7 +39,6 @@ router.get("/user/exams", auth, async (req, res) => {
       return await Exam.find({groups: {$in : groups}})
     }).then((result) => res.send(result));
   } catch (e) {
-    console.log(e);
     res.status(500).send(e);
   }
 });

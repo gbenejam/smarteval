@@ -17,7 +17,7 @@ class UserDashboard extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/admin/dashboard", {
+        .get("http://localhost:3030/user/dashboard", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -31,6 +31,38 @@ class UserDashboard extends Component {
   listCurrentExams() {
     if (this.state.dashboard.currentExams) {
       const currentExams = this.state.dashboard.currentExams.map(function (
+        d,
+        idx
+      ) {
+        return (
+          <tr key={idx}>
+            <td>{d.title}</td>
+          </tr>
+        );
+      });
+      return currentExams;
+    }
+  }
+
+   listPastExams() {
+    if (this.state.dashboard.pastExams) {
+      const currentExams = this.state.dashboard.pastExams.map(function (
+        d,
+        idx
+      ) {
+        return (
+          <tr key={idx}>
+            <td>{d.title}</td>
+          </tr>
+        );
+      });
+      return currentExams;
+    }
+  }
+
+  listFutureExams() {
+    if (this.state.dashboard.futureExams) {
+      const currentExams = this.state.dashboard.futureExams.map(function (
         d,
         idx
       ) {
@@ -75,7 +107,7 @@ class UserDashboard extends Component {
                   <th>Name</th>
                 </tr>
               </thead>
-              <tbody>{this.listCurrentExams()}</tbody>
+              <tbody>{this.listFutureExams()}</tbody>
             </Table>
           </Col>
         </Row>
@@ -89,7 +121,7 @@ class UserDashboard extends Component {
                   <th>Name</th>
                 </tr>
               </thead>
-              <tbody>{this.listCurrentExams()}</tbody>
+              <tbody>{this.listPastExams()}</tbody>
             </Table>
           </Col>
         </Row>
