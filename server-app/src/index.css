@@ -57,6 +57,16 @@ h1 {
   padding-right: 0.75rem;
 }
 
+table td ul {
+  padding-left: 1rem;
+  list-style: none;
+}
+
+.smallIcon {
+  width: 1.5rem;
+  color: black;
+}
+
 .yellowBack {
   background-color: #FDC134;
   border-color: #FDC134;
@@ -65,8 +75,12 @@ h1 {
 }
 
 .yellowBack.button:hover,
-.yellowBack.button:active {
-  background-color: #cb9500;
+.yellowBack.button:active,
+.yellowBack.button:visited,
+.yellowBack.button:focus {
+  background-color: #cb9500 !important;
+  border-color: #cb9500 !important;
+  font-weight: bold;
 }
 
 .yellowBack a {
@@ -74,9 +88,15 @@ h1 {
   text-decoration: none;
 }
 
-.yellowBack.button a:hover, .yellowBack.button a:active {
-  color: white;
+.yellowBack.button {
+  color: #FFF;
+}
+
+.yellowBack.button a:hover,
+.yellowBack.button a:active
+.yellowBack.button a:visited
+.yellowBack.button a:focus {
   font-weight: bold;
   text-decoration: none;
-  background-color: #cb9500;
+  background-color: #cb9500 !important;
 }

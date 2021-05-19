@@ -1,0 +1,12 @@
+.QuestionHeader {
+  width: 100%;
+  font-weight: 500;
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+}
+
+.QuestionBody {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+  background-color: white;
+}

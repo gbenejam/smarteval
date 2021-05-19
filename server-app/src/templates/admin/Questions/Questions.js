@@ -40,16 +40,18 @@ class Questions extends Component {
         <tr key={idx}>
             <td>{d.title}</td>
             <td>{d.questionType.label}</td>
-            <ul>{d.topics.map((it, i) => {
-              return (
-                <li key={i}>{it.name}</li>
-              )
-            })}
-            </ul>
             <td>
-            <Link to={editPath}><FaEdit /></Link>
+              <ul>{d.topics.map((it, i) => {
+                return (
+                  <li key={i}>{it.name}</li>
+                )
+              })}
+              </ul>
+            </td>
+            <td>
+            <Link to={editPath}><FaEdit className='smallIcon'/></Link>
             <Link onClick={() => that.removeQuestion(d._id)}>
-              <FaRegWindowClose />
+              <FaRegWindowClose className='smallIcon'/>
             </Link>
           </td>
         </tr>
@@ -76,24 +78,28 @@ class Questions extends Component {
         <Row>
           <Col>
             {this.state.isAuth && (
-              <div>
-                <h1>Questions</h1>
-                <Button variant="success">
+              <React.Fragment>
+                <h1 style={{marginBottom: '30px'}}>Questions</h1>
+                <Button className='yellowBack button'>
                   <NavLink to="/questions/question">Create question</NavLink>
                 </Button>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Type</th>
-                      <th>Topic</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.listQuestions()}</tbody>
-                </Table>
-              </div>
+              </React.Fragment>
             )}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Table striped bordered hover>
+              <thead>
+                <tr className='yellowBack'>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Topic</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{this.listQuestions()}</tbody>
+            </Table>
             {!this.state.isAuth && (
               <Alert variant="danger">
                 <Alert.Heading>Oh snap! You got an error!</Alert.Heading>

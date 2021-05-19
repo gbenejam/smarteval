@@ -8,7 +8,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
-import { FaEdit, FaRegWindowClose } from "react-icons/fa";
+import { FaRegEdit, FaRegWindowClose } from "react-icons/fa";
 
 class AdminExams extends Component {
   state = {
@@ -62,11 +62,11 @@ class AdminExams extends Component {
           <td>{d.endDate}</td>
           <td>{d.duration}</td>
           <td>
-            <Link to={editPath}>
-              <FaEdit />
+            <Link style={{color: "black"}} to={editPath}>
+              <FaRegEdit className='smallIcon'/>
             </Link>
-            <Link onClick={() => that.removeExam(d._id)}>
-              <FaRegWindowClose />
+            <Link style={{color: "black"}} onClick={() => that.removeExam(d._id)}>
+              <FaRegWindowClose className='smallIcon'/>
             </Link>
           </td>
         </tr>
@@ -80,28 +80,32 @@ class AdminExams extends Component {
       <Container>
         <Row>
           <Col>
+            <h1 style={{marginBottom: '30px'}}>Exams </h1>
             {this.state.isAuth && (
-              <div>
-                <h1>Exams</h1>
-                <Button variant="success">
-                  <Link to="/admin/exams/exam">Create exam</Link>
-                </Button>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Code</th>
-                      <th>Title</th>
-                      <th>Topics</th>
-                      <th>Description</th>
-                      <th>Start date</th>
-                      <th>End date</th>
-                      <th>Duration</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.listExams()}</tbody>
-                </Table>
-              </div>
+              <Button className='yellowBack button'>
+                <Link to="/admin/exams/exam">Create exam</Link>
+              </Button>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {this.state.isAuth && (
+              <Table striped bordered hover>
+                <thead>
+                  <tr className='yellowBack'>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Topics</th>
+                    <th>Description</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.listExams()}</tbody>
+              </Table>
             )}
             {!this.state.isAuth && (
               <Alert variant="danger">

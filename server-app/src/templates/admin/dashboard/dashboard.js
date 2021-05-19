@@ -123,7 +123,7 @@ class AdminDashboard extends Component {
             <Table striped bordered hover size="sm">
               <thead>
                 <tr className='yellowBack'>
-                  <th style={{fontWeight: "500"}}>Current exams</th>
+                  <th>Current exams</th>
                 </tr>
               </thead>
               <tbody>
@@ -135,7 +135,7 @@ class AdminDashboard extends Component {
             <Table striped bordered hover size="sm">
             <thead>
                 <tr className='yellowBack'>
-                  <th style={{fontWeight: "500"}}>Past exams</th>
+                  <th>Past exams</th>
                 </tr>
               </thead>
               <tbody>

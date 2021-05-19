@@ -10,7 +10,7 @@ import Select from "react-select";
 
 import { Link } from "react-router-dom";
 
-//import classes from './dashboard.module.css'
+import classes from './Question.module.css';
 
 class NewQuestion extends Component {
   state = {
@@ -158,57 +158,68 @@ class NewQuestion extends Component {
     return (
       <Container>
         <Row>
-          <Link to="/questions">Back</Link>
+          <Col>
+            <Button className='yellowBack button' variant="success">
+              <Link to="/questions">Back</Link>
+            </Button>
+          </Col>
         </Row>
         <Row>
           <Col>
-            <Form>
-              <Row>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Question title</Form.Label>
-                    <Form.Control
-                      value={this.state.title}
-                      onChange={(event) =>
-                        this.setState({ title: event.target.value })
-                      }
-                      placeholder="Question"
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Question type</Form.Label>
-                    <Select
-                      required
-                      options={this.state.typeSelect}
-                      onChange={(event) => {
-                        this.setState({ questionType: event });
-                        this.displayQuestion();
-                      }}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Topic</Form.Label>
-                    <Select
-                      isMulti="true"
-                      required
-                      options={this.state.topicSelect}
-                      onChange={(event) => {
-                        this.setState({ topic: event });
-                      }}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  {this.displayQuestion()}
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    onClick={this.handleQuestion}>
-                    Submit
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
+            <div>
+              <div className={`${classes.QuestionHeader} yellowBack`}>
+                Question
+              </div>
+              <div className={classes.QuestionBody}>
+                <Form>
+                  <Row>
+                    <Col>
+                      <Form.Group>
+                        <Form.Label>Question title</Form.Label>
+                        <Form.Control
+                          value={this.state.title}
+                          onChange={(event) =>
+                            this.setState({ title: event.target.value })
+                          }
+                          placeholder="Question"
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Question type</Form.Label>
+                        <Select
+                          required
+                          options={this.state.typeSelect}
+                          onChange={(event) => {
+                            this.setState({ questionType: event });
+                            this.displayQuestion();
+                          }}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Topic</Form.Label>
+                        <Select
+                          isMulti="true"
+                          required
+                          options={this.state.topicSelect}
+                          onChange={(event) => {
+                            this.setState({ topic: event });
+                          }}
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      {this.displayQuestion()}
+                      <Button
+                        className='yellowBack button'
+                        type="submit"
+                        onClick={this.handleQuestion}>
+                        Submit
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              </div>
+            </div>
           </Col>
         </Row>
       </Container>

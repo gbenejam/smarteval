@@ -9,9 +9,10 @@ import Row from "react-bootstrap/Row";
 import axios from "axios";
 import Select from "react-select";
 import Datetime from "react-datetime";
+import Table from "react-bootstrap/Table";
 
 import "react-datetime/css/react-datetime.css";
-//import classes from './dashboard.module.css'
+import classes from './Exam.module.css'
 
 class NewExam extends Component {
   state = {
@@ -146,141 +147,158 @@ class NewExam extends Component {
   };
 
   render() {
+    const examForm = (
+      <Form onSubmit={this.examHandler}>
+        <Form.Row>
+          <Col className={classes.Column}>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGroupTitle">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="title"
+                  required
+                  placeholder="Enter title"
+                  value={this.state.title}
+                  onChange={(event) =>
+                    this.setState({ title: event.target.value })
+                  }
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridCode">
+                <Form.Label>Code</Form.Label>
+                <Form.Control
+                  type="number"
+                  required
+                  placeholder="Enter code"
+                  value={this.state.code}
+                  onChange={(event) =>
+                    this.setState({ code: event.target.value })
+                  }
+                />
+              </Form.Group>
+            </Form.Row>
+            <Form.Group>
+              <Form.Label>Topic</Form.Label>
+              <Select
+                isMulti="true"
+                required
+                options={this.state.topicSelect}
+                onChange={(event) => {
+                  this.setState({ topic: event });
+                }}
+              />
+            </Form.Group>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  required
+                  placeholder="Description"
+                  value={this.state.description}
+                  onChange={(event) =>
+                    this.setState({ description: event.target.value })
+                  }
+                />
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridStartDate">
+                <Form.Label>Start date</Form.Label>
+                <Datetime
+                  value={this.state.startDate}
+                  dateFormat="YYYY-MM-DD"
+                  timeFormat="HH:mm"
+                  required
+                  input="false"
+                  onChange={(event) => {
+                    this.setState({ startDate: event._d });
+                  }}
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridEndDate">
+                <Form.Label>End date</Form.Label>
+                <Datetime
+                  value={this.state.endDate}
+                  dateFormat="YYYY-MM-DD"
+                  required
+                  timeFormat="HH:mm"
+                  input="false"
+                  onChange={(event) => {
+                    this.setState({ endDate: event._d });
+                  }}
+                />
+              </Form.Group>
+            </Form.Row>
+            <Form.Group controlId="formGridCode">
+                <Form.Label>Duration</Form.Label>
+                <Form.Control
+                  type="number"
+                  required
+                  placeholder="Enter duration in minutes"
+                  value={this.state.duration}
+                  onChange={(event) =>
+                    this.setState({ duration: event.target.value })
+                  }
+                />
+              </Form.Group>
+          </Col>
+          <Col className={classes.Column}>
+            <Form.Group>
+              <Form.Label>Groups</Form.Label>
+              <Select
+                isMulti="true"
+                required
+                options={this.state.groupSelect}
+                onChange={(event) => {
+                  this.setState({ groups: event });
+                }}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Questions</Form.Label>
+              <Select
+                isMulti="true"
+                required
+                options={this.state.questionSelect}
+                onChange={(event) => {
+                  this.setState({ questions: event });
+                }}
+              />
+            </Form.Group>
+            <Button className='yellowBack button' type="submit">
+              Submit
+            </Button>
+          </Col>
+        </Form.Row>
+      </Form>
+    );
+
     return (
       <Container>
         <Row>
-          <Link to="/admin/exams">Back</Link>
+          <Col>
+            <Button className='yellowBack button' variant="success">
+              <Link to="/admin/exams">Back</Link>
+            </Button>
+          </Col>
         </Row>
         <Row>
           <Col>
-            <Form onSubmit={this.examHandler}>
-              <Form.Row>
-                <Col>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="formGroupTitle">
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        type="title"
-                        required
-                        placeholder="Enter title"
-                        value={this.state.title}
-                        onChange={(event) =>
-                          this.setState({ title: event.target.value })
-                        }
-                      />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formGridCode">
-                      <Form.Label>Code</Form.Label>
-                      <Form.Control
-                        type="number"
-                        required
-                        placeholder="Enter code"
-                        value={this.state.code}
-                        onChange={(event) =>
-                          this.setState({ code: event.target.value })
-                        }
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Group>
-                    <Form.Label>Topic</Form.Label>
-                    <Select
-                      isMulti="true"
-                      required
-                      options={this.state.topicSelect}
-                      onChange={(event) => {
-                        this.setState({ topic: event });
-                      }}
-                    />
-                  </Form.Group>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="formGridDescription">
-                      <Form.Label>Description</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        required
-                        placeholder="Description"
-                        value={this.state.description}
-                        onChange={(event) =>
-                          this.setState({ description: event.target.value })
-                        }
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row>
-                    <Form.Group as={Col} controlId="formGridStartDate">
-                      <Form.Label>Start date</Form.Label>
-                      <Datetime
-                        value={this.state.startDate}
-                        dateFormat="YYYY-MM-DD"
-                        timeFormat="HH:mm"
-                        required
-                        input="false"
-                        onChange={(event) => {
-                          this.setState({ startDate: event._d });
-                        }}
-                      />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="formGridEndDate">
-                      <Form.Label>End date</Form.Label>
-                      <Datetime
-                        value={this.state.endDate}
-                        dateFormat="YYYY-MM-DD"
-                        required
-                        timeFormat="HH:mm"
-                        input="false"
-                        onChange={(event) => {
-                          this.setState({ endDate: event._d });
-                        }}
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Group controlId="formGridCode">
-                      <Form.Label>Duration</Form.Label>
-                      <Form.Control
-                        type="number"
-                        required
-                        placeholder="Enter duration in minutes"
-                        value={this.state.duration}
-                        onChange={(event) =>
-                          this.setState({ duration: event.target.value })
-                        }
-                      />
-                    </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Groups</Form.Label>
-                    <Select
-                      isMulti="true"
-                      required
-                      options={this.state.groupSelect}
-                      onChange={(event) => {
-                        this.setState({ groups: event });
-                      }}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>Questions</Form.Label>
-                    <Select
-                      isMulti="true"
-                      required
-                      options={this.state.questionSelect}
-                      onChange={(event) => {
-                        this.setState({ questions: event });
-                      }}
-                    />
-                  </Form.Group>
-                  <Button variant="primary" type="submit">
-                    Submit
-                  </Button>
-                </Col>
-              </Form.Row>
-            </Form>
+            <Table bordered>
+              <thead>
+                <tr className='yellowBack'>
+                  <th>Exam</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{examForm}</td>
+                </tr>
+              </tbody>
+            </Table>
           </Col>
-          <Col xs={6} md={1}></Col>
         </Row>
       </Container>
     );

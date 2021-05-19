@@ -11,6 +11,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { FaRegWindowClose } from "react-icons/fa";
 
+import classes from './Topics.module.css';
+
 class AdminTopics extends Component {
   state = {
     topics: [],
@@ -75,9 +77,9 @@ class AdminTopics extends Component {
     const topics = this.state.topics.map(function (d, idx) {
       return (
         <tr key={idx}>
-          <td>
+          <td className={classes.td}>
             {d.name}
-            <Link onClick={() => that.removeTopic(d._id)}>
+            <Link className={classes.Icon} onClick={() => that.removeTopic(d._id)}>
               <FaRegWindowClose />
             </Link>
           </td>
@@ -91,7 +93,9 @@ class AdminTopics extends Component {
     return (
       <Container>
         <Row>
-          <h1>Topics</h1>
+          <Col>
+            <h1>Topics</h1>
+          </Col>
         </Row>
         <Row>
           <Col>
@@ -108,7 +112,8 @@ class AdminTopics extends Component {
                   />
                 </Col>
                 <Col>
-                  <Button type="submit" onClick={this.topicHandler}>
+                  <Button className='yellowBack button'
+                    type="submit" onClick={this.topicHandler}>
                     Submit
                   </Button>
                 </Col>
@@ -120,7 +125,7 @@ class AdminTopics extends Component {
               <div>
                 <Table striped bordered hover size="sm">
                   <thead>
-                    <tr>
+                    <tr className='yellowBack'>
                       <th>Topic</th>
                     </tr>
                   </thead>
