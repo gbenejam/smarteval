@@ -139,6 +139,7 @@ class NewQuestion extends Component {
         })
         .then((res) => {
           alert("Question Updated");
+          window.location.assign('/questions');
         })
         .catch((err) => console.log(err));
     } else {
@@ -149,6 +150,7 @@ class NewQuestion extends Component {
         })
         .then((res) => {
           alert("Question added");
+          window.location.assign('/questions');
         })
         .catch((err) => console.log(err));
     }

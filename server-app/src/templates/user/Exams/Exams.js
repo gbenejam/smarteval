@@ -7,8 +7,9 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
 import { FaEdit } from "react-icons/fa";
+
+import dateFormat from '../../../utils/dateFormat';
 
 class AdminExams extends Component {
   state = {
@@ -55,9 +56,14 @@ class AdminExams extends Component {
             })}</ul>
           </td>
           <td>{d.description}</td>
-          <td>{d.startDate}</td>
-          <td>{d.endDate}</td>
+          <td>{dateFormat(d.startDate)}</td>
+          <td>{dateFormat(d.endDate)}</td>
           <td>{d.duration}</td>
+          <td>
+            <Link to={editPath}>
+              <FaEdit className='smallIcon' />
+            </Link>
+          </td>
         </tr>
       );
     });
@@ -69,24 +75,27 @@ class AdminExams extends Component {
       <Container>
         <Row>
           <Col>
+            <h1>Exams </h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             {this.state.isAuth && (
-              <div>
-                <h1>Exams</h1>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Code</th>
-                      <th>Title</th>
-                      <th>Topics</th>
-                      <th>Description</th>
-                      <th>Start date</th>
-                      <th>End date</th>
-                      <th>Duration</th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.listExams()}</tbody>
-                </Table>
-              </div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr className='yellowBack'>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Topics</th>
+                    <th>Description</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Duration</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.listExams()}</tbody>
+              </Table>
             )}
             {!this.state.isAuth && (
               <Alert variant="danger">

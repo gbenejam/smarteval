@@ -17,7 +17,7 @@ class UserDashboard extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/user/dashboard", {
+        .get("http://localhost:3030/admin/dashboard", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -43,85 +43,45 @@ class UserDashboard extends Component {
       return currentExams;
     }
   }
-
-   listPastExams() {
-    if (this.state.dashboard.pastExams) {
-      const currentExams = this.state.dashboard.pastExams.map(function (
-        d,
-        idx
-      ) {
-        return (
-          <tr key={idx}>
-            <td>{d.title}</td>
-          </tr>
-        );
-      });
-      return currentExams;
-    }
-  }
-
-  listFutureExams() {
-    if (this.state.dashboard.futureExams) {
-      const currentExams = this.state.dashboard.futureExams.map(function (
-        d,
-        idx
-      ) {
-        return (
-          <tr key={idx}>
-            <td>{d.title}</td>
-          </tr>
-        );
-      });
-      return currentExams;
-    }
-  }
   render() {
     return (
       <Container>
         <Row>
-          <Col />
           <Col>
             <h1>Dashboard</h1>
           </Col>
-          <Col />
         </Row>
         <Row>
           <Col>
-            <h2>Your exams in progress</h2>
-
             <Table striped bordered hover size="sm">
               <thead>
-                <tr>
-                  <th>Name</th>
+                <tr className='yellowBack'>
+                  <th>Your exams in progress</th>
                 </tr>
               </thead>
               <tbody>{this.listCurrentExams()}</tbody>
             </Table>
           </Col>
           <Col>
-            <h2>Your next exams</h2>
-
             <Table striped bordered hover size="sm">
               <thead>
-                <tr>
-                  <th>Name</th>
+                <tr className='yellowBack'>
+                  <th>Your next exams</th>
                 </tr>
               </thead>
-              <tbody>{this.listFutureExams()}</tbody>
+              <tbody>{this.listCurrentExams()}</tbody>
             </Table>
           </Col>
         </Row>
         <Row>
           <Col>
-            <h2>Your past exams</h2>
-
             <Table striped bordered hover>
               <thead>
-                <tr>
-                  <th>Name</th>
+                <tr className='yellowBack'>
+                  <th>Your past exams</th>
                 </tr>
               </thead>
-              <tbody>{this.listPastExams()}</tbody>
+              <tbody>{this.listCurrentExams()}</tbody>
             </Table>
           </Col>
         </Row>

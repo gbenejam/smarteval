@@ -1,0 +1,16 @@
+.DownloadBack {
+  background-color: #213B52;
+  color: white;
+}
+
+.Title {
+  margin-bottom: 20px;
+}
+
+.Text {
+  margin-bottom: 30px;
+}
+
+.Button {
+  font-weight: 600;
+}

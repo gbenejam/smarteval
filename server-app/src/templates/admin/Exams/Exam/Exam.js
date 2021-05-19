@@ -142,6 +142,7 @@ class NewExam extends Component {
       })
       .then((res) => {
         alert("Exam added");
+        window.location.assign('/admin/exams');
       })
       .catch((err) => console.log(err)); 
   };

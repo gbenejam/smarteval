@@ -10,6 +10,8 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { FaRegEdit, FaRegWindowClose } from "react-icons/fa";
 
+import dateFormat from '../../../utils/dateFormat';
+
 class AdminExams extends Component {
   state = {
     exams: [],
@@ -58,14 +60,14 @@ class AdminExams extends Component {
             })}</ul>
           </td>
           <td>{d.description}</td>
-          <td>{d.startDate}</td>
-          <td>{d.endDate}</td>
+          <td>{dateFormat(d.startDate)}</td>
+          <td>{dateFormat(d.endDate)}</td>
           <td>{d.duration}</td>
           <td>
-            <Link style={{color: "black"}} to={editPath}>
+            <Link to={editPath}>
               <FaRegEdit className='smallIcon'/>
             </Link>
-            <Link style={{color: "black"}} onClick={() => that.removeExam(d._id)}>
+            <Link onClick={() => that.removeExam(d._id)}>
               <FaRegWindowClose className='smallIcon'/>
             </Link>
           </td>

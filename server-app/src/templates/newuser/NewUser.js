@@ -13,6 +13,7 @@ class NewUser extends Component {
     username: "",
     email: "",
     password: "",
+    isAdmin: true
   };
 
   render() {

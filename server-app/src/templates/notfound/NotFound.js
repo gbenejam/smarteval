@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
-//import { Route, Link } from 'react-router-dom';
+
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Alert from "react-bootstrap/Alert";
 
 class NotFound extends Component {
-    render () {
-        return (
-            <div>
-                <p>Not Found</p>
-            </div>
-        );
-    }
+  render () {
+    return (
+      <Container>
+        <Row>
+          <Col>
+            <Alert variant="danger">
+              <Alert.Heading>Page not found!</Alert.Heading>
+              <p>
+                The page you're trying to access doesn't exist.
+              </p>
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 export default NotFound;

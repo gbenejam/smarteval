@@ -80,6 +80,7 @@ class NewGroup extends Component {
         })
         .then((res) => {
           alert("Group Updated");
+          window.location.assign('/groups');
         })
         .catch((err) => console.log(err));
     } else {
@@ -90,6 +91,7 @@ class NewGroup extends Component {
         })
         .then((res) => {
           alert("Group added");
+          window.location.assign('/groups');
         })
         .catch((err) => console.log(err));
     }

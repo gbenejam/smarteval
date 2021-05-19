@@ -16,7 +16,7 @@ router.get("/admin/dashboard", auth, async (req, res) => {
     const currentExams = await Exam.find({endDate: {$gte: new Date()}, creator: user._id });
     const latestExams = await Exam.find({endDate: {$lte: new Date()}, creator: user._id });
     const questions = await Question.find({ creator: req.user._id });
-    const users = await User.find({ creator: req.user._id })
+    const users = await User.find({})
     const groups = await Group.find({creator: req.user._id})
 
     const dashboard = {
