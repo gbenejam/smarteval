@@ -9,6 +9,8 @@ import Row from "react-bootstrap/Row";
 import axios from "axios";
 import Select from "react-select";
 
+import classes from './Group.module.css';
+
 class NewGroup extends Component {
   state = {
     users: [],
@@ -97,45 +99,55 @@ class NewGroup extends Component {
     return (
       <Container>
         <Row>
-          <Link to="/groups">Back</Link>
+          <Col>
+            <Button className='yellowBack button'>
+              <Link to="/groups">Back</Link>
+            </Button>
+          </Col>
         </Row>
         <Row>
           <Col>
-            <Form>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGroupTitle">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="name"
-                    placeholder="Enter name"
-                    value={this.state.name}
-                    onChange={(event) =>
-                      this.setState({ name: event.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Form.Row>
-              <Form.Group>
-                <Form.Label>Users</Form.Label>
-                <Select
-                  isMulti="true"
-                  value={this.state.users}
-                  options={this.state.userSelect}
-                  onChange={(event) => {
-                    this.setState({ users: event }, () =>
-                      console.log(this.state.userSelect)
-                    );
-                  }}
-                />
-              </Form.Group>
-              <Button
-                variant="primary"
-                type="submit"
-                onClick={this.groupHandler}
-              >
-                Submit
-              </Button>
-            </Form>
+            <div>
+              <div className={`${classes.GroupHeader} yellowBack`}>
+                Group
+              </div>
+              <div className={classes.GroupBody}>
+                <Form>
+                  <Form.Row>
+                    <Form.Group as={Col} controlId="formGroupTitle">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control
+                        type="name"
+                        placeholder="Enter name"
+                        value={this.state.name}
+                        onChange={(event) =>
+                          this.setState({ name: event.target.value })
+                        }
+                      />
+                    </Form.Group>
+                  </Form.Row>
+                  <Form.Group>
+                    <Form.Label>Users</Form.Label>
+                    <Select
+                      isMulti="true"
+                      value={this.state.users}
+                      options={this.state.userSelect}
+                      onChange={(event) => {
+                        this.setState({ users: event }, () =>
+                          console.log(this.state.userSelect)
+                        );
+                      }}
+                    />
+                  </Form.Group>
+                  <Button
+                    className='yellowBack button'
+                    type="submit"
+                    onClick={this.groupHandler} >
+                    Submit
+                  </Button>
+                </Form>
+              </div>
+            </div>
           </Col>
         </Row>
       </Container>

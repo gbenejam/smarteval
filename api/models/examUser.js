@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 const Exam = mongoose.model("examUser", {
+  _id: {
+    type: mongoose.Types.ObjectId,
+  },
   creator: {
     type: mongoose.Types.ObjectId,
-    required: true,
-  },
-  code: {
-    type: String,
     required: true,
   },
   duration: {
@@ -39,10 +38,6 @@ const Exam = mongoose.model("examUser", {
         type: mongoose.Types.ObjectId,
         required: true,
       },
-      creator: {
-        type: mongoose.Types.ObjectId,
-        required: true,
-      },
       title: {
         type: String,
         required: true,
@@ -55,46 +50,11 @@ const Exam = mongoose.model("examUser", {
           type: String,
         },
       },
-      topics: [
-        {
-          _id: {
-            type: mongoose.Types.ObjectId,
-          },
-          name: {
-            type: String,
-          },
-        },
-      ],
-      options: [
-        {
-          type: String,
-        },
-      ],
       answer: {
         type: String,
         required: true
       }
     }
-  ],
-  groups: [
-    {
-      _id: {
-        type: mongoose.Types.ObjectId,
-      },
-      name: {
-        type: String,
-      },
-    },
-  ],
-  topics: [
-    {
-      _id: {
-        type: mongoose.Types.ObjectId,
-      },
-      name: {
-        type: String,
-      },
-    },
   ],
   grade: {
     type: Number

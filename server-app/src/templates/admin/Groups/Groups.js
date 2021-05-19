@@ -60,8 +60,10 @@ class AdminGroups extends Component {
             </ul>
           </td>
           <td>
-            <Link to={editPath}><FaEdit /></Link>
-             <Link onClick={() => that.removeGroup(d._id)}><FaRegWindowClose /></Link>
+            <Link to={editPath}><FaEdit className='smallIcon'/></Link>
+              <Link onClick={() => that.removeGroup(d._id)}>
+                <FaRegWindowClose className='smallIcon'/>
+              </Link>
           </td>
         </tr>
       );
@@ -75,22 +77,28 @@ class AdminGroups extends Component {
         <Row>
           <Col>
             {this.state.isAuth && (
-              <div>
-                <h1>Groups</h1>
-                <Button variant="success">
+              <React.Fragment>
+                <h1 style={{marginBottom: '30px'}}>Groups</h1>
+                <Button className='yellowBack button'>
                   <NavLink to="/groups/group">Create new group</NavLink>
                 </Button>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Users</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>{this.listGroups()}</tbody>
-                </Table>
-              </div>
+              </React.Fragment>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {this.state.isAuth && (
+              <Table striped bordered hover>
+                <thead>
+                  <tr className='yellowBack'>
+                    <th>Name</th>
+                    <th>Users</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.listGroups()}</tbody>
+              </Table>
             )}
             {!this.state.isAuth && (
               <Alert variant="danger">

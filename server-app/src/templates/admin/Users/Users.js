@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink, Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -6,9 +7,8 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import { FaRegWindowClose } from "react-icons/fa";
-
-//import classes from './dashboard.module.css'
 
 class AdminUsers extends Component {
   state = {
@@ -32,8 +32,25 @@ class AdminUsers extends Component {
     }
   }
 
-  removeExam = () => {
-    
+  removeUser = (id) => {};
+
+  listUsers = () => {
+    const that = this;
+    const users = this.state.users.map(function (d, idx) {
+      return (
+        <tr key={idx}>
+          <td>{d.name}</td>
+          <td>{d.username}</td>
+          <td>{d.email}</td>
+          <td>
+            <Link onClick={() => that.removeUser(d._id)}>
+              <FaRegWindowClose className='smallIcon'/>
+            </Link>
+          </td>
+        </tr>
+      );
+    });
+    return users;
   };
 
   render() {
@@ -42,33 +59,31 @@ class AdminUsers extends Component {
         <Row>
           <Col>
             {this.state.isAuth && (
-              <div>
-                <h1>Users</h1>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>name</th>
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.users.map(function (d, idx) {
-                      return (
-                        <tr id={d._id} key={idx}>
-                          <td>{d.name}</td>
-                          <td>{d.username}</td>
-                          <td>{d.email}</td>
-                          <td>
-                            <FaRegWindowClose />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-              </div>
+              <React.Fragment>
+                <h1 style={{marginBottom: '30px'}}>Users</h1>
+                <Button className='yellowBack button'>
+                  <NavLink to="/groups/group">Add new user</NavLink>
+                </Button>
+              </React.Fragment>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {this.state.isAuth && (
+              <Table striped bordered hover>
+                <thead>
+                  <tr className='yellowBack'>
+                    <th>name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.listUsers()}
+                </tbody>
+              </Table>
             )}
             {!this.state.isAuth && (
               <Alert variant="danger">
