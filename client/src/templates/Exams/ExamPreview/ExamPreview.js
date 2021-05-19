@@ -1,37 +1,40 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-import { FaEye } from "react-icons/fa";
 
 class ExamPreview extends Component {
   state = {
     exam: [],
     isAuth: false,
+    examPath: ''
   };
 
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token) {
       this.setState({ isAuth: true });
-      axios
-        .get("http://localhost:3030/user/exams", {
-          crossDomain: true,
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.setState({ exams: res.data });
-        })
-        .catch((err) => console.log(err));
+      if (window.location.search) {
+        const id = window.location.search.replace("?id=", "");
+        axios
+          .get("http://localhost:3030/admin/exams/" + id, {
+            crossDomain: true,
+            headers: { Authorization: "Bearer " + token },
+          })
+          .then((res) => {
+            console.log(res);
+            this.setState({ exam: res.data, examPath: "/user/exams/exam?id=" + res.data._id });
+          })
+          .catch((err) => console.log(err));
+      }
     }
   }
 
@@ -43,44 +46,52 @@ class ExamPreview extends Component {
             {this.state.isAuth && (
               <Container>
                 <Row>
-                  <h1>Titol examen</h1>
+                  <h1>{this.state.exam.title}</h1>
                 </Row>
                 <Row>
-                <div style={{ backgroundColor: "white" }}>
-                  <Tab.Container
-                    id="left-tabs-example"
-                    defaultActiveKey="first"
-                  >
-                    <Row>
-                      <Col sm={3}>
-                        <Nav variant="pills" className="flex-column">
-                          <Nav.Item>
-                            <Nav.Link eventKey="first">Dades</Nav.Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Nav.Link eventKey="second">Instruccions</Nav.Link>
-                          </Nav.Item>
-                        </Nav>
-                      </Col>
-                      <Col sm={9}>
-                        <Tab.Content>
-                          <Tab.Pane eventKey="first">
-                            <p>
-                              Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola
-                              Hola Hola{" "}
-                            </p>
-                          </Tab.Pane>
-                          <Tab.Pane eventKey="second">
+                  <div style={{ backgroundColor: "white" }}>
+                    <Tab.Container
+                      id="left-tabs-example"
+                      defaultActiveKey="first"
+                    >
+                      <Row>
+                        <Col sm={3}>
+                          <Nav variant="pills" className="flex-column">
+                            <Nav.Item>
+                              <Nav.Link eventKey="first">Dades</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                              <Nav.Link eventKey="second">
+                                Instruccions
+                              </Nav.Link>
+                            </Nav.Item>
+                          </Nav>
+                        </Col>
+                        <Col sm={9}>
+                          <Tab.Content>
+                            <Tab.Pane eventKey="first">
                               <p>
-                                Adeu Adeu Adeu Adeu Adeu Adeu Adeu Adeu Adeu
-                                Adeu Adeu Adeu Adeu{" "}
+                                Start date: {this.state.exam.startDate} End
+                                date: {this.state.exam.endDate}
                               </p>
-                              <Button>Access</Button>
-                          </Tab.Pane>
-                        </Tab.Content>
-                      </Col>
-                    </Row>
-                  </Tab.Container>
+                              <p>Numero preguntes: {this.state.exam.questions && this.state.exam.questions.length}</p>
+                              <p>
+                                Topics:{" "}
+                                {this.state.exam.topics &&
+                                  this.state.exam.topics.map((item) => {
+                                    return item.name;
+                                  })}
+                              </p>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="second">
+                              <p>Instruccions: {this.state.exam.description}</p>
+                              <p>Duracio: {this.state.exam.duration} minuts</p>
+                              <Button><Link to={this.state.examPath}>Access</Link></Button>
+                            </Tab.Pane>
+                          </Tab.Content>
+                        </Col>
+                      </Row>
+                    </Tab.Container>
                   </div>
                 </Row>
               </Container>

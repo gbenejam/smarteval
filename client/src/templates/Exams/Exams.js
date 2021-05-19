@@ -7,7 +7,6 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
 import { FaEye } from "react-icons/fa";
 
 class AdminExams extends Component {
@@ -33,7 +32,6 @@ class AdminExams extends Component {
   }
 
   listExams() {
-    const that = this
     const exams = this.state.exams.map(function (d, idx) {
       const editPath = "/user/exams/preview?id=" + d._id;
       return (

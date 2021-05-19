@@ -18,6 +18,17 @@ class Login extends Component {
     error: false,
   };
 
+  alreadyLoggedIn = () =>  {
+    const token = localStorage.getItem("token");
+    if (token) {
+      return (
+        <Alert variant="danger">
+          You're already logged in. Click <Link to="/user/exams">here</Link> to get redirected to your exams.
+        </Alert>
+      );
+    }
+  }
+
   loginHandler = (event) => {
     event.preventDefault();
     console.log(this.state);
@@ -26,14 +37,14 @@ class Login extends Component {
         crossDomain: true,
       })
       .then((res) => {
-        this.setState({error: false})
+        this.setState({ error: false });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userId", res.data.user._id);
         localStorage.setItem("isAdmin", res.data.user.isAdmin);
         window.location.assign("/user/exams");
       })
       .catch((err) => {
-        this.setState({error: true})
+        this.setState({ error: true });
         console.log(err);
       });
   };
@@ -43,6 +54,7 @@ class Login extends Component {
       <Container>
         <Row className={classes.CenteredHorizontally}>
           <Col xs={6} md={6}>
+            {this.alreadyLoggedIn()}
             <div className={classes.LoginContainer}>
               <h1>Log in</h1>
             </div>
@@ -76,9 +88,11 @@ class Login extends Component {
                     }
                   />
                 </Form.Group>
-                {this.state.error ? (<Alert variant="danger">
-                  Username or password is incorrect.
-                </Alert>) : null}
+                {this.state.error ? (
+                  <Alert variant="danger">
+                    Username or password is incorrect.
+                  </Alert>
+                ) : null}
                 <Button
                   className={classes.LoginButton}
                   variant="primary"
@@ -90,8 +104,8 @@ class Login extends Component {
             </div>
             <div className={classes.LoginContainer}>
               <Alert variant="secondary">
-                If you are a student, your teacher should have given you your
-                user/password to be able to log in.
+                This client is meant to be used by students. If you're an admin,
+                please use the browser application.
               </Alert>
             </div>
           </Col>
