@@ -8,11 +8,19 @@ const Exam = mongoose.model("examUser", {
     type: mongoose.Types.ObjectId,
     required: true,
   },
+  user: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+  },
   duration: {
     type: String,
     required: true,
   },
   initExam: {
+    type: Date,
+    required: true,
+  },
+  doneExam: {
     type: Date,
     required: true,
   },

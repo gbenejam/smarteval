@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Accordion from 'react-bootstrap/Accordion'
 import { FaRegEdit, FaRegWindowClose, FaGraduationCap } from "react-icons/fa";
 
 import dateFormat from "../../../utils/dateFormat";
@@ -23,7 +23,7 @@ class AdminExams extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/admin/exams", {
+        .get("http://localhost:3030/admin/exams/exam/mark/" + id, {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -54,33 +54,16 @@ class AdminExams extends Component {
       const markPath = "/admin/exams/exam/mark?id=" + d._id;
 
       return (
-        <tr id={d._id} key={idx}>
-          <td>{d.code}</td>
-          <td>{d.title}</td>
-          <td>
-            <ul>
-              {d.topics &&
-                d.topics.map(function (item, i) {
-                  return <li key={i}>{item.name}</li>;
-                })}
-            </ul>
-          </td>
-          <td>{d.description}</td>
-          <td>{dateFormat(d.startDate)}</td>
-          <td>{dateFormat(d.endDate)}</td>
-          <td>{d.duration}</td>
-          <td>
-            <Link to={markPath}>
-              <FaGraduationCap className="smallIcon" />
-            </Link>
-            <Link to={editPath}>
-              <FaRegEdit className="smallIcon" />
-            </Link>
-            <Link onClick={() => that.removeExam(d._id)}>
-              <FaRegWindowClose className="smallIcon" />
-            </Link>
-          </td>
-        </tr>
+        <Card>
+          <Card.Header>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              Access exam
+            </Accordion.Toggle>
+          </Card.Header>
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>Hello! I'm the body</Card.Body>
+          </Accordion.Collapse>
+        </Card>
       );
     });
     return exams;
@@ -91,32 +74,13 @@ class AdminExams extends Component {
       <Container>
         <Row>
           <Col>
-            <h1 style={{ marginBottom: "30px" }}>Exams </h1>
-            {this.state.isAuth && (
-              <Button className="yellowBack button">
-                <Link to="/admin/exams/exam">Create exam</Link>
-              </Button>
-            )}
+            <h1 style={{ marginBottom: "30px" }}>Mark exam</h1>
           </Col>
         </Row>
         <Row>
           <Col>
             {this.state.isAuth && (
-              <Table striped bordered hover>
-                <thead>
-                  <tr className="yellowBack">
-                    <th>Code</th>
-                    <th>Title</th>
-                    <th>Topics</th>
-                    <th>Description</th>
-                    <th>Start date</th>
-                    <th>End date</th>
-                    <th>Duration</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>{this.listExams()}</tbody>
-              </Table>
+              <Accordion defaultActiveKey="0">{this.listExams()}</Accordion>
             )}
             {!this.state.isAuth && (
               <Alert variant="danger">

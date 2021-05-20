@@ -59,11 +59,6 @@ class AdminExams extends Component {
           <td>{dateFormat(d.startDate)}</td>
           <td>{dateFormat(d.endDate)}</td>
           <td>{d.duration}</td>
-          <td>
-            <Link to={editPath}>
-              <FaEdit className='smallIcon' />
-            </Link>
-          </td>
         </tr>
       );
     });
@@ -91,7 +86,6 @@ class AdminExams extends Component {
                     <th>Start date</th>
                     <th>End date</th>
                     <th>Duration</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>{this.listExams()}</tbody>
