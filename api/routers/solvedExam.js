@@ -27,6 +27,7 @@ router.get("/solved-exam/user/:user", auth, async (req, res) => {
 router.get("/solved-exam/all/:exam/", auth, async (req, res) => {
   try {
     if (req.user && req.user.isAdmin) {
+      console.log('hola')
       const examId = req.params.exam;
       const solvedExams = await SolvedExam.find({examId: examId});
       res.send(solvedExams);
@@ -59,6 +60,7 @@ router.patch("/solved-exam/update/:exam", auth, async (req, res) => {
       const solvedExam = await SolvedExam.findByIdAndUpdate(solvedExamId, req.body, {
         new: true
       });
+      res.send(solvedExam);
     } else {
       res.status(403).send('You are not authorized to get this data.');
     }

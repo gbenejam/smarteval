@@ -40,11 +40,22 @@ class AdminExams extends Component {
     }
   }
 
-  submitMark(event) {
+  submitMark(boundData, event) {
     event.preventDefault();
-    const test = 0;
-    /*axios
-      .patch("http://localhost:3030/solved-exam/update/")*/
+    const token = localStorage.getItem("token");
+
+    const exam = boundData.exam;
+    const gradeRef = this.inputRefs[boundData.index].current;
+    exam.grade = gradeRef ? gradeRef.value : exam.grade;
+    axios
+      .patch("http://localhost:3030/solved-exam/update/" + exam._id, exam, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + token },
+      }).then((res) => {
+        const newExams = [...this.state.exams];
+        newExams[boundData.index] = res.data;
+        this.setState({exams: newExams});
+      }).catch((err) => console.log(err));
   };
 
   listExams() {
@@ -72,7 +83,7 @@ class AdminExams extends Component {
                 <ul>
                   {d.questions.map(function (el, i) {
                     return (
-                      <li>
+                      <li key={`li-${i}`}>
                         Question: {el.name}
                         <ul>
                           <li>{el.answer}</li>
@@ -96,7 +107,7 @@ class AdminExams extends Component {
                       <Button
                         className="yellowBack button"
                         type="submit"
-                        onClick={that.submitMark.bind({that: this, exam: d, index: idx})}>
+                        onClick={that.submitMark.bind(that, {exam: d, index: idx})}>
                         Grade
                       </Button>
                     </Col>
