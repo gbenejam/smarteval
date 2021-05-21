@@ -32,7 +32,18 @@ class AdminUsers extends Component {
     }
   }
 
-  removeUser = (id) => {};
+  removeUser = (idx) => {
+    const token = localStorage.getItem("token");
+    axios.delete("http://localhost:3030/users/" + idx, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((res) => {
+      console.log(res);
+      this.setState({ users: res.data });
+    })
+    .catch((err) => console.log(err));
+  };
 
   listUsers = () => {
     const that = this;

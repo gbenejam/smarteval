@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"smarteval.examusers"}],"uuid":"c3f8562e87634e00aa0efbe1743dc2cc"}

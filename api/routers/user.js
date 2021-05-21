@@ -85,4 +85,17 @@ router.get("/users/:id", async (req, res) => {
   }
 });
 
+//Remove user
+router.delete('/users/:id', auth, async (req,res) => {
+  try {
+      const user = req.user
+      const userQuery = await User.findByIdAndDelete(req.params.id).then(async () => {
+          const users = await User.find({})
+          res.send(users)
+      }).catch((e) => console.log(e))
+  } catch(e) {
+      res.status(500).send(e)
+  }
+})
+
 module.exports = router;
