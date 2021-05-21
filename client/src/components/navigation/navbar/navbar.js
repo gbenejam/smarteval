@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import classes from "./navbar.module.css";
 
+import logo from "../../../logo.png";
+
 class navbar extends Component {
   state = {
     isAuth: false,
@@ -32,8 +34,7 @@ class navbar extends Component {
     } else {
       this.setState({
         navElements: [
-          { label: "Home", path: "/" },
-          { label: "Features", path: "/features" },
+          { label: "Home", path: "/" }
         ],
       });
     }
@@ -83,7 +84,7 @@ class navbar extends Component {
           <Navbar.Brand>
             <img
               alt=""
-              src="/logo192.svg"
+              src={logo}
               width="30"
               height="30"
               className="d-inline-block align-top"

@@ -12,15 +12,18 @@ import Form from "react-bootstrap/Form";
 import Countdown from "react-countdown";
 import Webcam from "react-webcam";
 
+import classes from './Exam.module.css';
+
+
 class Exam extends Component {
   constructor(props) {
     super(props);
     this.state = {
       exam: [],
       isAuth: false,
-      close: false,
-      show: false,
-      duration: 100000
+      show: true,
+      duration: 10000,
+      examSubmitted: false,
     };
     this.questionRefs = [];
   }
@@ -47,30 +50,57 @@ class Exam extends Component {
 
             const dur = 60000 * res.data.duration;
             this.setState({ exam: res.data,
-              duration: dur,
-              initTime: Date.now()
+              initTime: Date.now(),
+              duration: dur
             });
+
+            this.countdownInterval = window.setInterval(() => {
+              this.autoSubmitExam();
+            }, dur);
           })
           .catch((err) => console.log(err));
       }
     }
   }
 
+  componentWillUnmount() {
+    window.clearInterval(this.countdownInterval);
+  }
+
+  renderer({hours, minutes, seconds, completed}) {
+    if (completed) {
+      // Render a completed state
+      return this.completionist();
+    } else {
+      // Render a countdown
+      return <div className={classes.Countdown}>
+        <h2>{hours}:{minutes}:{seconds}</h2>
+      </div>;
+    }
+  };
+
   completionist = () => {
     return (
       <Modal.Dialog backdrop="static">
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Time's up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Time's up. The exam has been automatically submitted.</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary">Continue</Button>
+          <Button className='yellowBack button'
+            disabled={!this.state.examSubmitted}
+            onClick={this.redirectToExams}>
+            Continue</Button>
         </Modal.Footer>
       </Modal.Dialog>
     );
   };
+
+  redirectToExams() {
+    window.location.assign('/user/exams');
+  }
 
   listQuestions() {
     const that = this;
@@ -95,6 +125,16 @@ class Exam extends Component {
     );
   };
 
+  findExamQuestionById(id) {
+    const filteredQuestions = this.state.exam.questions
+      .filter(question => question._id === id);
+    // there should only be one question with a given id
+    if (filteredQuestions.length > 1) {
+      console.error(`Multiple questions with repeated ids [${id}]`);
+    }
+    return filteredQuestions[0];
+  }
+
   createSolvedExam() {
     const solvedExam = {
       /* user is set by the backend based on the autheticated user
@@ -113,13 +153,10 @@ class Exam extends Component {
 
     const questions = [];
     this.questionRefs.forEach(element => {
+      const examQuestion = this.findExamQuestionById(element.current.id);
       const question = {
         _id: element.current.id,
-        questionType: {
-          label: "Text",
-          value: "text",
-        },
-        name: "",
+        name: examQuestion.name,
         answer: element.current.value
       };
       questions.push(question);
@@ -129,62 +166,88 @@ class Exam extends Component {
     return solvedExam;
   }
 
+  postSolvedExam(solvedExam) {
+    return axios
+      .post("http://localhost:3030/solved-exam/submit", solvedExam, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
+      .catch((err) => console.log(err)); 
+  }
+
   submitExam = (event) => {
     event.preventDefault();
     const solvedExam = this.createSolvedExam();
-    console.log(solvedExam);
+    this.postSolvedExam(solvedExam)
+      .then((res) => {
+        window.clearInterval(this.countdownInterval);
+        this.redirectToExams();
+      });
   };
 
   autoSubmitExam = () => {
     const solvedExam = this.createSolvedExam();
-    console.log(solvedExam);
+    this.setState({show: false});
+    this.postSolvedExam(solvedExam)
+      .then((res) => {
+        window.clearInterval(this.countdownInterval);
+        this.setState({examSubmitted: true});
+      });
   }
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col>
-            {this.state.isAuth && (
-              <Container>
-                <Row>
-                  <h1>{this.state.exam.title}</h1>
-                </Row>
-                <Row>
-                  <Col>
-                    <Form onSubmit={this.examHandler}>
-                      {this.listQuestions()}
-                      <Button onClick={this.submitExam}>Submit</Button>
-                    </Form>
-                  </Col>
-                  <Col>
+      <Container style={{position: 'relative'}}>
+        { this.state.initTime && this.state.duration ?
+          <Row className={classes.CountdownRow}>
+            <Col sm='auto'>
+              <Countdown 
+                date={this.state.initTime + this.state.duration}
+                renderer={this.renderer}>
+              </Countdown>
+            </Col>
+          </Row>
+          : null
+        }
+        { this.state.show ?
+          <React.Fragment>
+            <Row>
+              <Col>
+                {this.state.isAuth && (
+                  <Container>
                     <Row>
-                      <h2>Progress</h2>
-                      <p>{this.state.exam.description}</p>
-                      <br/>
-                      <Countdown date={this.state.initTime + this.state.duration}
-                        onComplete={this.autoSubmitExam}>
-                        {this.completionist()}
-                      </Countdown>
+                      <h1>{this.state.exam.title}</h1>
                     </Row>
                     <Row>
-                      <h2>Camera</h2>
-                      <Webcam />
+                      <Col>
+                        <h3>Progress</h3>
+                        <p>{this.state.exam.description}</p>
+                        <br/>
+                        <Form onSubmit={this.examHandler}>
+                          {this.listQuestions()}
+                          <Button className='yellowBack button'
+                            onClick={this.submitExam}>
+                              Submit
+                          </Button>
+                        </Form>
+                      </Col>
                     </Row>
-                  </Col>
-                </Row>
-              </Container>
-            )}
-            {!this.state.isAuth && (
-              <Alert variant="danger">
-                <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                <p>
-                  To access this page you must be authenticated. Please log in.
-                </p>
-              </Alert>
-            )}
-          </Col>
-        </Row>
+                  </Container>
+                )}
+                {!this.state.isAuth && (
+                  <Alert variant="danger">
+                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                    <p>
+                      To access this page you must be authenticated. Please log in.
+                    </p>
+                  </Alert>
+                )}
+              </Col>
+            </Row>
+            <Webcam className={classes.Webcam} />
+          </React.Fragment>
+          : null
+        }
       </Container>
     );
   }

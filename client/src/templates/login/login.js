@@ -22,9 +22,14 @@ class Login extends Component {
     const token = localStorage.getItem("token");
     if (token) {
       return (
-        <Alert variant="danger">
-          You're already logged in. Click <Link to="/user/exams">here</Link> to get redirected to your exams.
-        </Alert>
+        <Row className={classes.CenteredHorizontally}>
+          <Col xs={6} md={6}>
+            <Alert variant="danger">
+              You're already logged in. Click <Link to="/user/exams">here</Link> 
+              to get redirected to your exams.
+            </Alert>
+          </Col>
+        </Row>
       );
     }
   }
@@ -52,9 +57,9 @@ class Login extends Component {
   render() {
     return (
       <Container>
+        {this.alreadyLoggedIn()}
         <Row className={classes.CenteredHorizontally}>
           <Col xs={6} md={6}>
-            {this.alreadyLoggedIn()}
             <div className={classes.LoginContainer}>
               <h1>Log in</h1>
             </div>

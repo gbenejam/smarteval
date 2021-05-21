@@ -100,3 +100,24 @@ table td ul {
   text-decoration: none;
   background-color: #cb9500 !important;
 }
+
+/* Preview Exam */
+
+#preview .tabs-col {
+  padding: 0;
+}
+
+#preview .main-col {
+  background-color: white;
+  margin-left: 10px;
+  padding: 20px;
+}
+
+#preview .nav-item a {
+  color: #213B52;
+  font-weight: bold;
+}
+
+#preview .nav-item a.active {
+  background-color: #FDC134;
+}

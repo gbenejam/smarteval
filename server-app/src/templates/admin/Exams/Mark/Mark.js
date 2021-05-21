@@ -32,12 +32,20 @@ class AdminExams extends Component {
             headers: { Authorization: "Bearer " + token },
           })
           .then((res) => {
+            this.inputRefs = res.data.map(_ => React.createRef());
             this.setState({ exams: res.data });
           })
           .catch((err) => console.log(err));
       }
     }
   }
+
+  submitMark(event) {
+    event.preventDefault();
+    const test = 0;
+    /*axios
+      .patch("http://localhost:3030/solved-exam/update/")*/
+  };
 
   listExams() {
     const that = this;
@@ -55,8 +63,8 @@ class AdminExams extends Component {
             <Card.Body>
               <Col>
                 <h2>{d.title}</h2>
-                {!d.grade && (<Badge variant="warning">Ungraded</Badge>)}
-                {d.grade && (<Badge variant="success">Graded</Badge>)}
+                {!d.grade && (<Badge style={{marginBottom: '20px'}} variant="warning">Ungraded</Badge>)}
+                {d.grade && (<Badge style={{marginBottom: '20px'}} variant="success">Graded</Badge>)}
                 <p>Duration: {d.duration}</p>
                 <p>Exam was started at: {dateFormat(d.initExam)}</p>
                 <p>Exam was done at: {dateFormat(d.doneExam)}</p>
@@ -79,6 +87,7 @@ class AdminExams extends Component {
                   <Row>
                     <Col>
                       <Form.Control
+                        ref={that.inputRefs[idx]}
                         type="text"
                         placeholder="Add grade"
                       />
@@ -86,7 +95,8 @@ class AdminExams extends Component {
                     <Col>
                       <Button
                         className="yellowBack button"
-                        type="submit">
+                        type="submit"
+                        onClick={that.submitMark.bind({that: this, exam: d, index: idx})}>
                         Grade
                       </Button>
                     </Col>

@@ -22,15 +22,6 @@ class AdminExams extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/user/groups", {
-          crossDomain: true,
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.setState({ exams: res.data });
-        })
-        .catch((err) => console.log(err));
-      axios
         .get("http://localhost:3030/user/exams", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
@@ -74,7 +65,7 @@ class AdminExams extends Component {
       <Container>
         <Row>
           <Col>
-            <h1>Exams </h1>
+            <h1>Exams</h1>
           </Col>
         </Row>
         <Row>
