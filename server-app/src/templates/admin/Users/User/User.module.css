@@ -1,0 +1,43 @@
+.Container {
+  padding: 20px;
+}
+
+.Container:last-child {
+  margin-bottom: 30px;
+}
+
+.CenteredHorizontally {
+  justify-content: center;
+}
+
+.RegisterForm {
+  background-color: #213B52;
+  color: white;
+  border-radius: .5rem;
+}
+
+.RegisterForm label {
+  font-weight: bold;
+}
+
+.FormColumn:first-of-type {
+  margin-right: 20px;
+}
+
+.FormRow:last-of-type {
+  margin-bottom: 20px;
+}
+
+.RegisterForm .RegisterButton {
+  background-color: #FDC134;
+  border-color: #FDC134;
+  color: #213B52;
+  transition: none;
+}
+
+.RegisterForm .RegisterButton:hover,
+.RegisterForm .RegisterButton:active {
+    background-color: #cb9500;
+    border-color: #cb9500;
+    color: #213B52;
+}

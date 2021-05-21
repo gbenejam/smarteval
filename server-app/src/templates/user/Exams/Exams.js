@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -7,7 +6,6 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
-import { FaEdit } from "react-icons/fa";
 
 import dateFormat from '../../../utils/dateFormat';
 
@@ -43,9 +41,7 @@ class AdminExams extends Component {
   }
 
   listExams() {
-    const that = this
     const exams = this.state.exams.map(function (d, idx) {
-      const editPath = "/user/exams/exam?id=" + d._id;
       return (
         <tr id={d._id} key={idx}>
           <td>{d.code}</td>

@@ -62,7 +62,7 @@ class AdminUsers extends Component {
               <React.Fragment>
                 <h1 style={{marginBottom: '30px'}}>Users</h1>
                 <Button className='yellowBack button'>
-                  <NavLink to="/groups/group">Add new user</NavLink>
+                  <NavLink to="/users/user">Add new user</NavLink>
                 </Button>
               </React.Fragment>
             )}

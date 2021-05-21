@@ -10,11 +10,13 @@ import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 
+import dateFormat from "../../../utils/dateFormat";
+
 class ExamPreview extends Component {
   state = {
     exam: [],
     isAuth: false,
-    examPath: ''
+    examPath: "",
   };
 
   componentDidMount() {
@@ -30,12 +32,46 @@ class ExamPreview extends Component {
           })
           .then((res) => {
             console.log(res);
-            this.setState({ exam: res.data, examPath: "/user/exams/exam?id=" + res.data._id });
+            this.setState({
+              exam: res.data,
+              examPath: "/user/exams/exam?id=" + res.data._id,
+            });
           })
           .catch((err) => console.log(err));
       }
     }
   }
+
+  startButton = () => {
+    const now = new Date().getTime();
+    const endDate = new Date(this.state.exam.endDate).getTime();
+    const startDate = new Date(this.state.exam.startDate).getTime();
+    if (endDate > now && startDate < now) {
+      return (
+        <Button>
+          <Link to={this.state.examPath}>Access</Link>
+        </Button>
+      );
+    } else if (endDate < now) {
+      return (
+        <Alert variant="warning">
+          <p>This exam has finished already.</p>
+        </Alert>
+      );
+    } else if (startDate > now) {
+      return (
+        <Alert variant="warning">
+          <p>The exam hasn't started yet</p>
+        </Alert>
+      );
+    } else {
+      return (
+        <Alert variant="warning">
+          <p>You can't take this exam {endDate}</p>
+        </Alert>
+      );
+    }
+  };
 
   render() {
     return (
@@ -70,10 +106,15 @@ class ExamPreview extends Component {
                           <Tab.Content>
                             <Tab.Pane eventKey="first">
                               <p>
-                                Start date: {this.state.exam.startDate} End
-                                date: {this.state.exam.endDate}
+                                Start date:{" "}
+                                {dateFormat(this.state.exam.startDate)} End
+                                date: {dateFormat(this.state.exam.endDate)}
                               </p>
-                              <p>Numero preguntes: {this.state.exam.questions && this.state.exam.questions.length}</p>
+                              <p>
+                                Questions:{" "}
+                                {this.state.exam.questions &&
+                                  this.state.exam.questions.length}
+                              </p>
                               <p>
                                 Topics:{" "}
                                 {this.state.exam.topics &&
@@ -83,9 +124,11 @@ class ExamPreview extends Component {
                               </p>
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
-                              <p>Instruccions: {this.state.exam.description}</p>
-                              <p>Duracio: {this.state.exam.duration} minuts</p>
-                              <Button><Link to={this.state.examPath}>Access</Link></Button>
+                              <p>Description: {this.state.exam.description}</p>
+                              <p>
+                                Duration: {this.state.exam.duration} minutes
+                              </p>
+                              {this.startButton()}
                             </Tab.Pane>
                           </Tab.Content>
                         </Col>

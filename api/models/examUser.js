@@ -46,7 +46,7 @@ const Exam = mongoose.model("examUser", {
         type: mongoose.Types.ObjectId,
         required: true,
       },
-      title: {
+      name: {
         type: String,
         required: true,
       },
