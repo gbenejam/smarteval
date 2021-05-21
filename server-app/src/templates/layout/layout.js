@@ -21,6 +21,7 @@ import UserDownload from "../user/Download/Download";
 import NotFound from "../notfound/NotFound";
 import NewStudent from "../admin/Users/User/User";
 import Stats from "../stats/stats";
+import MarkExam from "../admin/Exams/Mark/Mark";
 
 //import classes from './layout.module.css'
 
@@ -46,6 +47,11 @@ class Layout extends Component {
             render={() => <AdminNewExam />}
           />
           <Route
+            path="/admin/exams/exam/mark"
+            exact
+            render={() => <MarkExam />}
+          />
+          <Route
             path="/questions/question"
             exact
             render={() => <NewQuestion />}
@@ -55,11 +61,7 @@ class Layout extends Component {
           <Route path="/questions" exact render={() => <Questions />} />
           <Route path="/users" exact render={() => <AdminUsers />} />
           <Route path="/users/user" exact render={() => <NewStudent />} />
-          <Route
-            path="/groups/group"
-            exact
-            render={() => <AdminNewGroup />}
-          />
+          <Route path="/groups/group" exact render={() => <AdminNewGroup />} />
           <Route
             path="/user/dashboard"
             exact

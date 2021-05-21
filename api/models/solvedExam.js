@@ -49,17 +49,9 @@ const SolvedExam = mongoose.model("examUser", {
         type: mongoose.Types.ObjectId,
         required: true,
       },
-      title: {
+      name: {
         type: String,
         required: true,
-      },
-      questionType: {
-        label: {
-          type: String,
-        },
-        value: {
-          type: String,
-        },
       },
       answer: {
         type: String,
