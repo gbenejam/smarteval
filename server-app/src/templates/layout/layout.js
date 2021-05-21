@@ -19,7 +19,8 @@ import UserDashboard from "../user/dashboard/dashboard";
 import UserExams from "../user/Exams/Exams";
 import UserDownload from "../user/Download/Download";
 import NotFound from "../notfound/NotFound";
-import NewStudent from "../admin/Users/User/User"
+import NewStudent from "../admin/Users/User/User";
+import Stats from "../stats/stats";
 
 //import classes from './layout.module.css'
 
@@ -66,6 +67,7 @@ class Layout extends Component {
           />
           <Route path="/user/exams" exact render={() => <UserExams />} />
           <Route path="/download" exact render={() => <UserDownload />} />
+          <Route path="/stats" exact render={() => <Stats />} />
           <Route component={NotFound} />
         </Switch>
       </React.Fragment>

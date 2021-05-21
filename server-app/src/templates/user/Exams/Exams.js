@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -6,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
+import { IoBarChartSharp } from "react-icons/io5";
 
 import dateFormat from '../../../utils/dateFormat';
 
@@ -42,6 +44,7 @@ class AdminExams extends Component {
 
   listExams() {
     const exams = this.state.exams.map(function (d, idx) {
+      const statsPath = "/stats?id=" + d._id;
       return (
         <tr id={d._id} key={idx}>
           <td>{d.code}</td>
@@ -55,6 +58,11 @@ class AdminExams extends Component {
           <td>{dateFormat(d.startDate)}</td>
           <td>{dateFormat(d.endDate)}</td>
           <td>{d.duration}</td>
+          <td>
+            <Link to={statsPath}>
+              <IoBarChartSharp className='smallIcon'/>
+            </Link>
+          </td>
         </tr>
       );
     });
@@ -82,6 +90,7 @@ class AdminExams extends Component {
                     <th>Start date</th>
                     <th>End date</th>
                     <th>Duration</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>{this.listExams()}</tbody>

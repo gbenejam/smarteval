@@ -17,7 +17,6 @@ class Exam extends Component {
     super(props);
     this.state = {
       exam: [],
-      userExam: [],
       isAuth: false,
       close: false,
       show: false,
@@ -47,21 +46,24 @@ class Exam extends Component {
             });
 
             const dur = 60000 * res.data.duration;
-            this.setState({ exam: res.data, duration: dur });
+            this.setState({ exam: res.data,
+              duration: dur,
+              initTime: Date.now()
+            });
           })
           .catch((err) => console.log(err));
       }
     }
   }
 
-  Completionist = () => {
+  completionist = () => {
     return (
       <Modal.Dialog backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Time's up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Time's up. The exam will be automatically submitted.</p>
+          <p>Time's up. The exam has been automatically submitted.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary">Continue</Button>
@@ -93,9 +95,21 @@ class Exam extends Component {
     );
   };
 
-  handleExam = (event) => {
-    event.preventDefault();
-    console.log(this.state);
+  createSolvedExam() {
+    const solvedExam = {
+      /* user is set by the backend based on the autheticated user
+      who is submitting the exam */
+      examId: this.state.exam._id,
+      examCreator: this.state.exam.creator,
+      duration: this.state.exam.duration,
+      initExam: this.state.initTime,
+      doneExam: Date.now(),
+      title: this.state.exam.title,
+      description: this.state.exam.description,
+      startDate: this.state.exam.startDate,
+      endDate: this.state.exam.endDate,
+      grade: null
+    };
 
     const questions = [];
     this.questionRefs.forEach(element => {
@@ -110,9 +124,21 @@ class Exam extends Component {
       };
       questions.push(question);
     });
-    
-    console.log(questions);
+    solvedExam.questions = questions;
+
+    return solvedExam;
+  }
+
+  submitExam = (event) => {
+    event.preventDefault();
+    const solvedExam = this.createSolvedExam();
+    console.log(solvedExam);
   };
+
+  autoSubmitExam = () => {
+    const solvedExam = this.createSolvedExam();
+    console.log(solvedExam);
+  }
 
   render() {
     return (
@@ -128,7 +154,7 @@ class Exam extends Component {
                   <Col>
                     <Form onSubmit={this.examHandler}>
                       {this.listQuestions()}
-                      <Button onClick={this.handleExam}>Submit</Button>
+                      <Button onClick={this.submitExam}>Submit</Button>
                     </Form>
                   </Col>
                   <Col>
@@ -136,8 +162,9 @@ class Exam extends Component {
                       <h2>Progress</h2>
                       <p>{this.state.exam.description}</p>
                       <br/>
-                      <Countdown date={Date.now() + this.state.duration}>
-                        {this.Completionist()}
+                      <Countdown date={this.state.initTime + this.state.duration}
+                        onComplete={this.autoSubmitExam}>
+                        {this.completionist()}
                       </Countdown>
                     </Row>
                     <Row>

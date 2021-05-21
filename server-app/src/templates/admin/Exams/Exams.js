@@ -9,6 +9,7 @@ import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { FaRegEdit, FaRegWindowClose, FaGraduationCap } from "react-icons/fa";
+import { IoBarChartSharp } from "react-icons/io5";
 
 import dateFormat from "../../../utils/dateFormat";
 
@@ -52,6 +53,7 @@ class AdminExams extends Component {
     const exams = this.state.exams.map(function (d, idx) {
       const editPath = "/admin/exams/exam?id=" + d._id;
       const markPath = "/admin/exams/exam/mark?id=" + d._id;
+      const statsPath = "/stats?id=" + d._id;
 
       return (
         <tr id={d._id} key={idx}>
@@ -75,6 +77,9 @@ class AdminExams extends Component {
             </Link>
             <Link to={editPath}>
               <FaRegEdit className="smallIcon" />
+            </Link>
+            <Link to={statsPath}>
+              <IoBarChartSharp className='smallIcon'/>
             </Link>
             <Link onClick={() => that.removeExam(d._id)}>
               <FaRegWindowClose className="smallIcon" />

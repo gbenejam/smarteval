@@ -83,7 +83,7 @@ class navbar extends Component {
           <Navbar.Brand>
             <img
               alt=""
-              src="/logo.svg"
+              src="/logo192.svg"
               width="30"
               height="30"
               className="d-inline-block align-top"

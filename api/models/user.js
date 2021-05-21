@@ -47,6 +47,12 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  solvedExams: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'SolvedExam'
+    }
+  ]
 });
 
 userSchema.statics.findByCredentials = async (email, password) => {

@@ -1,0 +1,20 @@
+.Capitalize {
+  text-transform: capitalize;
+}
+
+.Centered {
+  justify-content: center;
+}
+
+.td {
+  position: relative;
+}
+
+.td > a {
+  position: absolute;
+  right: 2rem;
+}
+
+.Icon {
+  color: black;
+}

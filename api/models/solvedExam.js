@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 
-const Exam = mongoose.model("examUser", {
-  _id: {
+const SolvedExam = mongoose.model("examUser", {
+  examId: {
     type: mongoose.Types.ObjectId,
+    required: true,
+    ref: 'Exam'
   },
-  creator: {
+  examCreator: {
     type: mongoose.Types.ObjectId,
     required: true,
   },
   user: {
     type: mongoose.Types.ObjectId,
     required: true,
+    ref: 'User'
   },
   duration: {
     type: String,
@@ -46,7 +49,7 @@ const Exam = mongoose.model("examUser", {
         type: mongoose.Types.ObjectId,
         required: true,
       },
-      name: {
+      title: {
         type: String,
         required: true,
       },
@@ -69,4 +72,4 @@ const Exam = mongoose.model("examUser", {
   }
 });
 
-module.exports = Exam;
+module.exports = SolvedExam;

@@ -2,12 +2,16 @@ version: "3.9"
 
 services:
     smarteval:
-        build: api/
+        build: 
+          context: ./
+          dockerfile: ./api/Dockerfile
         stdin_open: true
         tty: true
         working_dir: /smarteval
         ports:
             - 3030:3030
+            - 80:80
+            - 443:443
         networks:
             - backend
         volumes:
@@ -50,7 +54,7 @@ services:
         networks:
             - backend
         volumes:
-            - db-data:/data/db-smarteval
+            - db-data:/data/db
 
 networks:
     backend:
