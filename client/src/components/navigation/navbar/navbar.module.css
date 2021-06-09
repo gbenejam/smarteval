@@ -1,47 +1,69 @@
 .bgPrimary {
-    background-color: #213B52 !important;
+  background-color: #213B52 !important;
 }
 
 .loginButton {
-    background-color: transparent !important;
-    border-color: #FDC134 !important;
-    color: #D6F4FF !important;
-    font-weight: bold !important;
-    transition: none !important;
+  background-color: transparent !important;
+  border-color: #FDC134 !important;
+  color: #D6F4FF !important;
+  font-weight: bold !important;
+  transition: none !important;
 }
 
 .loginButton:hover,
 .loginButton:active {
-    background-color: #FDC134 !important;
+  background-color: #FDC134 !important;
 }
 
 .loginButton a {
-    color: #D6F4FF;
+  color: #D6F4FF;
 }
 
 .loginButton a:hover, .loginButton a:active {
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    background-color: #FDC134;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #FDC134;
 }
 
-.logoutButton {
-    background-color: #FDC134 !important;
-    border-color: #FDC134 !important;
-    color: #213B52 !important;
-    font-weight: bold !important;
+button.logoutButton {
+  background-color: #FDC134;
+  border-color: #FDC134;
+  color: #213B52;
+  font-weight: bold;
+}
+
+button.logoutButton:hover,
+button.logoutButton:active {
+  background-color: transparent;
+  border-color: #FDC134;
+  color: #D6F4FF;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+button.logoutButton a {
+  color: #213B52;
+}
+
+button.logoutButton a:hover, 
+button.logoutButton a:active {
+  color: #D6F4FF;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: transparent;
 }
 
 .navigationLinks {
-    color: #D6F4FF !important;
-    text-decoration: none !important;
-    padding-right: .5rem;
-    padding-left: .5rem;    
+  color: #D6F4FF !important;
+  text-decoration: none !important;
+  padding-right: .5rem;
+  padding-left: .5rem;    
 }
 
 .navigationLinks:hover {
-    color: white !important;
-    font-weight: bold !important;
-    text-decoration: none !important;
+  color: white !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
 }

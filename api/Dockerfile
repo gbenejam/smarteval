@@ -17,6 +17,7 @@ WORKDIR /smarteval
 
 ENV DB_HOST="mongo-db"
 ENV DB_PORT="27018"
+ENV DEV="true"
 
 COPY api/package.json api/index.js api/wait-for-it.sh ./
 

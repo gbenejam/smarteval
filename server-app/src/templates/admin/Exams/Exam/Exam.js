@@ -18,6 +18,8 @@ class NewExam extends Component {
   state = {
     token: "",
     isAuth: false,
+    isNewExam: true,
+    examId: null, // only set if the exam is being updated
     title: "",
     code: "",
     description: "",
@@ -26,7 +28,7 @@ class NewExam extends Component {
     duration: "",
     questions: [],
     groups: [],
-    topic: [],
+    topics: [],
     questionSelect: [],
     topicSelect: [],
     groupSelect: [],
@@ -38,7 +40,7 @@ class NewExam extends Component {
       this.setState({ isAuth: true, token: token });
       //Getting questions to populate the select
       axios
-        .get("http://localhost:3030/questions", {
+        .get("/questions", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -51,7 +53,7 @@ class NewExam extends Component {
         .catch((err) => console.log(err));
       //Getting topics to populate the select
       axios
-        .get("http://localhost:3030/topics", {
+        .get("/topics", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -64,7 +66,7 @@ class NewExam extends Component {
         .catch((err) => console.log(err));
       //Getting the groups to populate the select
       axios
-        .get("http://localhost:3030/groups", {
+        .get("/groups", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -79,7 +81,7 @@ class NewExam extends Component {
       if (window.location.search) {
         const id = window.location.search.replace("?id=", "");
         axios
-          .get("http://localhost:3030/admin/exams/" + id, {
+          .get("/exams/admin/" + id, {
             crossDomain: true,
             headers: { Authorization: "Bearer " + token },
           })
@@ -89,63 +91,90 @@ class NewExam extends Component {
             const description = res.data.description
               ? res.data.description
               : "";
-            const topic = res.data.topic ? res.data.topic : [];
-            const startDate = res.data.startDate ? res.data.startDate : "";
-            const endDate = res.data.endDate ? res.data.endDate : "";
-            const questions = res.data.questions ? res.data.questions : [];
-            const groups = res.data.groups ? res.data.groups : [];
+            const duration = res.data.duration ? res.data.duration : "";
+            const topics = res.data.topics ? res.data.topics.map(
+              topic => { return {label: topic.name, value: topic._id} }) : [];
+            const startDate = res.data.startDate ? new Date(res.data.startDate) : "";
+            const endDate = res.data.endDate ? new Date(res.data.endDate) : "";
+            const questions = res.data.questions ? res.data.questions.map(
+              question => { return {label: question.name, value: question._id} }) : [];
+            const groups = res.data.groups ? res.data.groups.map(
+              group => { return {label: group.name, value: group._id} }) : [];
+
             this.setState({
               title,
               code,
               description,
-              topic,
+              duration,
+              topics,
               startDate,
               endDate,
               questions,
               groups,
+              isNewExam: false,
+              examId: id
             });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+            this.setState({isNewExam: false, examId: id});
+          });
       }
     }
   }
 
   examHandler = (event) => {
     event.preventDefault();
-    var topic = this.state.topic.map((item) => {
+    var topics = this.state.topics.map((item) => {
       return { _id: item.value, name: item.label };
     });
 
-    var question = this.state.questions.map((item) => {
+    var questions = this.state.questions.map((item) => {
       return { _id: item.value, name: item.label };
     });
 
-    var group = this.state.groups.map((item) => {
+    var groups = this.state.groups.map((item) => {
       return { _id: item.value, name: item.label };
     });
 
     const exam = {
       title: this.state.title,
       code: this.state.code,
-      topics: topic,
+      topics: topics,
       description: this.state.description,
       startDate: this.state.startDate,
       endDate: this.state.endDate,
-      groups: group,
+      groups: groups,
       duration: this.state.duration,
-      questions: question,
+      questions: questions,
     };
-    axios
-      .post("http://localhost:3030/admin/exams", exam, {
-        crossDomain: true,
-        headers: { Authorization: "Bearer " + this.state.token },
-      })
-      .then((res) => {
-        alert("Exam added");
-        window.location.assign('/admin/exams');
-      })
-      .catch((err) => console.log(err)); 
+
+    if (this.state.isNewExam) {
+      this.addExam(exam);
+    } else {
+      this.updateExam(exam);
+    }
   };
+
+  addExam(exam) {
+    axios.post("/exams/admin", exam, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + this.state.token },
+    }).then((res) => {
+      alert("Exam added");
+      this.props.history.replace('/admin/exams');
+    }).catch((err) => console.log(err));
+  }
+
+  updateExam(exam) {
+    axios.patch("/exams/admin" + this.state.examId, exam, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + this.state.token }
+    }).then((res) => {
+      alert("Exam updated");
+      this.props.history.replace('/admin/exams');
+    }).catch((err) => console.log(err));
+  }
 
   render() {
     const examForm = (
@@ -184,8 +213,9 @@ class NewExam extends Component {
                 isMulti="true"
                 required
                 options={this.state.topicSelect}
+                value={this.state.topics}
                 onChange={(event) => {
-                  this.setState({ topic: event });
+                  this.setState({ topics: event });
                 }}
               />
             </Form.Group>
@@ -223,8 +253,8 @@ class NewExam extends Component {
                 <Datetime
                   value={this.state.endDate}
                   dateFormat="YYYY-MM-DD"
-                  required
                   timeFormat="HH:mm"
+                  required
                   input="false"
                   onChange={(event) => {
                     this.setState({ endDate: event._d });
@@ -251,6 +281,7 @@ class NewExam extends Component {
               <Select
                 isMulti="true"
                 required
+                value={this.state.groups}
                 options={this.state.groupSelect}
                 onChange={(event) => {
                   this.setState({ groups: event });
@@ -262,6 +293,7 @@ class NewExam extends Component {
               <Select
                 isMulti="true"
                 required
+                value={this.state.questions}
                 options={this.state.questionSelect}
                 onChange={(event) => {
                   this.setState({ questions: event });

@@ -1,4 +1,4 @@
-export default function(dateString) {
+export default function dateFormat(dateString) {
   let result = null;
   if (dateString) {
     let date = new Date(dateString);

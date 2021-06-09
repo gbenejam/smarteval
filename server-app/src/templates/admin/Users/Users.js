@@ -21,7 +21,7 @@ class AdminUsers extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/users", {
+        .get("/users", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -34,7 +34,7 @@ class AdminUsers extends Component {
 
   removeUser = (idx) => {
     const token = localStorage.getItem("token");
-    axios.delete("http://localhost:3030/users/" + idx, {
+    axios.delete("/users/" + idx, {
       crossDomain: true,
       headers: { Authorization: "Bearer " + token },
     })

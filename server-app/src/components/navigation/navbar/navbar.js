@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
 
 import Navbar from "react-bootstrap/Navbar";
@@ -59,7 +59,7 @@ class navbar extends Component {
     event.preventDefault();
     axios
       .post(
-        "http://localhost:3030/users/logout",
+        "/users/logout",
         {},
         {
           crossDomain: true,
@@ -125,4 +125,4 @@ class navbar extends Component {
   }
 }
 
-export default navbar;
+export default withRouter(navbar);

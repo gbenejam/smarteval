@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -18,27 +17,11 @@ class Login extends Component {
     error: false,
   };
 
-  alreadyLoggedIn = () =>  {
-    const token = localStorage.getItem("token");
-    if (token) {
-      return (
-        <Row className={classes.CenteredHorizontally}>
-          <Col xs={6} md={6}>
-            <Alert variant="danger">
-              You're already logged in. Click <Link to="/user/exams">here</Link> 
-              to get redirected to your exams.
-            </Alert>
-          </Col>
-        </Row>
-      );
-    }
-  }
-
   loginHandler = (event) => {
     event.preventDefault();
     console.log(this.state);
     axios
-      .post("http://localhost:3030/users/login", this.state, {
+      .post("/users/login", this.state, {
         crossDomain: true,
       })
       .then((res) => {
@@ -46,7 +29,8 @@ class Login extends Component {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userId", res.data.user._id);
         localStorage.setItem("isAdmin", res.data.user.isAdmin);
-        window.location.assign("/user/exams");
+        window.location.hash = "#/user/exams";
+        window.location.reload();
       })
       .catch((err) => {
         this.setState({ error: true });
@@ -57,7 +41,6 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        {this.alreadyLoggedIn()}
         <Row className={classes.CenteredHorizontally}>
           <Col xs={6} md={6}>
             <div className={classes.LoginContainer}>

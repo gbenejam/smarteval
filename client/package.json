@@ -38,7 +38,8 @@
     "electron": "wait-on tcp:3001 && electron-forge start",
     "package": "react-scripts build && electron-forge package",
     "make": "react-scripts build && electron-forge make",
-    "make-linux": "react-scripts build && electron-forge make --platform=linux --arch=x64"
+    "make-linux": "react-scripts build && electron-forge make --platform=linux --arch=x64",
+    "make-windows": "react-scripts build && electron-forge make --platform=win32"
   },
   "eslintConfig": {
     "extends": [
@@ -71,21 +72,23 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "src/icons/mac/icon.icns",
+        "icon": "src/icons/icon",
         "name": "Smarteval"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Smarteval"
+            "name": "Smarteval",
+            "authors": "Gabriela Benejam"
           }
         },
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
             "darwin",
-            "linux"
+            "linux",
+            "win32"
           ]
         },
         {

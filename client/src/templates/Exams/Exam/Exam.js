@@ -21,9 +21,12 @@ class Exam extends Component {
     this.state = {
       exam: [],
       isAuth: false,
-      show: true,
+      show: false,
       duration: 10000,
-      examSubmitted: false,
+      examSubmited: false,
+      errorSubmit: true,
+      errorExam: true,
+      error: false
     };
     this.questionRefs = [];
   }
@@ -32,34 +35,46 @@ class Exam extends Component {
     const token = localStorage.getItem("token");
     if (token) {
       this.setState({ isAuth: true });
-      if (window.location.search) {
-        const id = window.location.search.replace("?id=", "");
-        axios
-          .get("http://localhost:3030/admin/exams/" + id, {
-            crossDomain: true,
-            headers: { Authorization: "Bearer " + token },
-          })
-          .then((res) => {
-            console.log(res);
+      let newState = {};
+      const id = this.props.match.params.id;
 
-            // create refs
-            res.data.questions.forEach( _ => {
-              const ref = React.createRef();
-              this.questionRefs.push(ref);
-            });
+      // check if the exam was already submitted
+      axios.get("/solved-exam/submit/" + id, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + token },
+      }).then(res => this.setState({
+        examSubmited: res.data.examSubmited,
+        errorSubmit: false 
+      }))
+      .catch(err => console.log(err));
 
-            const dur = 60000 * res.data.duration;
-            this.setState({ exam: res.data,
-              initTime: Date.now(),
-              duration: dur
-            });
+      // get the exam
+      axios.get("/exams/user/" + id, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + token },
+      }).then((res) => {
+        // create refs
+        res.data.questions.forEach( _ => {
+          const ref = React.createRef();
+          this.questionRefs.push(ref);
+        });
 
-            this.countdownInterval = window.setInterval(() => {
-              this.autoSubmitExam();
-            }, dur);
-          })
-          .catch((err) => console.log(err));
-      }
+        const dur = 60000 * res.data.duration;
+        newState.exam = res.data;
+        newState.initTime = Date.now();
+        newState.duration = dur;
+        newState.show = true;
+        newState.errorExam = false;
+
+        this.countdownInterval = window.setInterval(() => {
+          this.autoSubmitExam();
+        }, dur);
+      }).catch((err) => console.log(err))
+      .finally(() => {
+        this.setState(newState);
+      });
+    } else {
+      this.setState({ error: true });
     }
   }
 
@@ -67,7 +82,7 @@ class Exam extends Component {
     window.clearInterval(this.countdownInterval);
   }
 
-  renderer({hours, minutes, seconds, completed}) {
+  renderer = ({hours, minutes, seconds, completed}) => {
     if (completed) {
       // Render a completed state
       return this.completionist();
@@ -90,7 +105,7 @@ class Exam extends Component {
         </Modal.Body>
         <Modal.Footer>
           <Button className='yellowBack button'
-            disabled={!this.state.examSubmitted}
+            disabled={!this.state.examSubmited}
             onClick={this.redirectToExams}>
             Continue</Button>
         </Modal.Footer>
@@ -98,8 +113,26 @@ class Exam extends Component {
     );
   };
 
+  examAlreadySubmited() {
+    return (
+      <Modal.Dialog backdrop="static">
+        <Modal.Header>
+          <Modal.Title>Access Denied</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>This exam has already been submitted.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className='yellowBack button'
+            onClick={this.redirectToExams}>
+            Continue</Button>
+        </Modal.Footer>
+      </Modal.Dialog>
+    )
+  }
+
   redirectToExams() {
-    window.location.assign('/user/exams');
+    window.location.hash = '#/user/exams';
   }
 
   listQuestions() {
@@ -168,7 +201,7 @@ class Exam extends Component {
 
   postSolvedExam(solvedExam) {
     return axios
-      .post("http://localhost:3030/solved-exam/submit", solvedExam, {
+      .post("/solved-exam/submit", solvedExam, {
         crossDomain: true,
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
@@ -191,14 +224,29 @@ class Exam extends Component {
     this.postSolvedExam(solvedExam)
       .then((res) => {
         window.clearInterval(this.countdownInterval);
-        this.setState({examSubmitted: true});
+        this.setState({examSubmited: true});
       });
   }
 
+  isThereAnyError() {
+    return this.state.error || this.state.errorExam || this.state.errorSubmit;
+  }
+
   render() {
+    const errNotAuthElem = (
+      <Alert variant="danger">
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <p>
+          To access this page you must be authenticated. Please log in.
+        </p>
+      </Alert>
+    );
+
     return (
       <Container style={{position: 'relative'}}>
-        { this.state.initTime && this.state.duration ?
+        { this.isThereAnyError() && !this.state.isAuth && errNotAuthElem }
+        { this.isThereAnyError() && this.state.examSubmited && this.examAlreadySubmited() }
+        { !this.isThereAnyError() && this.state.initTime && this.state.duration ?
           <Row className={classes.CountdownRow}>
             <Col sm='auto'>
               <Countdown 
@@ -209,45 +257,34 @@ class Exam extends Component {
           </Row>
           : null
         }
-        { this.state.show ?
+        { this.state.show && this.state.isAuth && !this.isThereAnyError() && (
           <React.Fragment>
             <Row>
               <Col>
-                {this.state.isAuth && (
-                  <Container>
-                    <Row>
-                      <h1>{this.state.exam.title}</h1>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <h3>Progress</h3>
-                        <p>{this.state.exam.description}</p>
-                        <br/>
-                        <Form onSubmit={this.examHandler}>
-                          {this.listQuestions()}
-                          <Button className='yellowBack button'
-                            onClick={this.submitExam}>
-                              Submit
-                          </Button>
-                        </Form>
-                      </Col>
-                    </Row>
-                  </Container>
-                )}
-                {!this.state.isAuth && (
-                  <Alert variant="danger">
-                    <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-                    <p>
-                      To access this page you must be authenticated. Please log in.
-                    </p>
-                  </Alert>
-                )}
+                <Container>
+                  <Row>
+                    <h1>{this.state.exam.title}</h1>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <h3>Progress</h3>
+                      <p>{this.state.exam.description}</p>
+                      <br/>
+                      <Form onSubmit={this.examHandler}>
+                        {this.listQuestions()}
+                        <Button className='yellowBack button'
+                          onClick={this.submitExam}>
+                            Submit
+                        </Button>
+                      </Form>
+                    </Col>
+                  </Row>
+                </Container>
               </Col>
             </Row>
             <Webcam className={classes.Webcam} />
           </React.Fragment>
-          : null
-        }
+        )}
       </Container>
     );
   }

@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 const router = new express.Router();
 
 //Create user
-router.post("/users", async (req, res) => {
+router.post("/api/users", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
@@ -16,7 +16,7 @@ router.post("/users", async (req, res) => {
 });
 
 //Login
-router.post("/users/login", async (req, res) => {
+router.post("/api/users/login", async (req, res) => {
   try {
     const user = await User.findByCredentials(
       req.body.email,
@@ -31,7 +31,7 @@ router.post("/users/login", async (req, res) => {
 });
 
 //Logout
-router.post("/users/logout", auth, async (req, res) => {
+router.post("/api/users/logout", auth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
       return token.token !== req.token;
@@ -45,7 +45,7 @@ router.post("/users/logout", auth, async (req, res) => {
 });
 
 //Get users
-router.get("/users", auth, async (req, res) => {
+router.get("/api/users", auth, async (req, res) => {
   try {
     const users = await User.find({isAdmin: "false"});
     res.status(200).send(users);
@@ -54,7 +54,7 @@ router.get("/users", auth, async (req, res) => {
   }
 });
 
-router.patch("/users/:id", async (req, res) => {
+router.patch("/api/users/:id", async (req, res) => {
   const updates = Object.keys(req.body);
 
   try {
@@ -73,7 +73,7 @@ router.patch("/users/:id", async (req, res) => {
 });
 
 //Get a specific user
-router.get("/users/:id", async (req, res) => {
+router.get("/api/users/:id", async (req, res) => {
   const _id = req.params.id;
   try {
     const user = await User.findById(_id);
@@ -87,7 +87,7 @@ router.get("/users/:id", async (req, res) => {
 });
 
 //Remove user
-router.delete('/users/:id', auth, async (req,res) => {
+router.delete('/api/users/:id', auth, async (req,res) => {
   try {
       const user = req.user
       const userQuery = await User.findByIdAndDelete(req.params.id).then(async () => {

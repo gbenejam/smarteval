@@ -21,21 +21,23 @@ class AdminExams extends Component {
     const token = localStorage.getItem("token");
     if (token) {
       this.setState({ isAuth: true });
-      axios
-        .get("http://localhost:3030/user/exams", {
-          crossDomain: true,
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.setState({ exams: res.data });
-        })
-        .catch((err) => console.log(err));
+      setTimeout(() => {
+        axios
+          .get("/exams/user", {
+            crossDomain: true,
+            headers: { Authorization: "Bearer " + token },
+          })
+          .then((res) => {
+            this.setState({ exams: res.data });
+          })
+          .catch((err) => console.log(err));
+      }, 300);
     }
   }
 
   listExams() {
     const exams = this.state.exams.map(function (d, idx) {
-      const editPath = "/user/exams/preview?id=" + d._id;
+      const editPath = "/user/exams/preview/" + d._id;
       return (
         <tr id={d._id} key={idx}>
           <td>{d.code}</td>

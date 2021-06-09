@@ -54,8 +54,7 @@ const SolvedExam = mongoose.model("examUser", {
         required: true,
       },
       answer: {
-        type: String,
-        required: true
+        type: String
       }
     }
   ],

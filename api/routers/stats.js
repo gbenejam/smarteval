@@ -8,7 +8,8 @@ const User = require("../models/user");
 
 const router = new express.Router();
 
-// example stats object
+/* 
+Example stats object:
 const stats = {
   totalUsers: 10,
   totalGroups: 1,
@@ -35,109 +36,124 @@ const stats = {
     },
   ],
 };
+*/
+
+const PASS_MARK = 5;
 
 // Get statistics for a specific exam
-router.get("/stats/:id", auth, async (req, res) => {
-  let totalGroups = 0;
-  let totalUsers = 0;
-  let failed = 0;
-  let passed = 0;
-  let best = 0.0;
-  let average = 0.0;
-
+router.get("/api/stats/:id", auth, async (req, res) => {
   const _id = req.params.id;
+  let totalGroups = 0;
+
   try {
-    const exam = await Exam.findById(_id)
-      .then(async (item) => {
+    const stats = await Exam.findById(_id)
+      .then(async item => {
         totalGroups = item.groups.length;
-        return await Group.find({ _id: { $in: item.groups } });
-      })
-      .then((groups) => {
-        let counter = 0;
-        const users = [];
-        //Setting number of groups
-        groups.forEach((group) => {
-          const usersGroup = group.users;
-          users.push(usersGroup);
-          group.users.forEach(() => {
-            ++counter;
-          });
-        });
-        totalUsers = counter;
-        return users;
-      })
-      .then(async (users) => {
-        const usersId = [];
-        users[0].forEach((user) => {
-          const id = user._id;
-          usersId.push(id);
-        });
-        return await SolvedExam.find({ user: { $in: usersId }, examId: _id });
-      })
-      .then((solved) => {
-        let passedCounter = 0;
-        let failedCounter = 0;
-        let grades = [];
-        solved.forEach((exam) => {
-          if (!exam.grade || exam.grade < 5) {
-            ++failedCounter;
-          } else if (exam.grade >= 5) {
-            ++passedCounter;
-          }
-          if (exam.grade) {
-            const grade = exam.grade;
-            grades.push(grade);
-          }
-        });
-        console.log(grades)
-        let total = 0;
-        for (let i = 0; i < grades.length; i++) {
-          total += grades[i];
-        }
-        function arrayMax(arr) {
-          if(arr === undefined || arr.length == 0) {
-            return 0
-          }
-          return arr.reduce(function (p, v) {
-            return ( p > v ? p : v );
-          });
-        };
-        average = total / grades.length;
-        failed = failedCounter;
-        passed = passedCounter;
-        best = arrayMax(grades)
+        return await Group.find({ _id: { $in: item.groups } })
+          .then(async groups => await processGroups(groups, _id));
       });
-    const stats2 = {
+
+    res.send({
       totalGroups: totalGroups,
-      totalUsers: totalUsers,
-      globalStats: {
-        grades: {
-          failed: failed,
-          passed: passed,
-        },
-        bestGrade: best,
-        averageGrade: average,
-      },
-      groups: [
-        {
-          name: "test",
-          users: 10,
-          groupStats: {
-            grades: {
-              failed: 10,
-              passed: 15,
-            },
-            bestGrade: 10.0,
-            averageGrade: 6.0,
-          },
-        },
-      ],
-    };
-    res.send(stats2);
+      ...stats
+    });
   } catch (e) {
     console.log(e);
     res.status(500).send(e);
   }
 });
+
+async function processGroups(groups, examId) {
+  // find the grades for each group
+  const groupPromises = groups.map(group => new Promise(async (resolve, reject) => {
+    const groupData = {
+      name: group.name,
+      users: group.users.length
+    };
+    const userIds = group.users.map(user => user._id);
+    await SolvedExam.find({ user: { $in: userIds }, examId: examId })
+      .then(async solvedExams => {
+        const groupGradesArray = solvedExams.map(solvedExam => solvedExam.grade);
+
+        // if not all exams have been submited we add null values for the missing exams
+        if (groupGradesArray.length < group.users.length) {
+          const missing = group.users.length - groupGradesArray.length;
+          const missingArray = new Array(missing);
+          groupData.groupGrades = [...missingArray, ...groupGradesArray];
+        } else {
+          groupData.groupGrades = groupGradesArray;
+        }
+
+        resolve(groupData);
+      });
+  }));
+
+  // after all the solved exams have been retrieved from the DB we calculate the stats
+  return await Promise.all(groupPromises).then(groupsDataArray => {
+    const result = {};
+    result.groups = [];
+    let globalGrades = [];
+    let totalUsers = 0;
+
+    groupsDataArray.forEach(groupData => {
+      totalUsers += groupData.groupGrades.length;
+      globalGrades = [...globalGrades, ...groupData.groupGrades];
+      const groupStats = getGradesStats(groupData.groupGrades);
+      result.groups.push({
+        name: groupData.name,
+        users: groupData.users,
+        groupStats: groupStats
+      });
+    });
+
+    // with the grades of each group we can calculate the global stats
+    result.totalUsers = globalGrades.length;
+    result.globalStats = getGradesStats(globalGrades);
+    return result;
+  });
+}
+
+function getGradesStats(grades) {
+  let best = 0;
+  let gradesSum = 0;
+  const gradesHistory = {
+    failed: 0,
+    passed: 0,
+    pendingEvaluation: 0
+  };
+
+  grades.forEach(grade => {
+    if (grade) {
+      // check if we have a new best grade
+      if (grade > best) {
+        best = grade;
+      }
+      // update gradesSum - used to compute the average
+      gradesSum += grade;
+      // update gradesHistory object
+      if (grade >= PASS_MARK) {
+        gradesHistory.passed += 1;
+      } else {
+        gradesHistory.failed += 1;
+      }
+    } else {
+      gradesHistory.pendingEvaluation += 1;
+    }
+  });
+
+  const gradedExams = gradesHistory.failed + gradesHistory.passed;
+  let averageGrade = gradesSum / (gradedExams || 1);
+  if (!gradedExams) {
+    // if no graded exams yet then we don't display grades statistics
+    averageGrade = null;
+    best = null;
+  }
+
+  return {
+    grades: gradesHistory,
+    bestGrade: best,
+    averageGrade: averageGrade
+  }
+}
 
 module.exports = router;

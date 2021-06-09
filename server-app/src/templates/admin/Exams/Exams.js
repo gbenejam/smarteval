@@ -24,7 +24,7 @@ class AdminExams extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/admin/exams", {
+        .get("/exams/admin", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -38,7 +38,7 @@ class AdminExams extends Component {
   removeExam = (idx) => {
     const token = localStorage.getItem("token");
     axios
-      .delete("http://localhost:3030/admin/exams/" + idx, {
+      .delete("/exams/admin" + idx, {
         crossDomain: true,
         headers: { Authorization: "Bearer " + token },
       })

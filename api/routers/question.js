@@ -6,7 +6,7 @@ const router = new express.Router()
 
 
 //Create question
-router.post('/questions', auth, async (req,res) => {
+router.post('/api/questions', auth, async (req,res) => {
     try {
         const question = await Question.create({
             ...req.body,
@@ -20,9 +20,10 @@ router.post('/questions', auth, async (req,res) => {
 })
 
 //Get questions from a certain user
-router.get('/questions', auth, async (req,res) => {
+router.get('/api/questions', auth, async (req,res) => {
     try {
-        const question = await Question.find({})
+        const user = req.user
+        const question = await Question.find({ creator: user._id })
         res.send(question)
     } catch(e) {
         res.status(500).send(e)
@@ -30,20 +31,37 @@ router.get('/questions', auth, async (req,res) => {
 })
 
 //Remove question
-router.delete('/questions/:id', auth, async (req,res) => {
-    try {
-        const user = req.user
-        const question = await Question.findByIdAndDelete(req.params.id).then(async () => {
-            const questions = await Question.find({ creator: user._id })
-            res.send(questions)
-        }).catch((e) => console.log(e))
-    } catch(e) {
-        res.status(500).send(e)
+router.delete('/api/questions/:id', auth, async (req,res) => {
+  try {
+    const user = req.user
+    const question = await Question.findByIdAndDelete(req.params.id).then(async () => {
+        const questions = await Question.find({ creator: user._id })
+        res.send(questions)
+    }).catch((e) => console.log(e))
+  } catch(e) {
+      res.status(500).send(e)
+  }
+})
+
+// update a question
+router.patch('/api/questions/:id', auth, async (req,res) => {
+  const _id = req.params.id;
+  try {
+    const question = await Question.findByIdAndUpdate(_id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!question) {
+      return res.status(404).send("Question {} couldn't be updated", _id);
     }
-  })
+    res.send(question);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+})
 
 //Gets a specific question
-router.get('/questions/:id', auth, async (req,res) => {
+router.get('/api/questions/:id', auth, async (req,res) => {
     const _id = req.params.id
     try {
         const question = await Question.findById(_id)

@@ -21,7 +21,7 @@ class AdminGroups extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/groups", {
+        .get("/groups", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -34,7 +34,7 @@ class AdminGroups extends Component {
 
   removeGroup(idx) {
     const token = localStorage.getItem("token");
-    axios.delete("http://localhost:3030/groups/" + idx, {
+    axios.delete("/groups/group/" + idx, {
       crossDomain: true,
       headers: { Authorization: "Bearer " + token },
     })
@@ -47,7 +47,7 @@ class AdminGroups extends Component {
   listGroups() {
     const that = this
     const groups = this.state.groups.map(function (d, idx) {
-      const editPath = "/groups?id=" + d._id;
+      const editPath = "/groups/group?id=" + d._id;
       return (
         <tr key={idx}>
           <td>{d.name}</td>
@@ -61,9 +61,9 @@ class AdminGroups extends Component {
           </td>
           <td>
             <Link to={editPath}><FaEdit className='smallIcon'/></Link>
-              <Link onClick={() => that.removeGroup(d._id)}>
-                <FaRegWindowClose className='smallIcon'/>
-              </Link>
+            <Link onClick={() => that.removeGroup(d._id)}>
+              <FaRegWindowClose className='smallIcon'/>
+            </Link>
           </td>
         </tr>
       );

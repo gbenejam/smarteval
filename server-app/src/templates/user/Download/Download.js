@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -7,7 +8,12 @@ import Row from "react-bootstrap/Row";
 
 import classes from './Download.module.css';
 
+const MAC_OS_DOWNLOAD = 'Smarteval-darwin-x64.zip';
+const WIN_DOWNLOAD = 'Smarteval-win32-x64.zip';
+const DEB_DOWNLOAD = 'Smarteval-linux-x64.zip';
+
 class Download extends Component {
+
   render() {
     return (
       <Container>
@@ -23,11 +29,15 @@ class Download extends Component {
                 <p>
                   <Button className={`${classes.Button} yellowBack button`}
                     style={{ marginRight: "20px" }}>
-                      Linux (.deb)
+                      <a href={`/download/${WIN_DOWNLOAD}`} download>Windows</a>
                   </Button>
                   <Button className={`${classes.Button} yellowBack button`} 
                     style={{ marginRight: "20px" }}>
-                      Mac (.dmg)
+                      <a href={`/download/${MAC_OS_DOWNLOAD}`} download>MacOS</a>
+                  </Button>
+                  <Button className={`${classes.Button} yellowBack button`} 
+                    style={{ marginRight: "20px" }}>
+                      <a href={`/download/${DEB_DOWNLOAD}`} download>Linux Beta (.deb)</a>
                   </Button>
                 </p>
               </div>

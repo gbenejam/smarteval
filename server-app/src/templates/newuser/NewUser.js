@@ -22,13 +22,13 @@ class NewUser extends Component {
     event.preventDefault();
 
     axios
-      .post("http://localhost:3030/users", this.state, {
+      .post("/users", this.state, {
         crossDomain: true,
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => {
         alert("User added");
-        window.location.assign("/users");
+        this.props.history.replace("/login");
       })
       .catch((err) => console.log(err));
   };

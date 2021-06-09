@@ -6,7 +6,7 @@ const router = new express.Router()
 
 
 //Create group
-router.post('/groups', auth, async (req,res) => {
+router.post('/api/groups', auth, async (req,res) => {
     try {
         const group = await Group.create({
             ...req.body,
@@ -18,22 +18,8 @@ router.post('/groups', auth, async (req,res) => {
     }
 })
 
-//Update group
-router.patch('/groups/:id', auth, async (req,res) => {
-    const _id = req.params.id;
-    try {
-        const group = await Group.findByIdAndUpdate(_id, req.body, {
-            new: true,
-            runValidators: true,
-          });
-        res.send(group)
-    } catch(e) {
-        res.status(500).send(e)
-    }
-})
-
 //Get groups by creator
-router.get('/groups', auth, async (req,res) => {
+router.get('/api/groups', auth, async (req,res) => {
     try {
         const user = req.user
         const group = await Group.find({ creator: user._id })
@@ -44,7 +30,7 @@ router.get('/groups', auth, async (req,res) => {
 })
 
 //Remove group
-router.delete('/groups/:id', auth, async (req,res) => {
+router.delete('/api/groups/group/:id', auth, async (req,res) => {
     try {
         const user = req.user
         const group = await Group.findByIdAndDelete(req.params.id).then(async () => {
@@ -57,7 +43,7 @@ router.delete('/groups/:id', auth, async (req,res) => {
   })
 
 //Gets a specific group
-router.get('/groups/:id', auth, async (req,res) => {
+router.get('/api/groups/group/:id', auth, async (req,res) => {
     const _id = req.params.id
     try {
         const group = await Group.findById(_id)
@@ -68,6 +54,20 @@ router.get('/groups/:id', auth, async (req,res) => {
     } catch (e) {
         res.status(500).send(e)
     }
+})
+
+//Update group
+router.patch('/api/groups/group/:id', auth, async (req,res) => {
+  const _id = req.params.id;
+  try {
+      const group = await Group.findByIdAndUpdate(_id, req.body, {
+          new: true,
+          runValidators: true,
+        });
+      res.send(group)
+  } catch(e) {
+      res.status(500).send(e)
+  }
 })
 
 module.exports = router

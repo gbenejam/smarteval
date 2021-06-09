@@ -20,12 +20,9 @@ class navbar extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("token");
-    
-    if (token) {
-      this.setState({ token });
-    }
     if (token) {
       this.setState({
+        token: token,
         isAuth: true,
         navElements: [
           { label: "Exams", path: "/user/exams" },
@@ -42,23 +39,24 @@ class navbar extends Component {
 
   logoutHandler = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        "http://localhost:3030/users/logout",
-        {},
-        {
-          crossDomain: true,
-          headers: { Authorization: "Bearer " + this.state.token },
-        }
-      )
-      .then((res) => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("isAdmin");
-        // redirect to home page after logout
-        window.location.assign('/');
-      })
-      .catch((err) => console.log(err));
+    axios.post("/users/logout", {}, {
+      crossDomain: true,
+      headers: { Authorization: "Bearer " + this.state.token },
+    }).then((res) => {
+      this.setState({
+        token: "",
+        isAuth: false,
+        navElements: [
+          { label: "Home", path: "/" }
+        ]
+      });
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("isAdmin");
+      // redirect to home page after logout
+      window.location.hash = '#/';
+      window.location.reload();
+    }).catch((err) => console.log(err));
   };
 
   loginButton = () => {
@@ -71,13 +69,14 @@ class navbar extends Component {
     } else {
       return (
         <Button className={classes.loginButton}>
-          <NavLink to="/login">Log in</NavLink>
+          <NavLink to="/">Log in</NavLink>
         </Button>
       );
     }
   };
 
   render() {
+    console.log('navbar render');
     return (
       <div id="main-nav">
         <Navbar sticky="top" className={classes.bgPrimary} variant="dark">

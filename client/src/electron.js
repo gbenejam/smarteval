@@ -3,6 +3,7 @@ const path = require("path");
 const { app, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 
+
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -18,7 +19,7 @@ function createWindow() {
   win.loadURL(
     isDev
       ? "http://localhost:3001"
-      : `file://${path.join(__dirname, "../build/index.html#/add")}`
+      : `file://${path.join(__dirname, "../build/index.html#")}`
   );
 
   // Open the DevTools.

@@ -21,7 +21,7 @@ class Questions extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/questions", {
+        .get("/questions", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -62,7 +62,7 @@ class Questions extends Component {
 
   removeQuestion = (idx) => {
     const token = localStorage.getItem("token");
-    axios.delete("http://localhost:3030/questions/" + idx, {
+    axios.delete("/questions/" + idx, {
       crossDomain: true,
       headers: { Authorization: "Bearer " + token },
     })

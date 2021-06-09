@@ -46,12 +46,6 @@ const userSchema = new mongoose.Schema({
         required: true,
       },
     },
-  ],
-  solvedExams: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'SolvedExam'
-    }
   ]
 });
 

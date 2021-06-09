@@ -11,37 +11,52 @@ class UserDashboard extends Component {
     dashboard: "",
     isAuth: false,
   };
+
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token) {
-      this.setState({ isAuth: true });
-      axios
-        .get("http://localhost:3030/admin/dashboard", {
-          crossDomain: true,
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.setState({ dashboard: res.data });
-        })
-        .catch((err) => console.log(err));
+      setTimeout(() => {
+        this.setState({ isAuth: true });
+        axios
+          .get("/dashboard/user", {
+            crossDomain: true,
+            headers: { Authorization: "Bearer " + token },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.setState({ dashboard: res.data });
+          })
+          .catch((err) => console.log(err));
+      }, 300);
     }
   }
 
-  listCurrentExams() {
-    if (this.state.dashboard.currentExams) {
-      const currentExams = this.state.dashboard.currentExams.map(function (
-        d,
-        idx
-      ) {
+  listExams(examsListName) {
+    let exams = []
+    if (this.state.dashboard[examsListName]) {
+        exams = this.state.dashboard[examsListName].map((d, idx) => {
         return (
           <tr key={idx}>
             <td>{d.title}</td>
           </tr>
         );
       });
-      return currentExams;
     }
+    return exams;
   }
+
+  listCurrentExams() {
+    return this.listExams('currentExams');
+  }
+
+  listPastExams() {
+    return this.listExams('pastExams');
+  }
+
+  listFutureExams() {
+    return this.listExams('futureExams');
+  }
+
   render() {
     return (
       <Container>
@@ -68,7 +83,7 @@ class UserDashboard extends Component {
                   <th>Your next exams</th>
                 </tr>
               </thead>
-              <tbody>{this.listCurrentExams()}</tbody>
+              <tbody>{this.listFutureExams()}</tbody>
             </Table>
           </Col>
         </Row>
@@ -80,7 +95,7 @@ class UserDashboard extends Component {
                   <th>Your past exams</th>
                 </tr>
               </thead>
-              <tbody>{this.listCurrentExams()}</tbody>
+              <tbody>{this.listPastExams()}</tbody>
             </Table>
           </Col>
         </Row>

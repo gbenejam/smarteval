@@ -27,7 +27,7 @@ class AdminExams extends Component {
       if (window.location.search) {
         const id = window.location.search.replace("?id=", "");
         axios
-          .get("http://localhost:3030/solved-exam/all/" + id, {
+          .get("/solved-exam/all/" + id, {
             crossDomain: true,
             headers: { Authorization: "Bearer " + token },
           })
@@ -48,7 +48,7 @@ class AdminExams extends Component {
     const gradeRef = this.inputRefs[boundData.index].current;
     exam.grade = gradeRef ? gradeRef.value : exam.grade;
     axios
-      .patch("http://localhost:3030/solved-exam/update/" + exam._id, exam, {
+      .patch("/solved-exam/update/" + exam._id, exam, {
         crossDomain: true,
         headers: { Authorization: "Bearer " + token },
       }).then((res) => {

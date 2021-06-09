@@ -6,7 +6,7 @@ const router = new express.Router()
 
 
 //Create topic
-router.post('/topics', auth, async (req,res) => {
+router.post('/api/topics', auth, async (req,res) => {
     try {
         const user = req.user
         const topic = await Topic.create(req.body).then(async () => {
@@ -19,7 +19,7 @@ router.post('/topics', auth, async (req,res) => {
 })
 
 //Get topics by creator
-router.get('/topics', auth, async (req,res) => {
+router.get('/api/topics', auth, async (req,res) => {
     try {
         const user = req.user
         const topic = await Topic.find({ creator: user._id })
@@ -30,7 +30,7 @@ router.get('/topics', auth, async (req,res) => {
 })
 
 //Remove topic
-router.delete('/topics/:id', auth, async (req,res) => {
+router.delete('/api/topics/:id', auth, async (req,res) => {
     try {
         const user = req.user
         const topic = await Topic.findByIdAndDelete(req.params.id).then(async () => {

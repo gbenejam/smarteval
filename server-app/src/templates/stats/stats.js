@@ -26,7 +26,7 @@ class Stats extends Component {
       if (window.location.search) {
         const id = window.location.search.replace("?id=", "");
         axios
-          .get("http://localhost:3030/stats/" + id, {
+          .get("/stats/" + id, {
             crossDomain: true,
             headers: { Authorization: "Bearer " + token },
           })

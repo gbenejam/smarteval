@@ -15,31 +15,37 @@ import dateFormat from "../../../utils/dateFormat";
 
 class ExamPreview extends Component {
   state = {
-    exam: [],
+    exam: null,
     isAuth: false,
     examPath: "",
+    examSubmited: null
   };
 
   componentDidMount() {
+    console.log(this.props);
     const token = localStorage.getItem("token");
     if (token) {
       this.setState({ isAuth: true });
-      if (window.location.search) {
-        const id = window.location.search.replace("?id=", "");
-        axios
-          .get("http://localhost:3030/admin/exams/" + id, {
-            crossDomain: true,
-            headers: { Authorization: "Bearer " + token },
-          })
-          .then((res) => {
-            console.log(res);
-            this.setState({
-              exam: res.data,
-              examPath: "/user/exams/exam?id=" + res.data._id,
-            });
-          })
-          .catch((err) => console.log(err));
-      }
+      const id = this.props.match.params.id;
+
+      axios.get("/exams/user/" + id, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + token },
+      }).then((res) => {
+        console.log(res);
+        this.setState({
+          exam: res.data,
+          examPath: "/user/exams/exam/" + res.data._id,
+        });
+      }).catch((err) => console.log(err));
+
+      axios.get("/solved-exam/submit/" + id, {
+        crossDomain: true,
+        headers: { Authorization: "Bearer " + token },
+      }).then(res => this.setState({
+        examSubmited: res.data.examSubmited,
+      }))
+      .catch(err => console.log(err));
     }
   }
 
@@ -47,7 +53,13 @@ class ExamPreview extends Component {
     const now = new Date().getTime();
     const endDate = new Date(this.state.exam.endDate).getTime();
     const startDate = new Date(this.state.exam.startDate).getTime();
-    if (endDate > now && startDate < now) {
+    if (this.state.examSubmited) {
+      return (
+        <Alert variant="warning">
+          <p>You have already submited this exam.</p>
+        </Alert>
+      );
+    } else if (endDate > now && startDate < now) {
       return (
         <Button className='yellowBack button'>
           <Link to={this.state.examPath}>Access</Link>
@@ -62,13 +74,13 @@ class ExamPreview extends Component {
     } else if (startDate > now) {
       return (
         <Alert variant="warning">
-          <p>The exam hasn't started yet</p>
+          <p>The exam hasn't started yet.</p>
         </Alert>
       );
     } else {
       return (
         <Alert variant="warning">
-          <p>You can't take this exam {endDate}</p>
+          <p>You can't take this exam.</p>
         </Alert>
       );
     }
@@ -77,7 +89,7 @@ class ExamPreview extends Component {
   render() {
     return (
       <Container id="preview">
-        {this.state.isAuth && (
+        {this.state.isAuth && this.state.exam && (
           <React.Fragment>
             <Row>
               <Col>
@@ -122,7 +134,7 @@ class ExamPreview extends Component {
                           <ul>
                             {this.state.exam.topics &&
                               this.state.exam.topics.map((item) => {
-                                return <li>{item.name}</li>;
+                                return <li key={item.name}>{item.name}</li>;
                               })}
                           </ul>
                         </Tab.Pane>

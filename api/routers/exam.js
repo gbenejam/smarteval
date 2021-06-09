@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 const router = new express.Router();
 
 //Create exam
-router.post("/admin/exams", auth, async (req, res) => {
+router.post("/api/exams/admin", auth, async (req, res) => {
   try {
     const exams = await Exam.create({
       ...req.body,
@@ -20,7 +20,7 @@ router.post("/admin/exams", auth, async (req, res) => {
 });
 
 //Get all exams
-router.get("/admin/exams", auth, async (req, res) => {
+router.get("/api/exams/admin", auth, async (req, res) => {
   try {
     const exams = await Exam.find({ creator: req.user._id });
     if (!exams) {
@@ -33,7 +33,7 @@ router.get("/admin/exams", auth, async (req, res) => {
 });
 
 //Get all exams
-router.get("/user/exams", auth, async (req, res) => {
+router.get("/api/exams/user", auth, async (req, res) => {
   try {
     const groups = await Group.find({ users: req.user }).then(async (groups) => {
       return await Exam.find({groups: {$in : groups}})
@@ -44,7 +44,21 @@ router.get("/user/exams", auth, async (req, res) => {
 });
 
 //Get a specific exam
-router.get("/admin/exams/:id", auth, async (req, res) => {
+router.get("/api/exams/admin/:id", auth, async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const exam = await Exam.findById(_id);
+    if (!exam) {
+      return res.status(404).send("Exam {} not found.", _id);
+    }
+    res.send(exam);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+//Get a specific exam
+router.get("/api/exams/user/:id", auth, async (req, res) => {
   const _id = req.params.id;
   try {
     const exam = await Exam.findById(_id);
@@ -58,7 +72,7 @@ router.get("/admin/exams/:id", auth, async (req, res) => {
 });
 
 //Updating an exam
-router.patch("/admin/exams/:id", auth, async (req, res) => {
+router.patch("/api/exams/admin/:id", auth, async (req, res) => {
   const _id = req.params.id;
   try {
     const exam = await Exam.findByIdAndUpdate(_id, req.body, {
@@ -75,7 +89,7 @@ router.patch("/admin/exams/:id", auth, async (req, res) => {
 });
 
 //Remove exam
-router.delete("/admin/exams/:id", auth, async (req, res) => {
+router.delete("/api/exams/admin/:id", auth, async (req, res) => {
   try {
     const user = req.user;
     const exam = await Exam.findByIdAndDelete(req.params.id)

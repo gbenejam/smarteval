@@ -25,7 +25,7 @@ class AdminTopics extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/topics", {
+        .get("/topics", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -48,7 +48,7 @@ class AdminTopics extends Component {
     };
 
     axios
-      .post("http://localhost:3030/topics", body, {
+      .post("/topics", body, {
         crossDomain: true,
         headers: { Authorization: "Bearer " + token },
       })
@@ -61,7 +61,7 @@ class AdminTopics extends Component {
 
   removeTopic = (idx) => {
     const token = localStorage.getItem("token");
-    axios.delete("http://localhost:3030/topics/" + idx, {
+    axios.delete("/topics/" + idx, {
       crossDomain: true,
       headers: { Authorization: "Bearer " + token },
     })

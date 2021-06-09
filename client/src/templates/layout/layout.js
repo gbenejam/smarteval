@@ -11,16 +11,24 @@ import Exam from "../Exams/Exam/Exam";
 //import classes from './layout.module.css'
 
 class Layout extends Component {
-  
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // user is already logged in --> redirect to exams page
+      window.location.hash = '#/user/exams';
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
         <Navbar />
         <Switch>
-          <Route path="/" exact render={() => <Login />} />
-          <Route path="/user/exams" exact render={() => <UserExams />} />
-          <Route path="/user/exams/preview" exact render={() => <ExamPreview />} />
-          <Route path="/user/exams/exam" exact render={() => <Exam />} />
+          <Route path="/" exact component={Login} />
+          <Route path="/user/exams" exact component={UserExams} />
+          <Route path="/user/exams/preview/:id" exact component={ExamPreview} />
+          <Route path="/user/exams/exam/:id" exact component={Exam} />
           <Route component={NotFound} />
         </Switch>
       </React.Fragment>

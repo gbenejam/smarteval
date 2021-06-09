@@ -22,7 +22,7 @@ class AdminExams extends Component {
     if (token) {
       this.setState({ isAuth: true });
       axios
-        .get("http://localhost:3030/user/exams", {
+        .get("/exams/user", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })

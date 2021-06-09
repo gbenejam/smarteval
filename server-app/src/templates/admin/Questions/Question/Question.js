@@ -32,7 +32,7 @@ class NewQuestion extends Component {
       this.setState({ isAuth: true });
       //Getting topics to populate the select
       axios
-        .get("http://localhost:3030/topics", {
+        .get("/topics", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -46,7 +46,7 @@ class NewQuestion extends Component {
       if (window.location.search) {
         const id = window.location.search.replace("?id=", "");
         axios
-          .get("http://localhost:3030/questions/" + id, {
+          .get("/questions/" + id, {
             crossDomain: true,
             headers: { Authorization: "Bearer " + token },
           })
@@ -133,24 +133,24 @@ class NewQuestion extends Component {
     if (window.location.search) {
       const id = window.location.search.replace("?id=", "");
       axios
-        .patch("http://localhost:3030/questions/" + id, question, {
+        .patch("/questions/" + id, question, {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           alert("Question Updated");
-          window.location.assign('/questions');
+          this.props.history.replace('/questions');
         })
         .catch((err) => console.log(err));
     } else {
       axios
-        .post("http://localhost:3030/questions", question, {
+        .post("/questions", question, {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           alert("Question added");
-          window.location.assign('/questions');
+          this.props.history.replace('/questions');
         })
         .catch((err) => console.log(err));
     }
@@ -191,6 +191,7 @@ class NewQuestion extends Component {
                         <Select
                           required
                           options={this.state.typeSelect}
+                          value={this.state.questionType}
                           onChange={(event) => {
                             this.setState({ questionType: event });
                             this.displayQuestion();
@@ -202,6 +203,7 @@ class NewQuestion extends Component {
                         <Select
                           isMulti="true"
                           required
+                          value={this.state.topic}
                           options={this.state.topicSelect}
                           onChange={(event) => {
                             this.setState({ topic: event });

@@ -22,7 +22,7 @@ class NewGroup extends Component {
     const token = localStorage.getItem("token");
     if (token) {
       axios
-        .get("http://localhost:3030/users", {
+        .get("/users", {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
@@ -41,7 +41,7 @@ class NewGroup extends Component {
 
         this.setState({ isAuth: true });
         axios
-          .get("http://localhost:3030/groups/" + id, {
+          .get("/groups/group/" + id, {
             crossDomain: true,
             headers: { Authorization: "Bearer " + token },
           })
@@ -74,24 +74,24 @@ class NewGroup extends Component {
     if (window.location.search) {
       const id = window.location.search.replace("?id=", "");
       axios
-        .patch("http://localhost:3030/groups/" + id, group, {
+        .patch("/groups/group/" + id, group, {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           alert("Group Updated");
-          window.location.assign('/groups');
+          this.props.history.replace('/groups');
         })
         .catch((err) => console.log(err));
     } else {
       axios
-        .post("http://localhost:3030/groups", group, {
+        .post("/groups", group, {
           crossDomain: true,
           headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
           alert("Group added");
-          window.location.assign('/groups');
+          this.props.history.replace('/groups');
         })
         .catch((err) => console.log(err));
     }

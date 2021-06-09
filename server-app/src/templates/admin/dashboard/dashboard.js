@@ -21,16 +21,18 @@ class AdminDashboard extends Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token) {
-      this.setState({ isAuth: true });
-      axios
-        .get("http://localhost:3030/admin/dashboard", {
-          crossDomain: true,
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((res) => {
-          this.setState({ dashboard: res.data });
-        })
-        .catch((err) => console.log(err));
+      setTimeout(() => {
+        this.setState({ isAuth: true });
+        axios
+          .get("/dashboard/admin", {
+            crossDomain: true,
+            headers: { Authorization: "Bearer " + token },
+          })
+          .then((res) => {
+            this.setState({ dashboard: res.data });
+          })
+          .catch((err) => console.log(err));
+        }, 300);
     }
   }
 
