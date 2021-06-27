@@ -10,14 +10,12 @@
     "bootstrap": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-datetime": "^3.0.4",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
     "react-select": "^4.3.0",
     "verge": "^1.10.2",
     "web-vitals": "^1.0.1"
@@ -45,5 +43,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "jquery": "^3.6.0",
+    "normalize-url": "^4.5.1",
+    "popper.js": "^1.16.1",
+    "react": "^17.0.2"
   }
 }
