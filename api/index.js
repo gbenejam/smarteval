@@ -23,6 +23,16 @@ const statsRouter = require('./routers/stats')
 const app = express()
 const port = process.env.PORT || 3030
 
+// set up rate limiter: maximum of twenty requests per minute
+var RateLimit = require('express-rate-limit');
+var limiter = new RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 20
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname + '/build')));
